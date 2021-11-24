@@ -13,14 +13,14 @@
     <!-- Scripts -->
     
     <!-- Fav Icon -->
-    @include('Bootstrap.exImages.favIcon')
+    @include('CDN_Css_Js.exImages.favIcon')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-   @include('Bootstrap.Css.bootcss')
+   @include('CDN_Css_Js.Css.bootcss')
 
 
 
@@ -91,7 +91,7 @@
     </div>
 
    
-@include('Bootstrap.Js.bootjs')
+@include('CDN_Css_Js.Js.bootjs')
 </body>
 
 </html>

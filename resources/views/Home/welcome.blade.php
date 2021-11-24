@@ -8,13 +8,13 @@
     <title>Madhushanka Micro Credit</title>
 
     <!-- Fav Icon -->
-    @include('Bootstrap.exImages.favIcon')
+    @include('CDN_Css_Js.exImages.favIcon')
     <!-- Styles -->
     <style>
 
     </style>
 
-    @include('Bootstrap.Css.bootcss')
+    @include('CDN_Css_Js.Css.bootcss')
 
 
 </head>
@@ -43,7 +43,7 @@
 
 
     </div>
-    @include('Bootstrap.Js.bootjs')
+    @include('CDN_Css_Js.Js.bootjs')
 
 </body>
 
