@@ -174,9 +174,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRjGD_g9AixRcn3q4Iz-ToEIElnNZ4KdOOg&usqp=CAU"
-                    alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Admin</span>
+                <img src="https://drive.google.com/uc?export=view&id=17oMlgpisY5HADXWqOh9jfu5WzDANcE_f"
+                    alt="MMC Logo" class="brand-image img-circle elevation-3" style="opacity: 1">
+                <span class="brand-text font-weight-light">Admin Panel</span>
             </a>
 
             <!-- Sidebar -->
