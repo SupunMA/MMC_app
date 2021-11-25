@@ -11,7 +11,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>OoPs - 404 Not found</title>
+		<title>MMC - 500 Server Error</title>
 		<meta name="description" content="The description should optimally be between 150-160 characters.">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="author" content="ThemeHelite">
@@ -28,7 +28,7 @@
 	<body>
 
         <!-- Your logo on the top left -->
-       
+       {{-- {{ url()->previous() }} --}}
             <a href="{{ route('welcome') }}" class="logo-link" title="back home">
                 <img src="https://drive.google.com/uc?export=view&id=17oMlgpisY5HADXWqOh9jfu5WzDANcE_f" class="logo" alt="Company's logo" />
             </a>
@@ -41,10 +41,11 @@
                 
 
                 <!-- Your text -->
-                <h1>Oops! Error 404 not found.</h1>
+                <h1>Oops! 500 Server Error.</h1>
 
-                <p>The page you were looking for doesn't exist.<br>
-                    We think the page may have moved.</p>
+                <p>We think you do not have permission to access this area.<br>
+                    Please try logging in again.</p>
+                     
 
             </div>
 

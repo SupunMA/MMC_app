@@ -5,7 +5,7 @@
     <form method="get" action="">
         @csrf
         
-        <div class="row">
+        {{-- <div class="row"> --}}
 
             {{-- Client Details form --}}
             @include('Users.Admin.Lands.components.newLandDetails')
@@ -13,7 +13,7 @@
             {{-- Client Password form --}}
             
 
-        </div> 
+        {{-- </div>  --}}
             {{-- End of Row --}}
 
     </form>

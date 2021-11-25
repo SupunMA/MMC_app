@@ -29,8 +29,8 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
                         </div>
-                        <input type="tel" class="form-control" id="" placeholder="Mobile Number"
-                            pattern="[0-9]{10}">
+                        <input type="text" class="form-control" data-inputmask='"mask": "(999) 999 9999"'
+                        data-mask placeholder="Mobile Number">
                     </div>
 
 
@@ -43,8 +43,8 @@
                     <div class="form-group">
                         <label for="exampleInputPassword1">NIC</label>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" id=""
-                                placeholder="National Identity Card Number" pattern="[0-9]{10}">
+                            <input type="text" class="form-control" data-inputmask="'mask': ['999999999', '999999999999']"
+                            data-mask placeholder="National Identity Card Number">
                             <div class="input-group-append">
                                 <span class="input-group-text"><b>V / X</b> </i></span>
                             </div>
@@ -71,7 +71,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-link"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="G-Drive Photo Link">
+                        <input type="text" class="form-control" data-inputmask="'alias': 'url'" data-mask placeholder="G-Drive Photo Link">
                     </div>
                 </div>
 
@@ -81,7 +81,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-street-view"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Google Map Link">
+                        <input type="text" class="form-control" data-inputmask="'alias': 'url'" data-mask placeholder="Google Map Link">
                     </div>
                 </div>
 
