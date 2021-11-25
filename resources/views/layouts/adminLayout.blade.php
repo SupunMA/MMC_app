@@ -15,6 +15,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Style -->
         @include('layouts.adminComponents.Style')
+
+        
+
+
+
     </head>
 
     <body class="hold-transition sidebar-mini layout-navbar-fixed">
@@ -87,6 +92,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Js -->
         @include('layouts.adminComponents.js')
+        {{--  --}}
 
 
     </body>

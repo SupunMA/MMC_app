@@ -1,9 +1,15 @@
 <!-- jQuery -->
-<script src={{ URL::asset('plugins/jquery/jquery.min.js'); }}></script>
+{{-- <script src={{ URL::asset('plugins/jquery/jquery.min.js'); }}></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <!-- Bootstrap 4 -->
-<script src={{ URL::asset('plugins/bootstrap/js/bootstrap.bundle.min.js'); }}></script>
+{{-- <script src={{ URL::asset('plugins/bootstrap/js/bootstrap.bundle.min.js'); }}></script> --}}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 <!-- AdminLTE App -->
-<script src={{ URL::asset('dist/js/adminlte.min.js'); }}></script>
+
+{{-- <script src={{ URL::asset('dist/js/adminlte.min.js'); }}></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
 
 <!-- Modal js -->
 <script>
