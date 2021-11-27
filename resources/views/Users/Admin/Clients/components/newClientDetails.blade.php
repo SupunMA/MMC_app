@@ -65,13 +65,14 @@
 
             <div class="row">
                 <div class="col-lg-6 col-12">
-                    <label for="exampleInputPassword1">Photo URL</label>
+                    <label for="exampleInputPassword1">Photo URL (ID only)</label>
                     <div class="input-group mb-3">
 
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-link"></i></span>
                         </div>
-                        <input type="text" class="form-control" data-inputmask="'alias': 'url'" data-mask placeholder="G-Drive Photo Link">
+                       
+                        <input type="text" class="form-control" placeholder="G-Drive Photo ID" >
                     </div>
                 </div>
 

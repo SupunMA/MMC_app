@@ -44,4 +44,10 @@ Route::get('/register', function() {
 Route::post('/register', function() {
     return redirect('/login');
 });
-//;
+//
+
+
+//Re-set PWD and Create new account
+Route::get('/forgot-register', function() {
+    return view('other.forgotAndRegister');
+})->name('forgotPWD');

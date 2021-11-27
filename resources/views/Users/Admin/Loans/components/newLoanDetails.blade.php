@@ -50,7 +50,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Rs.</span>
                                 </div>
-                                <input type="number" min="100000" step="1000.00" value="100000" class="form-control">
+                                <input type="text" min="100000" step="1000.00" value="100000" class="form-control"
+                                data-inputmask="'mask': [ '999999','9999999','99999999']" data-mask>
                                 <div class="input-group-append">
                                     <span class="input-group-text">.00</span>
                                 </div>
@@ -62,7 +63,7 @@
 
 
 
-                        
+
 
 
 
@@ -76,8 +77,8 @@
 
                             <div class="input-group">
 
-                                <input type="number" class="form-control" max="100" step="0.05" min="0"
-                                    placeholder="Percentage : 3.5">
+                                <input type="text" class="form-control" placeholder="Percentage : 3.5"
+                                    data-inputmask="'mask': ['9.9','99.9']" data-mask>
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">%</span>
                                 </div>
@@ -92,8 +93,8 @@
 
                             <div class="input-group">
 
-                                <input type="number" class="form-control" max="100" step="0.05" min="0"
-                                    placeholder="Percentage : 1">
+                                <input type="text" class="form-control" data-inputmask="'mask': [ '9.9','99.9','100']"
+                                    data-mask placeholder="Percentage : 1">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text ">%</span>
                                 </div>
@@ -102,8 +103,8 @@
                         </div>
                         <!-- /.form group -->
 
-                        
-                        
+
+
 
                     </div>
                     <!--end column-->
@@ -121,16 +122,49 @@
                             </div>
                         </div>
 
+
+
                         <div class="form-group">
                             <label>Due Day</label>
-                            <div class="input-group">
+                            <select class="form-control">
                                 
-                                <input type="number" min="1" step="1" max="30" placeholder="Between 1 - 30" class="form-control">
-                            
-                            </div>
+                                <option>1st</option>
+                                <option>2nd</option>
+                                <option>3rd</option>
+                                <option>4th</option>
+                                <option>5th</option>
+                                <option>6th</option>
+                                <option>7th</option>
+                                <option>8th</option>
+                                <option>9th</option>
+                                <option>10th</option>
+                                <option>11th</option>
+                                <option>12th</option>
+                                <option>13th</option>
+                                <option>14th</option>
+                                <option>15th</option>
+                                <option>16th</option>
+                                <option>17th</option>
+                                <option>18th</option>
+                                <option>19th</option>
+                                <option>20th</option>
+                                <option>21st</option>
+                                <option>22nd</option>
+                                <option>23rd</option>
+                                <option>24th</option>
+                                <option>25th</option>
+                                <option>26th</option>
+                                <option>27th</option>
+                                <option>28th</option>
+                                <option>29th</option>
+                                <option>30th</option>
+
+                            </select>
                         </div>
 
-                    </div><!--end column-->
+
+                    </div>
+                    <!--end column-->
 
                 </div>
                 <!-- /.row -->

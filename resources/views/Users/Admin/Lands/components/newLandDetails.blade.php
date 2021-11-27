@@ -50,7 +50,8 @@
                               <div class="input-group-prepend">
                                   <span class="input-group-text">Rs.</span>
                               </div>
-                              <input type="number" min="100000" step="1000.00" value="100000" class="form-control">
+                              <input type="text" min="100000" step="1000.00" value="100000" class="form-control"
+                                data-inputmask="'mask': [ '999999','9999999','99999999']" data-mask>
                               <div class="input-group-append">
                                   <span class="input-group-text">.00</span>
                               </div>
@@ -61,7 +62,7 @@
                     </div>
                     <!-- /.col -->
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <!-- IP mask -->
                         <div class="form-group">
                             <label>Map URL </label>
@@ -70,7 +71,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-laptop"></i></span>
                                 </div>
-                                <input type="text" class="form-control" data-inputmask="'alias': 'url'" data-mask>
+                                <input type="text" class="form-control" data-inputmask="'alias': 'url'" data-mask placeholder="Google Map Link">
                             </div>
                             <!-- /.input group -->
                         </div>

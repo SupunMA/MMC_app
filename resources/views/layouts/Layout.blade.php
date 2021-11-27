@@ -13,27 +13,30 @@
     <!-- Scripts -->
     
     <!-- Fav Icon -->
-    @include('CDN_Css_Js.exImages.favIcon')
+   @include('CDN_Css_Js.exImages.favIcon')
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-   @include('CDN_Css_Js.Css.bootcss')
+   {{-- @include('CDN_Css_Js.Css.bootcss') --}}
+   @include('layouts.adminComponents.Style')
 
 
 
 
 </head>
 
-<body>
+<body class="">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-primary shadow-lg">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+                
+                <div class="navbar-brand">
+                    Madhushanka Micro Credit (Pvt) Ltd
+                </div>
+                   
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="{{ __('Toggle navigation') }}">
@@ -52,7 +55,7 @@
                         @guest
                             @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('welcome') }}">{{ __('Home Page') }}</a>
                             </li>
                             @endif
 
@@ -91,7 +94,8 @@
     </div>
 
    
-@include('CDN_Css_Js.Js.bootjs')
+{{-- @include('CDN_Css_Js.Js.bootjs') --}}
+@include('layouts.adminComponents.js')
 </body>
 
 </html>
