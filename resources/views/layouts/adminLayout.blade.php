@@ -16,10 +16,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Style -->
         @include('layouts.adminComponents.Style')
 
-        
-
-
-
     </head>
 
     <body class="hold-transition sidebar-mini layout-navbar-fixed">
@@ -48,7 +44,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </div><!-- /.col -->
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="/Account/Admin">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
                                     <li class="breadcrumb-item active">
 
                                         @yield('header')

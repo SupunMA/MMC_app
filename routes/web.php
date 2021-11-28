@@ -1,9 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\managerController;
+use App\Http\Controllers\checkerController;
+
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -21,7 +25,7 @@ Route::get('/', function () {
     return view('Home.welcome');
 })->name('welcome');
 
-
+//Preventing go back
 Route::middleware(['middleware'=>'lockBack'])->group(function(){
     Auth::routes();
 });
@@ -42,7 +46,7 @@ Route::middleware(['middleware'=>'lockBack'])->group(function(){
 // });
 
 //admin
-Route::group(['prefix'=>'admin','middleware'=>['checkAdmin','auth','lockBack']],function(){
+Route::group(['prefix'=>'Admin','middleware'=>['checkAdmin','auth','lockBack']],function(){
     Route::get('/', [adminController::class, 'checkAdmin'])->name('admin.home');
     Route::get('AddClient', [adminController::class, 'addClient'])->name('admin.addClient');
     Route::get('AllClient', [adminController::class, 'allClient'])->name('admin.allClient');
@@ -53,10 +57,27 @@ Route::group(['prefix'=>'admin','middleware'=>['checkAdmin','auth','lockBack']],
 });
 
 //user
-Route::group(['prefix'=>'user','middleware'=>['checkUser','auth','lockBack']],function(){
+Route::group(['prefix'=>'Account/Client','middleware'=>['checkUser','auth','lockBack']],function(){
     Route::get('/', [userController::class, 'checkUser'])->name('user.home');
     
 });
+
+
+//Manager
+Route::group(['prefix'=>'Account/Manager','middleware'=>['checkManager','auth','lockBack']],function(){
+    Route::get('/', [managerController::class, 'checkManager'])->name('manager.home');
+    
+});
+
+
+
+//Checker
+Route::group(['prefix'=>'Account/Checker','middleware'=>['checkChecker','auth','lockBack']],function(){
+    Route::get('/', [checkerController::class, 'checkChecker'])->name('checker.home');
+    
+});
+
+
 
 //Disabled User Registration
 Route::get('/register', function() {

@@ -43,8 +43,12 @@ class LoginController extends Controller
     protected function redirectTo(){
         if(Auth()->user()->role == 1){
             return route('admin.home');
-        }elseif(Auth()->user()->role == 2){
+        }elseif(Auth()->user()->role == 0){
             return route('user.home');
+        }elseif(Auth()->user()->role == 3){
+            return route('checker.home');
+        }elseif(Auth()->user()->role == 2){
+            return route('manager.home');
         }
     }
     
@@ -66,6 +70,10 @@ class LoginController extends Controller
                 return redirect()->route('admin.home');
             }elseif(auth()->user()->role == 0){
                 return redirect()->route('user.home');
+            }elseif(auth()->user()->role == 2){
+                return redirect()->route('manager.home');
+            }elseif(Auth()->user()->role == 3){
+                return redirect()->route('checker.home');
             }
 
         }else{
