@@ -11,7 +11,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>OoPs - 404 Not found</title>
+		<title>MMC - Page Not Found</title>
 		<meta name="description" content="The description should optimally be between 150-160 characters.">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="author" content="ThemeHelite">
@@ -41,7 +41,7 @@
                 
 
                 <!-- Your text -->
-                <h1>Oops! Error 404 not found.</h1>
+                <h1>Oops! 404 not found.</h1>
 
                 <p>The page you were looking for doesn't exist.<br>
                     We think the page may have moved.</p>

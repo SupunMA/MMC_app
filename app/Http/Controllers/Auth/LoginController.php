@@ -29,15 +29,25 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
+
+     //redirecting method created
+    protected function redirectTo(){
+        if(Auth()->user()->role == 1){
+            return route('admin.home');
+        }elseif(Auth()->user()->role == 2){
+            return route('user.home');
+        }
     }
+    
 
     public function login(Request $request)
     {
@@ -51,12 +61,13 @@ class LoginController extends Controller
         if(auth()->attempt(array('email' => $input['email'],
         'password' => $input['password'])))
         {
+             
             if(auth()->user()->role == 1){
                 return redirect()->route('admin.home');
-            }else{
+            }elseif(auth()->user()->role == 0){
                 return redirect()->route('user.home');
-
             }
+
         }else{
             return redirect()->route('login')
                 ->with('error','Email-Address and Password are wrong');
