@@ -8,7 +8,7 @@
            
             <div class="col-lg-3 col-4">
                 <!-- small card -->
-                <div class="small-box bg-info">
+                <div class="small-box bg-primary">
                     <div class="inner">
                         <h3>150</h3>
                         <h2>Clients</h2>
@@ -16,7 +16,7 @@
                     <div class="icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <a href="#" class="small-box-footer">
+                    <a href="{{route('admin.allClient')}}" class="small-box-footer">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -33,7 +33,7 @@
                     <div class="icon">
                         <i class="fas fa-house-user"></i>
                     </div>
-                    <a href="#" class="small-box-footer">
+                    <a href="{{route('admin.allLand')}}" class="small-box-footer">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
@@ -50,7 +50,7 @@
                     <div class="icon">
                         <i class="fas fa-money-bill-wave"></i>
                     </div>
-                    <a href="#" class="small-box-footer">
+                    <a href="{{route('admin.allLoan')}}" class="small-box-footer">
                         More info <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>

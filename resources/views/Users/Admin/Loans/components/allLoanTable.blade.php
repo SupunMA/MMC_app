@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card card-danger">
     <div class="card-header">
         <h3 class="card-title">All Loans</h3>
     </div>
