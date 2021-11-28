@@ -11,10 +11,11 @@
                         <a href="{{ route('login') }}" class="h4"><b>Madhushanka Micro Credit <br></b>(Pvt) Ltd</a>
                     </div>
                     <div class="card-body">
-                        <p class="login-box-msg">Sign in to View your Account</p>
+                        <p class="login-box-msg">Sign in to your Account</p>
 
                         <form action="{{ route('login') }}" method="post">
                             @csrf
+
                             <div class="input-group mb-3">
                                 <input type="email" class="form-control" name="email" value="{{ old('email') }}"
                                     required autocomplete="email" autofocus placeholder="Email">
@@ -33,15 +34,15 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                        <div class="social-auth-links text-center mt-2 mb-3">
-                            <button type="submit" class="btn btn-block btn-danger">
-                                <i class="fas fa-sign-in-alt"></i> Sign in
-                            </button>
-                           
-                        </div>
-                        <!-- /.social-auth-links --> 
-                    </form>
+
+                            <div class="social-auth-links text-center mt-2 mb-3">
+                                <button type="submit" class="btn btn-block btn-danger">
+                                    <i class="fas fa-sign-in-alt"></i> Sign in
+                                </button>
+
+                            </div>
+                            <!-- /.social-auth-links -->
+                        </form>
 
                         <p class="mb-2">
                             <a href="{{ route('forgotPWD') }}">I forgot my password</a>

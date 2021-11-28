@@ -45,7 +45,7 @@
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
-                "buttons": ["copy",  "excel", "pdf", "print", "colvis"] //"csv",
+                "buttons": ["excel", "pdf", "print", "colvis"] //"csv","copy"
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
                 "paging": true,
