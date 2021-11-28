@@ -8,10 +8,10 @@
     <title>Madhushanka MicroCredit</title>
 
     <!-- style -->
-    @include('home.components.cssJs.style')
+    @include('Home.components.cssJs.style')
 
     <!-- Fav icon -->
-    @include('home.components.cssJs.fav')
+    @include('Home.components.cssJs.fav')
 
 
 
@@ -20,40 +20,40 @@
 <body>
 
     <!--Header-->
-    @include('home.components.header')
+    @include('Home.components.header')
 
     <!--Intro Section-->
-    @include('home.components.intro')
+    @include('Home.components.intro')
 
     <main id="main">
 
         <!--About Us Section-->
-       @include('home.components.about')
+       @include('Home.components.about')
 
         <!--Services Section-->
-        @include('home.components.services')
+        @include('Home.components.services')
 
         <!--Why Us Section-->
-        @include('home.components.why')
+        @include('Home.components.why')
         
         <!--Portfolio Section-->
-        @include('home.components.Portfolio')
+        @include('Home.components.Portfolio')
 
         <!--testimonials-->
-        @include('home.components.testimonials')
+        @include('Home.components.testimonials')
 
         <!--Team Section=-->
-        @include('home.components.team')
+        @include('Home.components.team')
 
         <!--Clients Section-->
-        @include('home.components.clients')
+        @include('Home.components.clients')
 
         <br>
         <!--Available Branches-->
-        @include('home.components.branches')
+        @include('Home.components.branches')
 
         <!-- contact -->
-        @include('home.components.contact')
+        @include('Home.components.contact')
 
 
 
@@ -62,7 +62,7 @@
 
 
     <!-- footer -->
-    @include('home.components.footer')
+    @include('Home.components.footer')
 
     <!--Back to Top-->
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
@@ -71,7 +71,7 @@
     <div id="preloader"></div>
 
     <!-- javaScripts -->
-    @include('home.components.cssJs.js')
+    @include('Home.components.cssJs.js')
 
 
 </body>

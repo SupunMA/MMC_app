@@ -22,7 +22,7 @@
        
 
 		<!-- ============== Resources style ============== -->
-		<link rel="stylesheet" type="text/css" href="{{ URL::asset('errorPages/css/404.css'); }}" />
+		<link rel="stylesheet" type="text/css" href="{{ URL::asset('errorPages/Css/404.css'); }}" />
 	</head>
 
 	<body>
