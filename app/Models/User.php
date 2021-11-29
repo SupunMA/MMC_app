@@ -22,6 +22,14 @@ class User extends Authenticatable
         'email',
         'role',
         'password',
+
+        'address',
+        'mobile',
+        'NIC',
+        'fileName',
+        'photo',
+        'userMap',
+        'refBranch'
     ];
 
     /**
