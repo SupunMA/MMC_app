@@ -26,6 +26,9 @@
                 <!-- /.card-header -->
                 <div class="card-body">
 
+                    {{-- toastr msg --}}
+                    @include('Users.Admin.Branches.components.messages.addBranchMsg')
+
                     <div class="row">
 
                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -41,7 +44,6 @@
                             </div>
 
 
-
                             <!-- /.form-group -->
                             <div class="form-group">
                                 <label>Tele-phone Number</label>
@@ -55,7 +57,6 @@
                                 </div>
                                 <!-- /.input group -->
                             </div>
-
 
 
 
@@ -78,14 +79,12 @@
 
 
 
-
                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
                             <!-- Text area -->
                             <div class="form-group">
                                 <label>Branch Address</label>
 
                                 <div class="input-group">
-
 
                                     <textarea name="branchAddress" id="" cols="40" rows="4"
                                         class="form-control"></textarea>
@@ -96,7 +95,6 @@
                         </div>
                     </div>
                     <!-- /.row -->
-
 
 
                 </div>
@@ -110,9 +108,6 @@
             <!-- /.card -->
         </form>
 
-        @if (session('message'))
-        <div class="toastrDefaultSuccess"></div>
-        @endif
     </div>
     <!-- /.container-fluid -->
 </section>
@@ -120,10 +115,25 @@
 
 
 @push('specificJs')
-{{-- toast run --}}
+
+{{-- toastr msg --}}
+<script>
+    $('.toastrDefaultError').click(function () {
+        toastr.error("Could't Save the Data. Please try again")
+    });
+
+    $('.toastrDefaultSuccess').click(function () {
+        toastr.success('&#160; Successfully Saved!.&#160;')
+    });
+
+</script>
+
+{{-- toastr auto click --}}
 <script type="text/javascript">
     $(document).ready(function () {
         $(".toastrDefaultSuccess").click();
+        $(".toastrDefaultError").click();
     });
+
 </script>
 @endpush

@@ -77,9 +77,12 @@ class adminController extends Controller
 //
     public function addingBranch(Request $data)
     {
-         
+         $data->validate([
+            'branchName' =>'required',
+            'branchAddress' =>'required'
+         ]);
         $user = Branches::create($data->all());
-        return redirect()->back()->with('message','toastrDefaultSuccess');
+        return redirect()->back()->with('message','successful');
         //->route('your_url_where_you_want_to_redirect');
     }
     

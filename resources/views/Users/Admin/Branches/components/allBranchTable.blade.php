@@ -11,7 +11,8 @@
                     <th>Branch Name</th>
                     <th>Address</th>
                     <th>Telephone</th>
-                    <th>Map Location</th>
+                    <th>Location</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,7 +22,20 @@
                     <td>{{$bd->branchName}}</td>
                     <td>{{$bd->branchAddress}}</td>
                     <td>{{$bd->branchTP}}</td>
-                    <td><a class="btn btn-info" href="{{$bd->branchLocation}}" target="_blank">View</a></td>
+                    <td>
+                        <a class="btn bg-gradient-primary" href="{{$bd->branchLocation}}" target="_blank">
+                            <i class="fas fa-map-marked-alt"></i>
+                            check the map
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-warning" href="#" >
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger" href="#" >
+                            <i class="far fa-trash-alt"></i>
+                        </a>
+                    </td>
                 </tr>
 @endforeach
             </tbody>
@@ -31,7 +45,8 @@
                     <th>Branch Name</th>
                     <th>Address</th>
                     <th>Telephone</th>
-                    <th>Map Location</th>
+                    <th>Location</th>
+                    <th>Actions</th>
                 </tr>
             </tfoot>
         </table>
@@ -39,3 +54,8 @@
     <!-- /.card-body -->
 </div>
 <!-- /.card -->
+
+
+@push('specificJs')
+
+@endpush
