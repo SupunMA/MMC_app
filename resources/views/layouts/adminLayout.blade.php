@@ -14,7 +14,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         @include('CDN_Css_Js.exImages.favIcon')
 
         <!-- Style -->
-        @include('layouts.adminComponents.Style')
+        @include('layouts.adminComponents.lib.Style')
 
     </head>
 
@@ -84,10 +84,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- ./wrapper -->
 
         <!-- Logout Modal and Form -->
-        @include('layouts.adminComponents.logoutModal')
+        @include('layouts.adminComponents.modal.logoutModal')
 
         <!-- Js -->
-        @include('layouts.adminComponents.js')
+        @include('layouts.adminComponents.lib.js')
         {{--  --}}
 
 

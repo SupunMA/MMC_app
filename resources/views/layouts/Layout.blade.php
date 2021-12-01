@@ -21,7 +21,7 @@
 
     <!-- Styles -->
    {{-- @include('CDN_Css_Js.Css.bootcss') --}}
-   @include('layouts.adminComponents.Style')
+   @include('layouts.adminComponents.lib.Style')
 
 
 
@@ -95,7 +95,7 @@
 
    
 {{-- @include('CDN_Css_Js.Js.bootjs') --}}
-@include('layouts.adminComponents.js')
+@include('layouts.adminComponents.lib.js')
 </body>
 
 </html>

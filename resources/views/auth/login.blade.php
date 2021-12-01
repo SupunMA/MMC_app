@@ -16,6 +16,12 @@
                         <form action="{{ route('login') }}" method="post">
                             @csrf
 
+                            @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+
                             <div class="input-group mb-3">
                                 <input type="email" class="form-control" name="email" value="{{ old('email') }}"
                                     required autocomplete="email" autofocus placeholder="Email">
@@ -25,6 +31,13 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+
                             <div class="input-group mb-3">
                                 <input type="password" class="form-control" placeholder="Password" name="password"
                                     required autocomplete="current-password">

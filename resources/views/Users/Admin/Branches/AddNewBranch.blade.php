@@ -2,17 +2,18 @@
 
 @section('content')
 <div class="container-fluid ">
-    
+   
         
-        <div class="row">
+        {{-- <div class="row"> --}}
 
             {{-- Client Details form --}}
-            @include('Users.Admin.Clients.components.newClientDetails')
+            
+            @include('Users.Admin.Branches.components.newBranchDetails')
            
             {{-- Client Password form --}}
-            @include('Users.Admin.Clients.components.clientPWD')
-
-        </div> 
+            
+            
+        {{-- </div>  --}}
             {{-- End of Row --}}
 
     
@@ -23,5 +24,5 @@
 @endsection
 
 @section('header')
-Add New Client
+Add New Branch
 @endsection

@@ -34,3 +34,8 @@ href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&d
     <!-- dropzonejs -->
     <link rel="stylesheet" href={{ URL::asset('adminPages/plugins/dropzone/min/dropzone.min.css'); }}>
 
+<!--Toastr-->
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href={{ URL::asset('adminPages/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css'); }}>
+    <!-- Toastr -->
+    <link rel="stylesheet" href={{ URL::asset('adminPages/plugins/toastr/toastr.min.css'); }}>

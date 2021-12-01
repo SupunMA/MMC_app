@@ -32,7 +32,8 @@
                 </div>
             </div>
         </div>
-
+        
+        
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -123,6 +124,33 @@
                         <a href="{{ route('admin.allLoan') }}" class="nav-link {{ Route::currentRouteNamed('admin.allLoan') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
                             <p> All Loans</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+            {{-- Branches --}}
+
+            <li class="nav-item {{ Route::currentRouteNamed('admin.addBranch') || Route::currentRouteNamed('admin.allBranch') ? 'menu-open' : 'menu-close' }}">
+                <a href="#" class="nav-link {{ Route::currentRouteNamed('admin.addBranch') || Route::currentRouteNamed('admin.allBranch') ? 'active' : '' }}">
+                    <i class="far fa-building"></i>
+                    <p>
+                        Branches
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('admin.addBranch') }}" class="nav-link {{ Route::currentRouteNamed('admin.addBranch') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p> Add New Branch</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.allBranch') }}" class="nav-link {{ Route::currentRouteNamed('admin.allBranch') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p> All Branches</p>
                         </a>
                     </li>
                 </ul>

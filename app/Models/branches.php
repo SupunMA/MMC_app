@@ -9,9 +9,12 @@ class branches extends Model
 {
     use HasFactory;
 
+    protected $table = 'branches';
+
     protected $fillable = [
         'branchName',
         'branchAddress',
+        'branchTP',
         'branchLocation'
     ];
 }
