@@ -60,8 +60,8 @@ Route::group(['prefix'=>'Admin','middleware'=>['checkAdmin','auth','lockBack']],
 
     Route::get('AddBranch', [adminController::class, 'addBranch'])->name('admin.addBranch');
     Route::get('AllBranch', [adminController::class, 'allBranch'])->name('admin.allBranch');
-
     Route::POST('addingBranch', [adminController::class, 'addingBranch'])->name('admin.addingBranch');
+    Route::get('branch/delete/{id}', [adminController::class, 'deleteBranch'])->name('admin.deleteBranch');
     
 });
 

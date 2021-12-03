@@ -16,28 +16,32 @@
                 </tr>
             </thead>
             <tbody>
-@foreach ($bdata as $bd)
-                <tr>
-                    <td>{{$bd->id}}</td>
-                    <td>{{$bd->branchName}}</td>
-                    <td>{{$bd->branchAddress}}</td>
-                    <td>{{$bd->branchTP}}</td>
-                    <td>
-                        <a class="btn bg-gradient-primary" href="{{$bd->branchLocation}}" target="_blank">
-                            <i class="fas fa-map-marked-alt"></i>
-                            check the map
-                        </a>
-                    </td>
-                    <td>
-                        <a class="btn btn-warning" href="#" >
-                            <i class="far fa-edit"></i>
-                        </a>
-                        <a class="btn btn-danger" href="#" >
-                            <i class="far fa-trash-alt"></i>
-                        </a>
-                    </td>
-                </tr>
-@endforeach
+
+                @foreach ($bdata as $bd)
+                    <tr>
+                        <td>{{$bd->id}}</td>
+                        <td>{{$bd->branchName}}</td>
+                        <td>{{$bd->branchAddress}}</td>
+                        <td>{{$bd->branchTP}}</td>
+                        <td>
+                            <a class="btn bg-gradient-primary" href="{{$bd->branchLocation}}" target="_blank">
+                                <i class="fas fa-map-marked-alt"></i>
+                                check the map
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-warning" type="button" data-toggle="modal" data-target="#branchEditModal-{{$bd->id}}" >
+                                <i class="far fa-edit"></i>
+                            </a>
+                            <a class="btn btn-danger" href="branch/delete/{{$bd->id}}" >
+                                <i class="far fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                    @include('Users.Admin.Branches.components.editBranch')
+                @endforeach
+
             </tbody>
             <tfoot>
                 <tr>
@@ -57,5 +61,19 @@
 
 
 @push('specificJs')
+{{-- toastr msg --}}
+<script>
+    $('.toastrDefaultSuccess').click(function () {
+        toastr.success('&#160; Deleted Successfully !.&#160;')
+    });
 
+</script>
+
+{{-- toastr auto click --}}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".toastrDefaultSuccess").click();
+    });
+
+</script>
 @endpush

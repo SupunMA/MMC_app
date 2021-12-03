@@ -85,5 +85,12 @@ class adminController extends Controller
         return redirect()->back()->with('message','successful');
         //->route('your_url_where_you_want_to_redirect');
     }
+
+    public function deleteBranch($id)
+    {
+        $delete = Branches::find($id);
+        $delete->delete();
+        return redirect()->back()->with('message','successful');
+    }
     
 }

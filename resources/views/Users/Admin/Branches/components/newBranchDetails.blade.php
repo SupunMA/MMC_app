@@ -16,8 +16,8 @@
                             <i class="fas fa-minus"></i>
                         </button>
                         {{-- <button type="button" class="btn btn-tool" data-card-widget="remove">
-              <i class="fas fa-times"></i>
-            </button> --}}
+                        <i class="fas fa-times"></i>
+                        </button> --}}
                     </div>
                 </div>
 
@@ -123,7 +123,7 @@
     });
 
     $('.toastrDefaultSuccess').click(function () {
-        toastr.success('&#160; Successfully Saved!.&#160;')
+        toastr.success('&#160; Saved Successfully!.&#160;')
     });
 
 </script>
