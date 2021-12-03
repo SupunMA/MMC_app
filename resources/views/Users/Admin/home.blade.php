@@ -55,6 +55,23 @@
                     </a>
                 </div>
             </div>
+
+            <div class="col-lg-3 col-4">
+                <!-- small card -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>150</h3>
+
+                        <h2>Branches</h2> 
+                    </div>
+                    <div class="icon">
+                        <i class="far fa-building"></i>
+                    </div>
+                    <a href="{{route('admin.allBranch')}}" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
         </div>
         
     </div>

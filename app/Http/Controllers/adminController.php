@@ -92,5 +92,20 @@ class adminController extends Controller
         $delete->delete();
         return redirect()->back()->with('message','successful');
     }
+
+    public function updateBranch(Request $data)
+    {
+        $data->validate([
+            'branchName' =>'required',
+            'branchAddress' =>'required'
+         ]);
+        branches::where('id', $data->id)
+        ->update(['branchName' => $data->branchName,
+                'branchAddress' => $data->branchAddress,
+                'branchTP' => $data->branchTP,
+                'branchLocation' => $data->branchLocation
+            ]);
+        return redirect()->back()->with('message','successful');
+    }
     
 }

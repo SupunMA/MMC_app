@@ -64,7 +64,7 @@
 {{-- toastr msg --}}
 <script>
     $('.toastrDefaultSuccess').click(function () {
-        toastr.success('&#160; Deleted Successfully !.&#160;')
+        toastr.success('&#160; Done Successfully !.&#160;')
     });
 
 </script>
