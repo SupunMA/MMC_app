@@ -2,21 +2,23 @@
 
 @section('content')
 <div class="container-fluid ">
-    
-        
+
+    <form action="{{route('admin.addingClient')}}" method="post">
+        @csrf
         <div class="row">
 
             {{-- Client Details form --}}
             @include('Users.Admin.Clients.components.newClientDetails')
-           
+
             {{-- Client Password form --}}
             @include('Users.Admin.Clients.components.clientPWD')
 
-        </div> 
-            {{-- End of Row --}}
+        </div>
+    </form>
+    {{-- End of Row --}}
 
-    
-            {{-- End of Form --}}
+
+    {{-- End of Form --}}
 
 
 </div>

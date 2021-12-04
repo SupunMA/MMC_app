@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\adminController;
+use App\Http\Controllers\Auth\RegisterController;
+
 use App\Http\Controllers\userController;
 use App\Http\Controllers\managerController;
 use App\Http\Controllers\checkerController;
@@ -51,6 +53,8 @@ Route::group(['prefix'=>'Admin','middleware'=>['checkAdmin','auth','lockBack']],
 
     Route::get('AddClient', [adminController::class, 'addClient'])->name('admin.addClient');
     Route::get('AllClient', [adminController::class, 'allClient'])->name('admin.allClient');
+    Route::POST('addingClient', [RegisterController::class, 'addingClient'])->name('admin.addingClient');
+
 
     Route::get('AddLand', [adminController::class, 'addLand'])->name('admin.addLand');
     Route::get('AllLand', [adminController::class, 'allLand'])->name('admin.allLand');

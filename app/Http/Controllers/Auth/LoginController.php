@@ -58,11 +58,11 @@ class LoginController extends Controller
         $input = $request->all();
 
         $this->validate($request,[
-            'email' => 'required|email',
+            'NIC' => 'required',
             'password' => 'required',
         ]);
 
-        if(auth()->attempt(array('email' => $input['email'],
+        if(auth()->attempt(array('NIC' => $input['NIC'],
         'password' => $input['password'])))
         {
              

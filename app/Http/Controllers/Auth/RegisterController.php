@@ -9,6 +9,9 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Http\Request;
+
+
 
 class RegisterController extends Controller
 {
@@ -23,24 +26,24 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    //use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    //protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('guest');
+    // }
 
     /**
      * Get a validator for an incoming registration request.
@@ -51,9 +54,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            // 'name' => ['required', 'string', 'max:255'],
+            // 'email' => ['string', 'email', 'max:255', 'unique:users'],
+            // 'password' => ['required', 'string', 'min:8', 'confirmed'],
+            // 'address' => ['string'],
+            // 'mobile' =>['string'],
+            // 'NIC'=>['integer','max:12']
         ]);
     }
 
@@ -63,12 +69,55 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    // protected function create(array $data)
+    // {
+    //     return User::create([
+    //         'name' => $data['name'],
+    //         'email' => $data['email'],
+    //         'address'=> $data['address'],
+    //         'mobile'=> $data['mobile'],
+    //         'NIC'=> $data['NIC'],
+    //         'fileName'=> $data['fileName'],
+    //         'photo'=> $data['photo'],
+    //         'userMap'=> $data['userMap'],
+    //         'refBranch'=> $data['refBranch'],
+    //         'password' => Hash::make($data['password']),
+    //     ]);
+    // }
+
+
+
+
+    function addingClient(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            // 'email' => ['string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            // 'address' => ['string'],
+            // 'mobile' =>['string'],
+            'NIC'=>['integer']
         ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        
+        $user->password = \Hash::make($request->password);
+
+        $user->mobile = $request->mobile;
+        $user->address = $request->address;
+        $user->NIC = $request->NIC;
+        $user->fileName = $request->fileName;
+        $user->photo = $request->photo;
+        $user->userMap = $request->userMap;
+        $user->refBranch = $request->refBranch;
+
+        if( $user->save() ){
+            return redirect()->back()->with('message','successful');
+        }else{
+            return redirect()->back()->with('message','Failed');
+        }
+
     }
 }

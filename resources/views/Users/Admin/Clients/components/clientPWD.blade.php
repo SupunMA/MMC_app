@@ -16,16 +16,14 @@
                 <div class="col-lg-6 col-12">
                     <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>
-                        <input type="tel" class="form-control" id="" placeholder="New Password"
-                            pattern="[0-9]{10}">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
                     </div>
                 </div>
 
                 <div class="col-lg-6 col-12">
                     <div class="form-group">
                         <label for="exampleInputPassword1">Confirm the Password</label>
-                        <input type="tel" class="form-control" id="" placeholder="Type Password Again"
-                            pattern="[0-9]{10}">
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                     </div>
                 </div>
 

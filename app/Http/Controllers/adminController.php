@@ -28,7 +28,8 @@ class adminController extends Controller
 
     public function addClient()
     {
-        return view('Users.Admin.Clients.addClient');
+        $branches=branches::all('branchName', 'id');
+        return view('Users.Admin.Clients.addClient',compact('branches'));
     }
 
     public function allClient()
@@ -74,7 +75,6 @@ class adminController extends Controller
         return view('Users.Admin.Branches.AllBranches',compact('bdata'));
     }
 
-//
     public function addingBranch(Request $data)
     {
          $data->validate([
