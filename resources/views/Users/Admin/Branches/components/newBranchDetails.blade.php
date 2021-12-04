@@ -27,7 +27,7 @@
                 <div class="card-body">
 
                     {{-- toastr msg --}}
-                    @include('Users.Admin.Branches.components.messages.addBranchMsg')
+                    @include('Users.Admin.messages.addMsg')
 
                     <div class="row">
 

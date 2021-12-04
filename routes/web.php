@@ -94,14 +94,14 @@ Route::group(['prefix'=>'Account/Checker','middleware'=>['checkChecker','auth','
 
 
 //Disabled User Registration
-// Route::get('/register', function() {
-//     return redirect('/login');
-// });
+Route::get('/register', function() {
+    return redirect('/login');
+});
 
-// Route::post('/register', function() {
-//     return redirect('/login');
-// });
-//
+Route::post('/register', function() {
+    return redirect('/login');
+});
+
 
 
 //Re-set PWD and Create new account

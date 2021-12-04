@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\branches;
+use App\Models\User;
 
 class adminController extends Controller
 {
@@ -34,7 +35,12 @@ class adminController extends Controller
 
     public function allClient()
     {
-        return view('Users.Admin.Clients.allClients');
+        //$clients=User::where('role',0)->get();
+        
+        $clients = User::join('Branches','Branches.id','=','users.refBranch')
+        ->where('users.role',0)->get();
+        //->join('table1','table1.id','=','table3.id');
+        return view('Users.Admin.Clients.allClients',compact('clients'));
     }
 
 

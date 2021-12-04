@@ -39,7 +39,7 @@
                         </td>
                     </tr>
 
-                    @include('Users.Admin.Branches.components.editBranch')
+                    @include('Users.Admin.Branches.components.updateBranch')
                 @endforeach
 
             </tbody>

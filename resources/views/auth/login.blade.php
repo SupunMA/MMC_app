@@ -26,7 +26,7 @@
                                 <input type="text" class="form-control" name="NIC" required placeholder="Your NIC">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
-                                        <span class="fas fa-envelope"></span>
+                                        <span class="far fa-address-card"></span>
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                                     required autocomplete="current-password">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
-                                        <span class="fas fa-lock"></span>
+                                        <span class="fas fa-key"></span>
                                     </div>
                                 </div>
                             </div>

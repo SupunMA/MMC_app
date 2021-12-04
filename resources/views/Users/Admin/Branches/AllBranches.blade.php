@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid ">
     
-        @include('Users.Admin.Branches.components.messages.deleteBranchMsg')
+        @include('Users.Admin.messages.deleteMsg')
         {{-- <div class="row"> --}}
 
             {{-- Client Details form --}}

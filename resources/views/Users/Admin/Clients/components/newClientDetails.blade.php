@@ -9,7 +9,7 @@
         <!-- form start -->
 
         <div class="card-body">
-            @include('Users.Admin.Clients.components.messages.addClientMsg')
+            @include('Users.Admin.messages.addMsg')
 
             <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
