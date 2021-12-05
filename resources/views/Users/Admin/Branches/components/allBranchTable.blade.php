@@ -19,7 +19,7 @@
 
                 @foreach ($bdata as $bd)
                     <tr>
-                        <td>{{$bd->id}}</td>
+                        <td>{{$bd->branchID}}</td>
                         <td>{{$bd->branchName}}</td>
                         <td>{{$bd->branchAddress}}</td>
                         <td>{{$bd->branchTP}}</td>
@@ -30,10 +30,10 @@
                             </a>
                         </td>
                         <td>
-                            <a class="btn btn-warning" type="button" data-toggle="modal" data-target="#branchEditModal-{{$bd->id}}" >
+                            <a class="btn btn-warning" type="button" data-toggle="modal" data-target="#branchEditModal-{{$bd->branchID}}" >
                                 <i class="far fa-edit"></i>
                             </a>
-                            <a class="btn btn-danger" href="branch/delete/{{$bd->id}}" >
+                            <a class="btn btn-danger" href="branch/delete/{{$bd->branchID}}" >
                                 <i class="far fa-trash-alt"></i>
                             </a>
                         </td>

@@ -6,7 +6,7 @@
     <div class="col-md-12">
         <div class="row">
            
-            <div class="col-lg-3 col-4">
+            <div class="col-lg-3 col-6">
                 <!-- small card -->
                 <div class="small-box bg-primary">
                     <div class="inner">
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-4">
+            <div class="col-lg-3 col-6">
                 <!-- small card -->
                 <div class="small-box bg-warning">
                     <div class="inner">
@@ -39,7 +39,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-4">
+            <div class="col-lg-3 col-6">
                 <!-- small card -->
                 <div class="small-box bg-danger">
                     <div class="inner">
@@ -56,7 +56,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-4">
+            <div class="col-lg-3 col-6">
                 <!-- small card -->
                 <div class="small-box bg-success">
                     <div class="inner">

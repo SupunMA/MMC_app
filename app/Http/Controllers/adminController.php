@@ -29,7 +29,7 @@ class adminController extends Controller
 
     public function addClient()
     {
-        $branches=branches::all('branchName', 'id');
+        $branches=branches::all('branchName', 'branchID');
         return view('Users.Admin.Clients.addClient',compact('branches'));
     }
 
@@ -37,7 +37,7 @@ class adminController extends Controller
     {
         //$clients=User::where('role',0)->get();
         
-        $clients = User::join('Branches','Branches.id','=','users.refBranch')
+        $clients = User::join('branches','branches.branchID','=','users.refBranch')
         ->where('users.role',0)->get();
         //->join('table1','table1.id','=','table3.id');
         return view('Users.Admin.Clients.allClients',compact('clients'));
