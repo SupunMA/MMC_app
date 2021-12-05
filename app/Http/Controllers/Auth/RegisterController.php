@@ -96,7 +96,8 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             // 'address' => ['string'],
             // 'mobile' =>['string'],
-            'NIC'=>['integer','unique:users']
+            'NIC'=>['integer','unique:users'],
+            'refBranch'=>['required']
         ]);
 
         $user = new User();
