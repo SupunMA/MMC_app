@@ -3,7 +3,10 @@
         <h3 class="card-title">All Branches</h3>
     </div>
     <!-- /.card-header -->
+    
+
     <div class="card-body">
+        @include('Users.Admin.messages.addMsg')
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -38,9 +41,10 @@
                             </a>
                         </td>
                     </tr>
-{{-- href="branch/delete/{{$bd->branchID}}" --}}
-                    @include('Users.Admin.Branches.components.updateBranch')
-                    @include('Users.Admin.Branches.components.deleteBranch')
+                    
+                            {{-- update modal and delete modal --}}
+                            @include('Users.Admin.Branches.components.updateBranch')
+                            @include('Users.Admin.Branches.components.deleteBranch')
                 @endforeach
 
             </tbody>
@@ -68,12 +72,17 @@
         toastr.success('&#160; Done Successfully !.&#160;')
     });
 
+    $('.toastrDefaultError').click(function () {
+        toastr.error("Could't Save the Data. Please try again")
+    });
+
 </script>
 
 {{-- toastr auto click --}}
 <script type="text/javascript">
     $(document).ready(function () {
         $(".toastrDefaultSuccess").click();
+        $(".toastrDefaultError").click();
     });
 
 </script>
