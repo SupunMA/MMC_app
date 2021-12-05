@@ -9,6 +9,7 @@ class branches extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'branchID';
     protected $table = 'branches';
 
     protected $fillable = [
