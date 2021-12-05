@@ -1,10 +1,10 @@
 <!-- Edit branch -->
-<div class="modal fade" id="branchEditModal-{{$bd->id}}" tabindex="-1" role="dialog"
+<div class="modal fade" id="branchEditModal-{{$bd->branchID}}" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Update Branch</h5>
+                <h5 class="modal-title" id="exampleModalCenterTitle">Update <b>{{$bd->branchName}}</b> Branch</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -15,7 +15,7 @@
                 
                 <div class="modal-body">
                    
-                    <input type="hidden" name="id" value="{{$bd->id}}">
+                    <input type="hidden" name="branchID" value="{{$bd->branchID}}">
                     
                     <div class="form-group">
                         <label>Name of the Branch</label>
