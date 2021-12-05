@@ -95,8 +95,8 @@ class adminController extends Controller
     public function deleteBranch($branchID)
     {
         //dd($branchID);
-         $delete = Branches::find($branchID);
-         $delete->delete();
+        $delete = Branches::find($branchID);
+        $delete->delete();
         return redirect()->back()->with('message','successful');
     }
 

@@ -15,7 +15,7 @@
                 
                 <div class="modal-body">
                   
-                    <h4>Are you sure you want to Delete ?.. </h4>
+                    <h5>Are you sure you want to Delete ?.. </h5>
                         <h2 class="text-center text-danger"><b>{{$bd->branchName}}</b> Branch</h2>
                     <i>Please confirm it again. you will not be able to recover this branch data.</i>
 
