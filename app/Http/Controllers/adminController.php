@@ -92,10 +92,11 @@ class adminController extends Controller
         //->route('your_url_where_you_want_to_redirect');
     }
 
-    public function deleteBranch($id)
+    public function deleteBranch($branchID)
     {
-        $delete = Branches::find($id);
-        $delete->delete();
+        //dd($branchID);
+         $delete = Branches::find($branchID);
+         $delete->delete();
         return redirect()->back()->with('message','successful');
     }
 
@@ -105,7 +106,7 @@ class adminController extends Controller
             'branchName' =>'required',
             'branchAddress' =>'required'
          ]);
-        branches::where('id', $data->id)
+        branches::where('branchID', $data->branchID)
         ->update(['branchName' => $data->branchName,
                 'branchAddress' => $data->branchAddress,
                 'branchTP' => $data->branchTP,

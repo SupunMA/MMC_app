@@ -33,13 +33,14 @@
                             <a class="btn btn-warning" type="button" data-toggle="modal" data-target="#branchEditModal-{{$bd->branchID}}" >
                                 <i class="far fa-edit"></i>
                             </a>
-                            <a class="btn btn-danger" href="branch/delete/{{$bd->branchID}}" >
+                            <a class="btn btn-danger" type="button" data-toggle="modal" data-target="#branchDeleteModal-{{$bd->branchID}}"  >
                                 <i class="far fa-trash-alt"></i>
                             </a>
                         </td>
                     </tr>
-
+{{-- href="branch/delete/{{$bd->branchID}}" --}}
                     @include('Users.Admin.Branches.components.updateBranch')
+                    @include('Users.Admin.Branches.components.deleteBranch')
                 @endforeach
 
             </tbody>
@@ -76,4 +77,6 @@
     });
 
 </script>
+
+
 @endpush
