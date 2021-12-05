@@ -12,10 +12,9 @@
             {{-- Client Password form --}}
 
         {{-- </div>  --}}
-            {{-- End of Row --}}
-
-            {{-- End of Form --}}
-
+            
+            
+            
 
 </div>
 @endsection
