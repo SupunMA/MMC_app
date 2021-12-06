@@ -3,12 +3,13 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\adminController;
+
 use App\Http\Controllers\Auth\RegisterController;
 
-use App\Http\Controllers\userController;
-use App\Http\Controllers\managerController;
-use App\Http\Controllers\checkerController;
+use App\Http\Controllers\Admin\adminController;
+use App\Http\Controllers\User\userController;
+use App\Http\Controllers\Manager\managerController;
+use App\Http\Controllers\Checker\checkerController;
 
 use Illuminate\Support\Facades\Auth;
 
