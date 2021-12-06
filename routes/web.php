@@ -43,16 +43,6 @@ Route::middleware(['middleware'=>'lockBack'])->group(function(){
 //common
 //Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-// //admin
-// Route::prefix('/Account/Admin/')->group(function(){
-//     Route::get('/', [adminController::class, 'checkAdmin'])->name('admin.home');
-//     Route::get('AddClient', [adminController::class, 'addClient'])->name('admin.addClient');
-//     Route::get('AllClient', [adminController::class, 'allClient'])->name('admin.allClient');
-//     Route::get('AddLand', [adminController::class, 'addLand'])->name('admin.addLand');
-//     Route::get('AllLand', [adminController::class, 'allLand'])->name('admin.allLand');
-//     Route::get('AddLoan', [adminController::class, 'addLoan'])->name('admin.addLoan');
-//     Route::get('AllLoan', [adminController::class, 'allLoan'])->name('admin.allLoan');
-// });
 
 //admin
 Route::group(['prefix'=>'Admin','middleware'=>['checkAdmin','auth','lockBack']],function(){
