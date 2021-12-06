@@ -62,6 +62,7 @@ Route::group(['prefix'=>'Admin','middleware'=>['checkAdmin','auth','lockBack']],
     Route::get('AllClient', [admin_ClientCtr::class, 'allClient'])->name('admin.allClient');
     Route::POST('addingClient', [RegisterController::class, 'addingClient'])->name('admin.addingClient');
     Route::get('client/delete/{userID}', [admin_ClientCtr::class, 'deleteClient'])->name('admin.deleteClient');
+    Route::post('client/update', [admin_ClientCtr::class, 'updateClient'])->name('admin.updateClient');
 
     Route::get('AddLand', [admin_LandCtr::class, 'addLand'])->name('admin.addLand');
     Route::get('AllLand', [admin_LandCtr::class, 'allLand'])->name('admin.allLand');
