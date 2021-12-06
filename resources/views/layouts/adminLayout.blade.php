@@ -72,7 +72,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
             <!-- Control Sidebar -->
-            {{-- @include('layouts.adminComponents.controlSlideBar') --}}
+            @include('layouts.adminComponents.controlSlideBar')
 
             <!-- /.control-sidebar -->
 
