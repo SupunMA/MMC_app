@@ -6,7 +6,13 @@ use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\Auth\RegisterController;
 
-use App\Http\Controllers\Admin\adminController;
+use App\Http\Controllers\Admin\admin_HomeCtr;
+use App\Http\Controllers\Admin\admin_BranchCtr;
+use App\Http\Controllers\Admin\admin_ClientCtr;
+use App\Http\Controllers\Admin\admin_LoanCtr;
+use App\Http\Controllers\Admin\admin_LandCtr;
+
+
 use App\Http\Controllers\User\userController;
 use App\Http\Controllers\Manager\managerController;
 use App\Http\Controllers\Checker\checkerController;
@@ -50,24 +56,23 @@ Route::middleware(['middleware'=>'lockBack'])->group(function(){
 
 //admin
 Route::group(['prefix'=>'Admin','middleware'=>['checkAdmin','auth','lockBack']],function(){
-    Route::get('/', [adminController::class, 'checkAdmin'])->name('admin.home');
+    Route::get('/', [admin_HomeCtr::class, 'checkAdmin'])->name('admin.home');
 
-    Route::get('AddClient', [adminController::class, 'addClient'])->name('admin.addClient');
-    Route::get('AllClient', [adminController::class, 'allClient'])->name('admin.allClient');
+    Route::get('AddClient', [admin_ClientCtr::class, 'addClient'])->name('admin.addClient');
+    Route::get('AllClient', [admin_ClientCtr::class, 'allClient'])->name('admin.allClient');
     Route::POST('addingClient', [RegisterController::class, 'addingClient'])->name('admin.addingClient');
 
-
-    Route::get('AddLand', [adminController::class, 'addLand'])->name('admin.addLand');
-    Route::get('AllLand', [adminController::class, 'allLand'])->name('admin.allLand');
+    Route::get('AddLand', [admin_LandCtr::class, 'addLand'])->name('admin.addLand');
+    Route::get('AllLand', [admin_LandCtr::class, 'allLand'])->name('admin.allLand');
     
-    Route::get('AddLoan', [adminController::class, 'addLoan'])->name('admin.addLoan');
-    Route::get('AllLoan', [adminController::class, 'allLoan'])->name('admin.allLoan');
+    Route::get('AddLoan', [admin_LoanCtr::class, 'addLoan'])->name('admin.addLoan');
+    Route::get('AllLoan', [admin_LoanCtr::class, 'allLoan'])->name('admin.allLoan');
 
-    Route::get('AddBranch', [adminController::class, 'addBranch'])->name('admin.addBranch');
-    Route::get('AllBranch', [adminController::class, 'allBranch'])->name('admin.allBranch');
-    Route::POST('addingBranch', [adminController::class, 'addingBranch'])->name('admin.addingBranch');
-    Route::get('branch/delete/{branchID}', [adminController::class, 'deleteBranch'])->name('admin.deleteBranch');
-    Route::post('branch/update', [adminController::class, 'updateBranch'])->name('admin.updateBranch');
+    Route::get('AddBranch', [admin_BranchCtr::class, 'addBranch'])->name('admin.addBranch');
+    Route::get('AllBranch', [admin_BranchCtr::class, 'allBranch'])->name('admin.allBranch');
+    Route::POST('addingBranch', [admin_BranchCtr::class, 'addingBranch'])->name('admin.addingBranch');
+    Route::get('branch/delete/{branchID}', [admin_BranchCtr::class, 'deleteBranch'])->name('admin.deleteBranch');
+    Route::post('branch/update', [admin_BranchCtr::class, 'updateBranch'])->name('admin.updateBranch');
     
 });
 

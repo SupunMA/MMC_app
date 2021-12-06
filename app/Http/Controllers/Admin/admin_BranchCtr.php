@@ -5,13 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\branches;
-use App\Models\User;
 
 
 
-class adminController extends Controller
+class admin_BranchCtr extends Controller
 {
-   //protected $task;
     
    
  //Authenticate all Admin routes
@@ -21,55 +19,6 @@ class adminController extends Controller
        // $this->task = new branches;
     }
 
-
-//Dashboard
-    public function checkAdmin()
-    {
-        return view('Users.Admin.home');
-    }
-
-//Client
-
-    public function addClient()
-    {
-        $branches=branches::all('branchName', 'branchID');
-        return view('Users.Admin.Clients.addClient',compact('branches'));
-    }
-
-    public function allClient()
-    {
-        //$clients=User::where('role',0)->get();
-        
-        $clients = User::join('branches','branches.branchID','=','users.refBranch')
-        ->where('users.role',0)->get();
-        //->join('table1','table1.id','=','table3.id');
-        return view('Users.Admin.Clients.allClients',compact('clients'));
-    }
-
-
-//Land
-
-    public function addLand()
-    {
-        return view('Users.Admin.Lands.addLand');
-    }
-
-    public function allLand()
-    {
-        return view('Users.Admin.Lands.allLands');
-    }
-
-//Loan
-
-    public function addLoan()
-    {
-        return view('Users.Admin.Loans.addLoan');
-    }
-
-    public function allLoan()
-    {
-        return view('Users.Admin.Loans.allLoans');
-    }
 
 //Branch
 
