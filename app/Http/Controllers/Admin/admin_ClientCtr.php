@@ -39,4 +39,11 @@ class admin_ClientCtr extends Controller
         return view('Users.Admin.Clients.allClients',compact('clients'));
     }
     
+    public function deleteClient($userID)
+    {
+        //dd($branchID);
+        $delete = User::find($userID);
+        $delete->delete();
+        return redirect()->back()->with('message','successful');
+    }
 }

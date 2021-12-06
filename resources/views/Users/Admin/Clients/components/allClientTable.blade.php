@@ -37,10 +37,15 @@
                         
                         
                         <td>
-                            <a name="" id="" class="btn btn-danger" href="#" role="button">Delete</a>
+                            <a class="btn btn-danger" type="button" data-toggle="modal" data-target="#clientDeleteModal-{{$client->id}}"  >
+                                <i class="far fa-trash-alt"></i>
+                            </a>
                             <a name="" id="" class="btn btn-warning" href="#" role="button">Edit</a>
                         </td>
                     </tr>
+
+                    {{-- delete modal --}}
+                    @include('Users.Admin.Clients.components.deleteClient')
 
                 @endforeach
             </tbody>
