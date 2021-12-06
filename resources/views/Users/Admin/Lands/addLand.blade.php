@@ -2,6 +2,13 @@
 
 @section('content')
 <div class="container-fluid ">
+    
+    {{-- button to go to all lands --}}
+    <a class="btn btn-danger mb-1" href="{{route('admin.allLand')}}">
+        <i class="fas fa-list-ul mr-1"></i>
+        <b>View All Lands</b>
+    </a>
+
     <form method="get" action="">
         @csrf
         

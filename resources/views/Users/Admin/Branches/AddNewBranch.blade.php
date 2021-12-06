@@ -2,7 +2,10 @@
 
 @section('content')
 <div class="container-fluid ">
-   
+    <a class="btn btn-danger mb-1" href="{{route('admin.allBranch')}}">
+        <i class="fas fa-list-ul mr-1"></i>
+        <b>View All Branches</b>
+    </a>
         
         {{-- <div class="row"> --}}
 

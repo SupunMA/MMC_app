@@ -2,6 +2,13 @@
 
 @section('content')
 <div class="container-fluid ">
+
+    {{-- button to go to all loans --}}
+    <a class="btn btn-danger mb-1" href="{{route('admin.allLoan')}}">
+        <i class="fas fa-list-ul mr-1"></i>
+        <b>View All Loans</b>
+    </a>
+
     <form method="get" action="">
         @csrf
         
