@@ -12,21 +12,21 @@
             @include('Users.Admin.messages.addMsg')
 
             <div class="form-group">
-                <label for="exampleInputEmail1">Name</label>
+                <label >Name</label>
                 <input type="name" name="name" class="form-control" id="name" placeholder="Enter Name">
             </div>
 
             <div class="row">
                 <div class="col-lg-6 col-12">
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Address</label>
+                        <label >Address</label>
                         <textarea class="form-control" name="address" id="" cols="30" rows="4"
                             placeholder="Address"></textarea>
                     </div>
                 </div>
 
                 <div class="col-lg-6 col-12">
-                    <label for="exampleInputPassword1">Mobile</label>
+                    <label >Mobile</label>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
@@ -43,7 +43,7 @@
             <div class="row">
                 <div class="col-lg-6 col-12">
                     <div class="form-group">
-                        <label for="exampleInputPassword1">NIC</label>
+                        <label >NIC</label>
                         <div class="input-group mb-3">
                             <input type="text" class="form-control"
                                 data-inputmask="'mask': ['999999999', '999999999999']" data-mask
@@ -58,8 +58,8 @@
 
                 <div class="col-lg-6 col-12">
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Document Number</label>
-                        <input type="text" class="form-control" name="fileName" id="" placeholder="File Number">
+                        <label >Document Number</label>
+                        <input type="text" class="form-control" name="fileName" placeholder="File Number">
                     </div>
                 </div>
 
@@ -68,7 +68,7 @@
 
             <div class="row">
                 <div class="col-lg-6 col-12">
-                    <label for="exampleInputPassword1">Photo URL (ID only)</label>
+                    <label >Photo URL (ID only)</label>
                     <div class="input-group mb-3">
 
                         <div class="input-group-prepend">
@@ -80,13 +80,13 @@
                 </div>
 
                 <div class="col-lg-6 col-12">
-                    <label for="exampleInputPassword1">Map URL</label>
+                    <label >Map URL</label>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-street-view"></i></span>
                         </div>
-                        <input type="text" class="form-control" data-inputmask="'alias': 'url'" data-mask
-                            placeholder="Google Map Link" name="userMap">
+                        <input type="text" class="form-control" data-inputmask="'alias': 'url'"
+                        data-mask placeholder="Google Map Link" name="userMap" >
                     </div>
                 </div>
 
