@@ -18,7 +18,7 @@ class CreateLandsTable extends Migration
             $table->string('landAddress');
             $table->string('landMap');
             $table->string('landDetails');
-            $table->BigInteger('landValue');
+            $table->float('landValue',10,2);
 
             $table->integer('ownerID');
 
