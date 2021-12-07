@@ -57,6 +57,8 @@ Route::group(['prefix'=>'Admin','middleware'=>['checkAdmin','auth','lockBack']],
     Route::get('AddLand', [admin_LandCtr::class, 'addLand'])->name('admin.addLand');
     Route::get('AllLand', [admin_LandCtr::class, 'allLand'])->name('admin.allLand');
     Route::POST('addingLand', [admin_LandCtr::class, 'addingLand'])->name('admin.addingLand');
+    Route::get('land/delete/{landID}', [admin_LandCtr::class, 'deleteLand'])->name('admin.deleteLand');
+    Route::post('land/update', [admin_LandCtr::class, 'updateLand'])->name('admin.updateLand');
     
     Route::get('AddLoan', [admin_LoanCtr::class, 'addLoan'])->name('admin.addLoan');
     Route::get('AllLoan', [admin_LoanCtr::class, 'allLoan'])->name('admin.allLoan');
