@@ -9,8 +9,7 @@
         <b>View All Lands</b>
     </a>
 
-    <form method="get" action="">
-        @csrf
+    
         
         {{-- <div class="row"> --}}
 
@@ -23,7 +22,7 @@
         {{-- </div>  --}}
             {{-- End of Row --}}
 
-    </form>
+  
             {{-- End of Form --}}
 
 

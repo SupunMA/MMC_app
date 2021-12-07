@@ -15,12 +15,12 @@ class CreateLandsTable extends Migration
     {
         Schema::create('lands', function (Blueprint $table) {
             $table->id('landID');
-            $table->string('landAddress');
-            $table->string('landMap');
-            $table->string('landDetails');
-            $table->float('landValue',10,2);
+            $table->string('landAddress')->nullable();
+            $table->string('landMap')->nullable();
+            $table->string('landDetails')->nullable();
+            $table->float('landValue',10,2)->nullable();
 
-            $table->integer('ownerID');
+            $table->integer('ownerID')->nullable();
 
             $table->timestamps();
         });
