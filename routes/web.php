@@ -62,6 +62,7 @@ Route::group(['prefix'=>'Admin','middleware'=>['checkAdmin','auth','lockBack']],
     
     Route::get('AddLoan', [admin_LoanCtr::class, 'addLoan'])->name('admin.addLoan');
     Route::get('AllLoan', [admin_LoanCtr::class, 'allLoan'])->name('admin.allLoan');
+    Route::POST('addingLoan', [admin_LoanCtr::class, 'addingLoan'])->name('admin.addingLoan');
 
     Route::get('AddBranch', [admin_BranchCtr::class, 'addBranch'])->name('admin.addBranch');
     Route::get('AllBranch', [admin_BranchCtr::class, 'allBranch'])->name('admin.allBranch');

@@ -15,11 +15,12 @@ class CreateLoansTable extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id('loanID');
-            $table->float('loanRate',4,2);
-            $table->float('loanAmount',10,2);
-            $table->float('penaltyRate',4,2);
-            $table->date('loanDate');
-            $table->integer('dueDate');
+            $table->float('loanRate',4,2)->nullable();
+            $table->float('loanAmount',10,2)->nullable();
+            $table->float('penaltyRate',4,2)->nullable();
+            $table->date('loanDate')->nullable();
+            $table->integer('dueDate')->nullable();
+            $table->string('description')->nullable();
 
             $table->integer('loanLandID');
 

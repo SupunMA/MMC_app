@@ -18,6 +18,7 @@ class Loan extends Model
         'penaltyRate',
         'loanDate',
         'dueDate',
-        'loanLandID'
+        'loanLandID',
+        'description'
     ];
 }
