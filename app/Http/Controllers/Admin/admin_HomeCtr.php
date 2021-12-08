@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\branches;
+use App\Models\User;
+use App\Models\Land;
+use App\Models\Loan;
+
 class admin_HomeCtr extends Controller
 {
    //protected $task;
@@ -21,7 +26,11 @@ class admin_HomeCtr extends Controller
 //Dashboard
     public function checkAdmin()
     {
-        return view('Users.Admin.home');
+        $ClientsCount=User::where('users.role',0)->count();
+        $LandCount = Land::count();
+        $BranchesCount=Branches::count();
+        $LoanCount=Loan::count();
+        return view('Users.Admin.home',compact('ClientsCount','LandCount','BranchesCount','LoanCount'));
     }
 
     

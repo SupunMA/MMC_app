@@ -10,8 +10,10 @@
                 <!-- small card -->
                 <div class="small-box bg-primary">
                     <div class="inner">
-                        <h3>150</h3>
+
+                        <h3>{{$ClientsCount}}</h3>
                         <h2>Clients</h2>
+
                     </div>
                     <div class="icon">
                         <i class="fas fa-users"></i>
@@ -26,9 +28,10 @@
                 <!-- small card -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>150</h3>
 
+                        <h3>{{$LandCount}}</h3>
                         <h2>Lands</h2>
+
                     </div>
                     <div class="icon">
                         <i class="fas fa-house-user"></i>
@@ -43,9 +46,10 @@
                 <!-- small card -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3>150</h3>
 
+                        <h3>{{$LoanCount}}</h3>
                         <h2>Loans</h2> 
+
                     </div>
                     <div class="icon">
                         <i class="fas fa-money-bill-wave"></i>
@@ -60,9 +64,10 @@
                 <!-- small card -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>150</h3>
 
+                        <h3>{{$BranchesCount}}</h3>
                         <h2>Branches</h2> 
+                        
                     </div>
                     <div class="icon">
                         <i class="far fa-building"></i>
