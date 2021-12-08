@@ -14,7 +14,12 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    @foreach ($InClients as $item)
+                        {{$item->NIC}} <br>
+                        {{$item->name}} <br>
+                        {{$item->loanAmount}} <br>
+                    @endforeach
+                    
                 </div>
             </div>
         </div>
