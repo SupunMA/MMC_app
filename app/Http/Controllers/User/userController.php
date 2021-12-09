@@ -16,7 +16,7 @@ class userController extends Controller
     {
         $InClients = Land::join('users','users.id','=','lands.ownerID')
         ->join('loans','loans.loanLandID','=','lands.landID')
-        ->where('users.id',Auth::user()->id)->get(['users.id', 'users.name','users.NIC','lands.*','loans.*']);
+        ->where('users.id',Auth::user()->id)->get(['users.*','lands.*','loans.*']);
         
 
         //dd($clients);
