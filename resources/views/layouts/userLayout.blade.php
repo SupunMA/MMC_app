@@ -1,97 +1,96 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Client | MMC (Pvt) Ltd</title>
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        <!-- Fav Icon -->
+        @include('CDN_Css_Js.exImages.favIcon')
 
-    <title>Madhushanka Micro Credit</title>
-{{-- {{ config('app.name', 'Laravel') }} --}}
-    <!-- Scripts -->
-   
-    <!-- Fav Icon -->
-    @include('CDN_Css_Js.exImages.favIcon')
+        <!-- Style -->
+        @include('layouts.adminComponents.lib.Style')
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    </head>
 
-    <!-- Styles -->
-   @include('CDN_Css_Js.Css.bootcss')
+    <body class="hold-transition sidebar-mini layout-navbar-fixed">
+        <!-- layout-footer-fixed   -->
+        <div class="wrapper">
 
+            <!-- Navbar -->
+            @include('layouts.userComponents.navBar')
 
 
+            <!-- Main Side Bar -->
+            @include('layouts.userComponents.sideBar')
 
-</head>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0">
 
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                                    @yield('header')
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                                </h1>
+                            </div><!-- /.col -->
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+                                    <li class="breadcrumb-item active">
 
-                    </ul>
+                                        @yield('header')
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                        document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                                    </li>
+                                </ol>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.container-fluid -->
                 </div>
+                <!-- /.content-header -->
+
+                <!-- Main content -->
+                <div class="content">
+                    <div class="container-fluid">
+
+                        @yield('content')
+
+
+                    </div><!-- /.container-fluid -->
+                </div>
+                <!-- /.content -->
             </div>
-        </nav>
+            <!-- /.content-wrapper -->
 
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
 
-   
-@include('CDN_Css_Js.Js.bootjs')
-</body>
+            <!-- Control Sidebar -->
+            @include('layouts.adminComponents.controlSlideBar')
+
+            <!-- /.control-sidebar -->
+
+            <!-- Main Footer -->
+            @include('layouts.adminComponents.footer')
+
+
+        </div>
+        <!-- ./wrapper -->
+
+        <!-- Logout Modal and Form -->
+        @include('layouts.adminComponents.modal.logoutModal')
+
+        <!-- Js -->
+        @include('layouts.adminComponents.lib.js')
+        {{--  --}}
+
+
+    </body>
 
 </html>
