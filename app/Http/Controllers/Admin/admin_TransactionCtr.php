@@ -24,7 +24,13 @@ class admin_TransactionCtr extends Controller
 //Transactions
     public function addTransaction()
     {
-        return view('Users.Admin.Transactions.addTransaction');
+        $ClientsWithLoan = Land::join('users','users.id','=','lands.ownerID')
+        ->join('loans','loans.loanLandID','=','lands.landID')
+        ->where('users.role',0)
+        ->get(['loans.loanID', 'users.name','users.NIC']);
+
+         //dd($LandsWithLoan);
+        return view('Users.Admin.Transactions.addTransaction',compact('ClientsWithLoan'));
     }
 
     public function allTransaction()
