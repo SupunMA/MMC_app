@@ -5,7 +5,7 @@
     <div class="container-fluid">
 
         {{-- <!-- SELECT2 EXAMPLE --> --}}
-        <form action="{{route('admin.addingLoan')}}" method="post">
+        <form action="{{route('admin.addingTransaction')}}" method="post">
             @csrf
             <div class="card card-danger">
                 <div class="card-header">
@@ -30,7 +30,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Select (Land ID - NIC - Client Name)</label>
-                                <select class="form-control select2bs4" style="width: 100%;" name="loanLandID">
+                                <select class="form-control select2bs4" style="width: 100%;" name="transLoanID">
                                     {{-- <option selected="selected">Alabama</option> --}}
 
                                     @foreach ($ClientsWithLoan as $data)
@@ -50,7 +50,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Rs.</span>
                                     </div>
-                                    <input type="text" min="100000" step="1000.00" value="" name="loanAmount"
+                                    <input type="text" min="100000" step="1000.00" value="" name="transPaidAmount"
                                         class="form-control" data-inputmask="'mask': [ '999','9999','99999','999999','9999999','99999999']"
                                         data-mask>
                                     <div class="input-group-append">
@@ -70,7 +70,7 @@
                                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                     </div>
                                     <input type="text" class="form-control" data-inputmask-alias="datetime"
-                                        name="loanDate" data-inputmask-inputformat="yyyy-mm-dd" data-mask>
+                                        name="paidDate" data-inputmask-inputformat="yyyy-mm-dd" data-mask>
                                 </div>
                                 <!-- /.input group -->
                             </div>
@@ -98,7 +98,7 @@
                                 <label>Description (More Details)</label>
 
                                 <div class="input-group">
-                                    <textarea name="description" cols="60" rows="3" class="form-control"></textarea>
+                                    <textarea name="transDetails" cols="60" rows="3" class="form-control"></textarea>
                                 </div>
                                 <!-- /.input group -->
                             </div>
