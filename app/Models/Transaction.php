@@ -16,12 +16,14 @@ class Transaction extends Model
             'paidDate',
             'transDetails',
             'transPaidAmount',
-            'transAllPid',
+
+            'transAllPaid',
             'transReducedAmount',
             'transPaidInterest',
             'transPaidPenaltyFee',
             'transRestInterest',
             'transRestPenaltyFee',
-            'transLoaID'
+
+            'transLoanID'
    ];
 }
