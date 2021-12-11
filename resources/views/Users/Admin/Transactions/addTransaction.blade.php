@@ -14,7 +14,7 @@
         {{-- <div class="row"> --}}
 
             {{-- Client Details form --}}
-            {{-- @include('Users.Admin.Loans.components.newLoanDetails') --}}
+            @include('Users.Admin.Transactions.components.newTransaction')
            
             {{-- Client Password form --}}
             
