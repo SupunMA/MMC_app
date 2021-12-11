@@ -49,6 +49,17 @@
                   </a>
                 </li>
 
+                {{-- Transactions --}}
+                <li class="nav-item">
+                    <a href="{{ route('admin.addTransaction') }}" class="nav-link  text-white">
+                        <i class="far fa-handshake"></i>
+                        <p>Transactions
+                            <span class="right badge badge-success">Pay</span>
+                        </p>
+                    </a>
+                  </li>
+
+
 
                     {{-- Clients --}}
                 <li class="nav-item {{ Route::currentRouteNamed('admin.addClient') || Route::currentRouteNamed('admin.allClient') ? 'menu-open' : 'menu-close' }}">
