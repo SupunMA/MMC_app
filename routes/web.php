@@ -75,7 +75,7 @@ Route::group(['prefix'=>'Admin','middleware'=>['checkAdmin','auth','lockBack']],
 
     Route::get('AddTransaction', [admin_TransactionCtr::class, 'addTransaction'])->name('admin.addTransaction');
     Route::get('AllTransaction', [admin_TransactionCtr::class, 'allTransaction'])->name('admin.allTransaction');
-    // Route::POST('addingBranch', [admin_TransactionCtr::class, 'addingBranch'])->name('admin.addingBranch');
+    Route::POST('addingTransaction', [admin_TransactionCtr::class, 'addingTransaction'])->name('admin.addingTransaction');
     // Route::get('branch/delete/{branchID}', [admin_TransactionCtr::class, 'deleteBranch'])->name('admin.deleteBranch');
     // Route::post('branch/update', [admin_TransactionCtr::class, 'updateBranch'])->name('admin.updateBranch');
     
