@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\admin_BranchCtr;
 use App\Http\Controllers\Admin\admin_ClientCtr;
 use App\Http\Controllers\Admin\admin_LoanCtr;
 use App\Http\Controllers\Admin\admin_LandCtr;
+use App\Http\Controllers\Admin\admin_TransactionCtr;
 
 
 use App\Http\Controllers\User\userController;
@@ -71,6 +72,12 @@ Route::group(['prefix'=>'Admin','middleware'=>['checkAdmin','auth','lockBack']],
     Route::POST('addingBranch', [admin_BranchCtr::class, 'addingBranch'])->name('admin.addingBranch');
     Route::get('branch/delete/{branchID}', [admin_BranchCtr::class, 'deleteBranch'])->name('admin.deleteBranch');
     Route::post('branch/update', [admin_BranchCtr::class, 'updateBranch'])->name('admin.updateBranch');
+
+    Route::get('AddTransaction', [admin_TransactionCtr::class, 'addTransaction'])->name('admin.addTransaction');
+    Route::get('AllTransaction', [admin_TransactionCtr::class, 'allTransaction'])->name('admin.allTransaction');
+    // Route::POST('addingBranch', [admin_TransactionCtr::class, 'addingBranch'])->name('admin.addingBranch');
+    // Route::get('branch/delete/{branchID}', [admin_TransactionCtr::class, 'deleteBranch'])->name('admin.deleteBranch');
+    // Route::post('branch/update', [admin_TransactionCtr::class, 'updateBranch'])->name('admin.updateBranch');
     
 });
 
