@@ -17,14 +17,14 @@ class CreateTransactionsTable extends Migration
             $table->id('transID');
             $table->date('paidDate')->nullable();
             $table->string('transDetails')->nullable();
-            $table->double('transPaidAmount',10,2)->nullable();
+            $table->double('transPaidAmount',10,2)->default();
 
-            $table->double('transAllPaid',10,2)->nullable();
-            $table->double('transReducedAmount',10,2)->nullable();
-            $table->double('transPaidInterest',10,2)->nullable();
-            $table->double('transPaidPenaltyFee',10,2)->nullable();
-            $table->double('transRestInterest',10,2)->nullable();
-            $table->double('transRestPenaltyFee',10,2)->nullable();
+            $table->double('transAllPaid',10,2)->default(0.0);
+            $table->double('transReducedAmount',10,2)->default(0.0);
+            $table->double('transPaidInterest',10,2)->default(0.0);
+            $table->double('transPaidPenaltyFee',10,2)->default(0.0);
+            $table->double('transRestInterest',10,2)->default(0.0);
+            $table->double('transRestPenaltyFee',10,2)->default(0.0);
 
             $table->integer('transLoanID')->nullable();
             $table->timestamps();
