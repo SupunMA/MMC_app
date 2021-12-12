@@ -25,6 +25,7 @@ class CreateTransactionsTable extends Migration
             $table->double('transPaidPenaltyFee',10,2)->default(0.0);
             $table->double('transRestInterest',10,2)->default(0.0);
             $table->double('transRestPenaltyFee',10,2)->default(0.0);
+            $table->double('transExtraMoney',10,2)->default(0.0);
 
             $table->integer('transLoanID')->nullable();
             $table->timestamps();

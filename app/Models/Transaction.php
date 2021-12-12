@@ -23,6 +23,7 @@ class Transaction extends Model
             'transPaidPenaltyFee',
             'transRestInterest',
             'transRestPenaltyFee',
+            'transExtraMoney',
 
             'transLoanID'
    ];
