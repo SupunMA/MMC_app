@@ -639,3 +639,32 @@
     </div>
 </div>
 <!-- /.row -->
+
+
+
+
+
+
+
+
+
+ $data->validate([
+                 'loanLandID' =>['required','unique:loans,loanLandID'],
+                 'loanAmount' =>['required'],
+                 'loanRate' =>['required'],
+                 'penaltyRate' =>['required'],
+                 'loanDate' =>['required'],
+                 'dueDate' =>['required']
+              ]);
+
+             Transaction::where('transID', $getData->transID)
+             ->update([
+
+             'transAllPaid' => ($getData->transAllPaid) +676.0,
+             'transReducedAmount' => $getData->transReducedAmount,
+             'transPaidInterest' => $getData->transPaidInterest,
+             'transPaidPenaltyFee' => $getData->transPaidPenaltyFee,
+             'transRestInterest' => $getData->transRestInterest,
+             'transRestPenaltyFee' => $getData->transRestPenaltyFee
+            
+             ]);
