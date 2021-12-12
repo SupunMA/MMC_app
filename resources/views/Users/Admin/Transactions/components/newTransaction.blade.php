@@ -106,6 +106,23 @@
 
 
 
+                            {{-- radio --}}
+                            <div class="form-group">
+                                <h5 class="form-title">If there is extra money ?</h5>
+                                <div class="custom-control custom-radio">
+                                  <input class="custom-control-input custom-control-input-danger" value="keep" type="radio" id="Radio1" name="extraMoney" checked>
+                                  <label for="Radio1" class="custom-control-label">Keep the extra money until the next payment.</label>
+                                </div>
+                                <br>
+                                <div class="custom-control custom-radio">
+                                  <input class="custom-control-input custom-control-input-danger" value="reduce" type="radio" id="Radio2" name="extraMoney">
+                                  <label for="Radio2" class="custom-control-label">Reduce extra money from the loan</label>
+                                </div>
+
+
+
+
+
                         </div>
                         <!--end column-->
 
