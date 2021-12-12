@@ -47,11 +47,11 @@ class admin_TransactionCtr extends Controller
 
             'paidDate' => ['required'],
             'transPaidAmount' => ['required','max:99999999','numeric'],
-            'transLoanID' => ['required','unique:loans,loanLandID'],
-
+            'transLoanID' => ['required']
+// ,'unique:loans,loanLandID'
         ]);
 
-        //dd($data);
+        //dd($data->extraMoney);
 
         $getTransactionData = Transaction::where('transLoanID',$data->transLoanID)
         ->orderBy('transID', 'desc')->first();
@@ -151,10 +151,25 @@ class admin_TransactionCtr extends Controller
                 //store penalty fee
 
                 if (($data->transPaidAmount - $calAllInterest) >= $generatedPenaltyFee) {
+                    
                     $newData->transPaidPenaltyFee = $generatedPenaltyFee;
 
-                    //store extra money
-                    $newData->transExtraMoney = ($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee;
+                    //handle Extra money
+                    if ($data->extraMoney == 'keep') {
+
+                        //store extra money
+                        $newData->transExtraMoney = ($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee;
+                    
+                    }elseif($data->extraMoney == 'reduce'){
+
+                        //reduce money from the loan
+                        Loan::where('loanID', $data->transLoanID)
+                        ->update([
+                            'loanAmount' => ($loanData->loanAmount) - (($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee)
+                            ]);
+
+                    }
+                    
 
                 }else {
                     $newData->transPaidPenaltyFee = $generatedPenaltyFee - ($generatedPenaltyFee - ($data->transPaidAmount - $calAllInterest));
