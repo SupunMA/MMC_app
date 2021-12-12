@@ -46,7 +46,7 @@ class admin_TransactionCtr extends Controller
         $data->validate([
 
             'paidDate' => ['required'],
-            'transPaidAmount' => ['required','max:99999999'],
+            'transPaidAmount' => ['required','max:99999999','numeric'],
             'transLoanID' => ['required','unique:loans,loanLandID'],
 
         ]);
@@ -136,11 +136,11 @@ class admin_TransactionCtr extends Controller
 
             // $newData->transReducedAmount = $getTransactionData->transReducedAmount;
             
-        //Calculate penalty fee and store
+         //Calculate penalty fee and store
             $generatedPenaltyFee = (round((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays,0));
             
 
-        //Calculate paid interest
+         //Calculate paid interest
             //cal interest for months
             $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * $moreMonths);
 
@@ -152,6 +152,10 @@ class admin_TransactionCtr extends Controller
 
                 if (($data->transPaidAmount - $calAllInterest) >= $generatedPenaltyFee) {
                     $newData->transPaidPenaltyFee = $generatedPenaltyFee;
+
+                    //store extra money
+                    $newData->transExtraMoney = ($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee;
+
                 }else {
                     $newData->transPaidPenaltyFee = $generatedPenaltyFee - ($generatedPenaltyFee - ($data->transPaidAmount - $calAllInterest));
 
