@@ -373,7 +373,7 @@ class admin_TransactionCtr extends Controller
             ->get()->first();
 
             
-            return "there is data in transaction table";
+            return $getTransactionData;
             
     
             
