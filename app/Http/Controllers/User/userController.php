@@ -14,12 +14,19 @@ class userController extends Controller
 {
     public function checkUser()
     {
+
+        
         $InClients = Land::join('users','users.id','=','lands.ownerID')
         ->join('loans','loans.loanLandID','=','lands.landID')
         ->where('users.id',Auth::user()->id)->get(['users.*','lands.*','loans.*']);
+
+        $transactionData = Land::join('users','users.id','=','lands.ownerID')
+        ->join('loans','loans.loanLandID','=','lands.landID')
+        ->join('transactions','transactions.transLoanID','=','lands.landID')
+        ->where('users.id',Auth::user()->id)->get(['users.*','lands.*','loans.*','transactions.*']);
         
 
         //dd($clients);
-        return view('Users.User.home',compact('InClients'));
+        return view('Users.User.home',compact('InClients','transactionData'));
     }
 }
