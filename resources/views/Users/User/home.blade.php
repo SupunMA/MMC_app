@@ -2,8 +2,8 @@
 {{-- justify-content-center --}}
 @section('content')
 <div class="container-fluid">
-    @foreach ($InClients as $item)
-    @endforeach
+    
+    
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="card card-primary">
@@ -20,39 +20,60 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-
+@foreach ($transactionData as $item)
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                             <div class="info-box shadow">
                                 <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
-
+                                
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Shadows</span>
-                                    <span class="info-box-number">Regular</span>
+                                    <span class="info-box-text"><h5>හිඟ ණය වාරික අගය</h5></span>
+                                    <span class="info-box-number"><h5><b>රු.{{$item->transRestInterest}}</b></h5></span>
                                 </div>
+                                
                                 <!-- /.info-box-content -->
                             </div>
                             <!-- /.info-box -->
                         </div>
+@endforeach
 
 
+@foreach ($transactionData as $item)
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                             <div class="info-box shadow">
-                                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
-
+                                <span class="info-box-icon bg-primary"><i class="far fa-copy"></i></span>
+                                
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Shadows</span>
-                                    <span class="info-box-number">Regular</span>
+                                    <span class="info-box-text"><h5>හිඟ ප්‍රමාද ගාස්තු එකතුව</h5></span>
+                                    <span class="info-box-number"><h5><b>රු.{{$item->transRestPenaltyFee}}</b></h5></span>
                                 </div>
+                                
                                 <!-- /.info-box-content -->
                             </div>
                             <!-- /.info-box -->
                         </div>
+@endforeach
 
+@foreach ($transactionData as $item)
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                            <div class="info-box shadow">
+                                <span class="info-box-icon bg-success"><i class="far fa-copy"></i></span>
+                                
+                                <div class="info-box-content">
+                                    <span class="info-box-text"><h5>ඉදිරියට ගෙවා ඇති මුදල</h5></span>
+                                    <span class="info-box-number"><h5><b>රු.{{$item->transExtraMoney}}</b></h5></span>
+                                </div>
+                                
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+@endforeach
 
+@foreach ($InClients as $item)
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                             <div class="info-box shadow">
                                 <span class="info-box-icon bg-danger"><i class="far fa-copy"></i></span>
-
+                                
                                 <div class="info-box-content">
                                     <span class="info-box-text">
                                         
@@ -61,16 +82,18 @@
                                     </span>
                                     <span class="info-box-number"><h5><b>රු.{{$item->loanAmount * $item->loanRate / 100}}</b></h5></span>
                                 </div>
+                                
                                 <!-- /.info-box-content -->
                             </div>
                             <!-- /.info-box -->
                         </div>
+@endforeach
 
-
+@foreach ($InClients as $item)
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                             <div class="info-box shadow">
                                 <span class="info-box-icon bg-info"><i class="far fa-copy"></i></span>
-
+                                
                                 <div class="info-box-content">
                                     <span class="info-box-text">
 
@@ -83,10 +106,12 @@
                                         </h5>
                                     </span>
                                 </div>
+                                
                                 <!-- /.info-box-content -->
                             </div>
                             <!-- /.info-box -->
                         </div>
+@endforeach
                     </div>
 
                 </div>
@@ -96,9 +121,8 @@
         </div>
     </div>
 
+    @foreach ($InClients as $item)
     <div class="row">
-
-        
 
         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
             <div class="callout callout-success">
@@ -175,6 +199,8 @@
         </div>
 
     </div>
+    @endforeach
+    
 </div>
 @endsection
 
