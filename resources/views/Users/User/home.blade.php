@@ -5,7 +5,7 @@
     
     
     <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">ගෙවීම් තොරතුරු</h3>
@@ -21,13 +21,17 @@
                 <div class="card-body">
                     <div class="row">
 @foreach ($transactionData as $item)
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <div class="info-box shadow">
-                                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+                                <span class="info-box-icon bg-warning"><i class="fas fa-money-bill"></i></span>
                                 
                                 <div class="info-box-content">
-                                    <span class="info-box-text"><h5>හිඟ ණය වාරික අගය</h5></span>
-                                    <span class="info-box-number"><h5><b>රු.{{$item->transRestInterest}}</b></h5></span>
+                                    <span class="info-box-text"><h5>හිඟ ණය වාරික එකතුව</h5></span>
+                                    <span class="info-box-number">
+
+                                        <h5><b>රු.{{$item->transRestInterest}}</b></h5>
+
+                                    </span>
                                 </div>
                                 
                                 <!-- /.info-box-content -->
@@ -38,9 +42,9 @@
 
 
 @foreach ($transactionData as $item)
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <div class="info-box shadow">
-                                <span class="info-box-icon bg-primary"><i class="far fa-copy"></i></span>
+                                <span class="info-box-icon bg-primary"><i class="fas fa-coins"></i></span>
                                 
                                 <div class="info-box-content">
                                     <span class="info-box-text"><h5>හිඟ ප්‍රමාද ගාස්තු එකතුව</h5></span>
@@ -54,9 +58,9 @@
 @endforeach
 
 @foreach ($transactionData as $item)
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <div class="info-box shadow">
-                                <span class="info-box-icon bg-success"><i class="far fa-copy"></i></span>
+                                <span class="info-box-icon bg-success"><i class="fas fa-seedling"></i></span>
                                 
                                 <div class="info-box-content">
                                     <span class="info-box-text"><h5>ඉදිරියට ගෙවා ඇති මුදල</h5></span>
@@ -70,9 +74,9 @@
 @endforeach
 
 @foreach ($InClients as $item)
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <div class="info-box shadow">
-                                <span class="info-box-icon bg-danger"><i class="far fa-copy"></i></span>
+                                <span class="info-box-icon bg-danger"><i class="fas fa-book-open"></i></span>
                                 
                                 <div class="info-box-content">
                                     <span class="info-box-text">
@@ -90,9 +94,9 @@
 @endforeach
 
 @foreach ($InClients as $item)
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <div class="info-box shadow">
-                                <span class="info-box-icon bg-info"><i class="far fa-copy"></i></span>
+                                <span class="info-box-icon bg-info"><i class="far fa-clock"></i></span>
                                 
                                 <div class="info-box-content">
                                     <span class="info-box-text">
