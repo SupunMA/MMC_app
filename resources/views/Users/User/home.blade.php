@@ -3,7 +3,11 @@
 @section('content')
 <div class="container-fluid">
     
-    
+    {{-- Date and Time --}}
+    @foreach ($loanData as $item)
+        @include('Users.User.HomeCalculations.components.timeDate')
+    @endforeach
+
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
             <div class="card card-primary">
@@ -20,84 +24,37 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-@foreach ($transactionData as $item)
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <div class="info-box shadow">
-                                <span class="info-box-icon bg-warning"><i class="fas fa-money-bill"></i></span>
-                                
-                                <div class="info-box-content">
-                                    <span class="info-box-text"><h5>හිඟ ණය වාරික එකතුව</h5></span>
-                                    <span class="info-box-number">
+                        {{-- Null Transaction Rows --}}
+                        @include('Users.User.HomeCalculations.transRowCount.ifNullRows')
 
-                                        <h5><b>රු.{{$item->transRestInterest}}</b></h5>
+                        {{-- Not Null Transaction Rows --}}
+                        @include('Users.User.HomeCalculations.transRowCount.NotNullRows')
 
-                                    </span>
-                                </div>
-                                
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-@endforeach
-
-
-@foreach ($transactionData as $item)
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <div class="info-box shadow">
-                                <span class="info-box-icon bg-primary"><i class="fas fa-coins"></i></span>
-                                
-                                <div class="info-box-content">
-                                    <span class="info-box-text"><h5>හිඟ ප්‍රමාද ගාස්තු එකතුව</h5></span>
-                                    <span class="info-box-number"><h5><b>රු.{{$item->transRestPenaltyFee}}</b></h5></span>
-                                </div>
-                                
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-@endforeach
-
-@foreach ($transactionData as $item)
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
-                            <div class="info-box shadow">
-                                <span class="info-box-icon bg-success"><i class="fas fa-seedling"></i></span>
-                                
-                                <div class="info-box-content">
-                                    <span class="info-box-text"><h5>ඉදිරියට ගෙවා ඇති මුදල</h5></span>
-                                    <span class="info-box-number"><h5><b>රු.{{$item->transExtraMoney}}</b></h5></span>
-                                </div>
-                                
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-@endforeach
-
-@foreach ($InClients as $item)
+                        @foreach ($loanData as $item)
                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <div class="info-box shadow">
                                 <span class="info-box-icon bg-danger"><i class="fas fa-book-open"></i></span>
-                                
+
                                 <div class="info-box-content">
                                     <span class="info-box-text">
-                                        
+
                                         <h5>මාසික ණය පොලිය</h5>
-                                        
+
                                     </span>
-                                    <span class="info-box-number"><h5><b>රු.{{$item->loanAmount * $item->loanRate / 100}}</b></h5></span>
+                                    <span class="info-box-number">
+                                        <h5><b>රු.{{$item->loanAmount * $item->loanRate / 100}}</b></h5>
+                                    </span>
                                 </div>
-                                
+
                                 <!-- /.info-box-content -->
                             </div>
                             <!-- /.info-box -->
                         </div>
-@endforeach
-
-@foreach ($InClients as $item)
+                       
                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
                             <div class="info-box shadow">
                                 <span class="info-box-icon bg-info"><i class="far fa-clock"></i></span>
-                                
+
                                 <div class="info-box-content">
                                     <span class="info-box-text">
 
@@ -110,12 +67,12 @@
                                         </h5>
                                     </span>
                                 </div>
-                                
+
                                 <!-- /.info-box-content -->
                             </div>
                             <!-- /.info-box -->
                         </div>
-@endforeach
+                        @endforeach
                     </div>
 
                 </div>
@@ -125,7 +82,7 @@
         </div>
     </div>
 
-    @foreach ($InClients as $item)
+    @foreach ($loanData as $item)
     <div class="row">
 
         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
@@ -145,7 +102,7 @@
                     <li>
                         <h5>ණය පොලී ප්‍රතිශතය:- <b>{{$item->loanRate}}%</b></h5>
                     </li>
-                    
+
                     <li>
                         <h5>ප්‍රමාද ගාස්තු ප්‍රතිශතය:- <b>{{$item->penaltyRate}}%</b></h5>
                     </li>
@@ -204,7 +161,7 @@
 
     </div>
     @endforeach
-    
+
 </div>
 @endsection
 
