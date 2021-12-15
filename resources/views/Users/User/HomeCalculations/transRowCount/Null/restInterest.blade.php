@@ -30,7 +30,8 @@
             // $newDateDay = $date->format('d');
 
             if ($moreMonths > 0 && $moreDays > 0 && $moreYears > 0) {
-                $calAllInterest = (($item->loanAmount * ($item->loanRate/100)) * ($moreMonths + 1) + ($moreYears * 12));
+                $calAllInterest = (($item->loanAmount * ($item->loanRate/100)) * (($moreMonths + 1) + ($moreYears * 12)));
+                //$calAllInterest =0;
             }
 
             if ($moreMonths == 0 && $moreDays > 0 && $moreYears > 0) {
@@ -66,3 +67,11 @@
 
 
 {{$calAllInterest}}
+
+{{-- {{$moreDays}}
+<br>
+{{$moreMonths}}
+<br>
+{{$moreYears}} --}}
+
+{{-- {{$diff_in_months}} --}}
