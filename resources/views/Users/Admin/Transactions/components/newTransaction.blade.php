@@ -76,22 +76,12 @@
                             </div>
                             <!-- /.form group -->
 
-
-
-
-
-
-
                         </div>
                         <!-- /.col -->
 
 
 
                         <div class="col-md-4">
-
-
-
-                            
 
                             <!-- Text area -->
                             <div class="form-group">
