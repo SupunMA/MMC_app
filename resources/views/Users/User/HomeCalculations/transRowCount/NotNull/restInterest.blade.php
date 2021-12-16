@@ -8,9 +8,7 @@
             $lastPaidDate = new DateTime($lastPaidDateCal);
             $currentDate = new DateTime($newDate);
             $interval = $lastPaidDate->diff($currentDate);
-            //$days = $interval->format('%a');
             
-            //dd($interval->m,$interval->d);
             
             $moreDays = $interval->d;
             $moreMonths = $interval->m;
