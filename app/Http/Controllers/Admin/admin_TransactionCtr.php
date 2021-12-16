@@ -56,8 +56,8 @@ class admin_TransactionCtr extends Controller
         $getTransactionData = Transaction::where('transLoanID',$data->transLoanID)
         ->orderBy('transID', 'desc')->first();
 
-        
-        
+        $getDate = new DateTime();
+        $newDate = $getDate->format('Y-m-d');
 
         if ($getTransactionData == Null){
             
@@ -65,7 +65,9 @@ class admin_TransactionCtr extends Controller
             $loanData = Loan::where('loanID', $data->transLoanID)
             ->get()->first();
 
-            
+
+            $generatedPenaltyFee = 0;
+            $penaltyDays = 0;
             $gotLoanDate = new DateTime($loanData->loanDate);
             $gotPaidDate = new DateTime($data->paidDate);
             $interval = $gotLoanDate->diff($gotPaidDate);
@@ -78,24 +80,98 @@ class admin_TransactionCtr extends Controller
             $moreYears = $interval->y;
             
             //dd($moreMonths);
+
+            if ($moreMonths > 0 && $moreDays > 0 && $moreYears > 0) {
+                $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * (($moreMonths + 1) + ($moreYears * 12)));
+                
+            }
+
+            if ($moreMonths == 0 && $moreDays > 0 && $moreYears > 0) {
+                $calAllInterest = ($loanData->loanAmount * ($loanData->loanRate/100)) *  (1 + ($moreYears * 12));
+            }
+
+            if ($moreMonths > 0 && $moreDays == 0 && $moreYears > 0) {
+                $calAllInterest = ($loanData->loanAmount * ($loanData->loanRate/100)) * ($moreMonths + ($moreYears * 12));
+            }
+
+            if ($moreMonths == 0 && $moreDays == 0 && $moreYears > 0) {
+                $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * ($moreYears * 12));
+            }
+
+            if ($moreMonths == 0 && $moreDays == 0 && $moreYears == 0) {
+                $calAllInterest = 0;
+            }
+
+            if ($moreMonths > 0 && $moreDays > 0 && $moreYears == 0) {
+                $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * ($moreMonths ));
+            }
+
+            if ($moreMonths == 0 && $moreDays > 0 && $moreYears == 0) {
+                $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * 1);
+                
+            }
+
+            if ($moreMonths > 0 && $moreDays == 0 && $moreYears == 0) {
+                $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * $moreMonths );
+            }
+
+
+            $newData = new Transaction();
+            $newData->paidDate = $data->paidDate;
+            $newData->transPaidAmount = $data->transPaidAmount;
+            $newData->transLoanID = $data->transLoanID;
+            $newData->transDetails = $data->transDetails;
+            $newData->transAllPaid = $data->transPaidAmount;
+
+
             
-            if ($moreDays != 0 && $moreMonths != 0 && $moreYears == 0) {
+            //current Loan Paying month and year
+            $paidDateToGetTheMonth = Carbon::createFromFormat('Y-m-d', $data->paidDate);
+            $monthName = $paidDateToGetTheMonth->format('m');
+            $year = $paidDateToGetTheMonth->format('Y');
+            
+            //get Due date from loan table
+            $date = Carbon::createFromFormat('Y-m-d', $loanData->loanDate);
+            $dueDate = $date->format('d');
+
+
+
+             ////////////////////////////////////////////////////////////////////////
+            //get Due date from loan table
+            $date = Carbon::createFromFormat('Y-m-d', $loanData->loanDate);
+            $dueDay = $date->format('j');
+
+            //get Current month and year
+            $date = Carbon::createFromFormat('Y-m-d', $newDate);
+            //month
+            $dueMonth = $date->format('n');
+            //year
+            $dueYear = $date->format('Y');
+
+            //create date according to current month year and Due date 
+            $createdDate = Carbon::createFromDate($dueYear, $dueMonth, $dueDay)->toDateString();
+
+            $CurrentMonthDueDate = Carbon::createFromFormat('Y-m-d', $createdDate);
+            $newDate2 = Carbon::createFromFormat('Y-m-d', $data->paidDate);
+
+            //get different amount of Months
+            $diff_in_months = $CurrentMonthDueDate->diffInMonths($loanData->loanDate);
+            
+            $diff_in_months2 = $newDate2->diffInMonths($loanData->loanDate);
+
+            ////////////////////////////////////////////////////////////////////
+
+            
+
+            if ($diff_in_months >=1 && $diff_in_months2 > 0){
                 
-                //current Loan Paying month and year
-                $paidDateToGetTheMonth = Carbon::createFromFormat('Y-m-d', $data->paidDate);
-                $monthName = $paidDateToGetTheMonth->format('m');
-                $year = $paidDateToGetTheMonth->format('Y');
-                
-                //get Due date from loan table
-                $date = Carbon::createFromFormat('Y-m-d', $loanData->loanDate);
-                $dueDate = $date->format('d');
 
                 if ($monthName == 1 || $monthName == 3 || $monthName == 5 || $monthName == 7 || $monthName == 8 || $monthName == 10 || $monthName == 12) {
                     
                     $extraDays = 31 - $dueDate;
 
                     if ($moreDays >= $extraDays ) {
-    
+
                         $penaltyDays = $moreDays-1;
                         
                     }else{
@@ -119,7 +195,7 @@ class admin_TransactionCtr extends Controller
                         if ($moreDays >= $extraDays ) {
 
                             $penaltyDays = $moreDays+2;
-                           
+                            
                         }else{
                             $penaltyDays = $moreDays;
                         }
@@ -130,112 +206,72 @@ class admin_TransactionCtr extends Controller
                     $penaltyDays = $moreDays;
 
                 }
-
-
-                // dd($penaltyDays);
+            }
             
-                $newData = new Transaction();
-                $newData->paidDate = $data->paidDate;
-                $newData->transPaidAmount = $data->transPaidAmount;
-                $newData->transLoanID = $data->transLoanID;
-                $newData->transDetails = $data->transDetails;
-                $newData->transAllPaid = $data->transPaidAmount;
- 
-                // $newData->transReducedAmount = $getTransactionData->transReducedAmount;
-             
-             
-                //Calculate penalty fee and store
-                if ($moreMonths >1) {
+            //Calculate penalty fee and store
+            if ( $moreMonths > 1 ) {
 
-                    $penaltyDays = $penaltyDays + ($moreMonths - 1) * 30;
-
+                $penaltyDays = $penaltyDays + ($moreMonths - 1) * 30;
+        
+                if ( $moreYears > 0 ) {
+        
+                    $penaltyDays = $penaltyDays + (360 * $moreYears);
+        
+                }
+        
+            }
+        
+            if ($moreMonths == 1) {
+        
+                if ( $moreYears > 0 ) {
+        
+                    $penaltyDays = $penaltyDays + (360 * $moreYears);
+        
                 }
                 
-                $generatedPenaltyFee = (round((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays ,0));
-             
- 
-                //Calculate paid interest
-                    //cal interest for months
-                    $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * $moreMonths);
- 
-                //if paid amount less than allInterest
-                if ($data->transPaidAmount > $calAllInterest) {
-    
-                    $newData->transPaidInterest = $data->transPaidAmount - ($data->transPaidAmount - $calAllInterest);
-                    //store penalty fee
-    
-                    if (($data->transPaidAmount - $calAllInterest) >= $generatedPenaltyFee) {
-                        
-                        $newData->transPaidPenaltyFee = $generatedPenaltyFee;
-    
-                        //handle Extra money
-                        if ($data->extraMoney == 'keep') {
-    
-                            //store extra money
-                            $newData->transExtraMoney = ($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee;
-                        
-                        }elseif($data->extraMoney == 'reduce'){
-                            
-                            $newData->transReducedAmount = ($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee;
+            }
+        
+            if ($moreYears == 1) {
+                $penaltyDays = $penaltyDays + (330 * $moreYears);
+            }
+        
+            $generatedPenaltyFee = (round((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays ,0));
+            
 
-                            //reduce money from the loan
-                            Loan::where('loanID', $data->transLoanID)
-                            ->update([
-                                'loanAmount' => ($loanData->loanAmount) - (($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee)
-                                ]);
-    
-                        }
+        
+
+            //if paid amount less than allInterest
+            if ($data->transPaidAmount > $calAllInterest) {
+
+                $newData->transPaidInterest = $data->transPaidAmount - ($data->transPaidAmount - $calAllInterest);
+                //store penalty fee
+
+                if (($data->transPaidAmount - $calAllInterest) >= $generatedPenaltyFee) {
+                    
+                    $newData->transPaidPenaltyFee = $generatedPenaltyFee;
+
+                    //handle Extra money
+                    if ($data->extraMoney == 'keep') {
+
+                        //store extra money
+                        $newData->transExtraMoney = ($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee;
+                    
+                    }elseif($data->extraMoney == 'reduce'){
                         
-    
-                    }else {
-                        $newData->transPaidPenaltyFee = $generatedPenaltyFee - ($generatedPenaltyFee - ($data->transPaidAmount - $calAllInterest));
-    
-                        //reset penalty fee store
-                        $newData->transRestPenaltyFee = $generatedPenaltyFee - ($data->transPaidAmount - $calAllInterest);
+                        $newData->transReducedAmount = ($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee;
+
+                        //reduce money from the loan
+                        Loan::where('loanID', $data->transLoanID)
+                        ->update([
+                            'loanAmount' => ($loanData->loanAmount) - (($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee)
+                            ]);
+
                     }
                     
+
                 }else {
-                    $newData->transPaidInterest = $data->transPaidAmount;
-                    //store penalty fee
-                    $newData->transPaidPenaltyFee = 0.0;
-                    //reset penalty fee store
-                    $newData->transRestPenaltyFee = $generatedPenaltyFee;
-                    //reset Interest
-                    $newData->transRestInterest = ($data->transPaidAmount - $calAllInterest) * (-1);
-                }
-             
- 
-                // $newData->transRestInterest = $getTransactionData->transRestInterest;
-                // $newData->transRestPenaltyFee = $getTransactionData->transRestPenaltyFee;
-                
-                $newData->save();
-                
-                return redirect()->back()->with('message','successful');
 
-               
-
-            }elseif($moreDays >= 0 && $moreMonths == 0 && $moreYears == 0){
-                
-                $newData = new Transaction();
-                $newData->paidDate = $data->paidDate;
-                $newData->transPaidAmount = $data->transPaidAmount;
-                $newData->transLoanID = $data->transLoanID;
-                $newData->transDetails = $data->transDetails;
-                $newData->transAllPaid = $data->transPaidAmount;
-
-
-                //Calculate paid interest
-                    //cal interest for months
-                    $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * 1);
- 
-                //if paid amount less than allInterest
-                if ($data->transPaidAmount > $calAllInterest) {
-    
-                    $newData->transPaidInterest = $data->transPaidAmount - ($data->transPaidAmount - $calAllInterest);
-                    //store penalty fee
-    
-                    
-                    //handle Extra money
+                        //handle Extra money
                     if ($data->extraMoney == 'keep') {
 
                         //store extra money
@@ -252,120 +288,34 @@ class admin_TransactionCtr extends Controller
                             ]);
 
                     }
-                    
-    
-                    
-                }else {
-                    $newData->transPaidInterest = $data->transPaidAmount;
-                    //store penalty fee
-                    $newData->transPaidPenaltyFee = 0.0;
-                    
-                    //reset Interest
-                    $newData->transRestInterest = ($data->transPaidAmount - $calAllInterest) * (-1);
-                }
-             
- 
-                // $newData->transRestInterest = $getTransactionData->transRestInterest;
-                // $newData->transRestPenaltyFee = $getTransactionData->transRestPenaltyFee;
-                
-                $newData->save();
-                
-                return redirect()->back()->with('message','successful');
-
-                
-            }elseif ($moreDays == 0 && $moreMonths >= 0 && $moreYears == 0) {
-                
 
 
-                $newData = new Transaction();
-                $newData->paidDate = $data->paidDate;
-                $newData->transPaidAmount = $data->transPaidAmount;
-                $newData->transLoanID = $data->transLoanID;
-                $newData->transDetails = $data->transDetails;
-                $newData->transAllPaid = $data->transPaidAmount;
- 
-                // $newData->transReducedAmount = $getTransactionData->transReducedAmount;
-             
-             
-                //Calculate penalty fee and store
-                $penaltyDays = 0;
-                if ($moreMonths >1) {
 
-                    $penaltyDays = ($moreMonths - 1) * 30;
+                    $newData->transPaidPenaltyFee = $generatedPenaltyFee - ($generatedPenaltyFee - ($data->transPaidAmount - $calAllInterest));
 
-                }
-                $generatedPenaltyFee = (round((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays ,0));
-             
- 
-                //Calculate paid interest
-                    //cal interest for months
-                    $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * $moreMonths);
- 
-                //if paid amount less than allInterest
-                if ($data->transPaidAmount > $calAllInterest) {
-    
-                    $newData->transPaidInterest = $data->transPaidAmount - ($data->transPaidAmount - $calAllInterest);
-                    //store penalty fee
-    
-                    if (($data->transPaidAmount - $calAllInterest) >= $generatedPenaltyFee) {
-                        
-                        $newData->transPaidPenaltyFee = $generatedPenaltyFee;
-    
-                        //handle Extra money
-                        if ($data->extraMoney == 'keep') {
-    
-                            //store extra money
-                            $newData->transExtraMoney = ($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee;
-                        
-                        }elseif($data->extraMoney == 'reduce'){
-    
-                            $newData->transReducedAmount = ($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee;
-
-                            //reduce money from the loan
-                            Loan::where('loanID', $data->transLoanID)
-                            ->update([
-                                'loanAmount' => ($loanData->loanAmount) - (($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee)
-                                ]);
-    
-                        }
-                        
-    
-                    }else {
-                        $newData->transPaidPenaltyFee = $generatedPenaltyFee - ($generatedPenaltyFee - ($data->transPaidAmount - $calAllInterest));
-    
-                        //reset penalty fee store
-                        $newData->transRestPenaltyFee = $generatedPenaltyFee - ($data->transPaidAmount - $calAllInterest);
-                    }
-                    
-                }else {
-                    $newData->transPaidInterest = $data->transPaidAmount;
-                    //store penalty fee
-                    $newData->transPaidPenaltyFee = 0.0;
                     //reset penalty fee store
-                    $newData->transRestPenaltyFee = $generatedPenaltyFee;
-                    //reset Interest
-                    $newData->transRestInterest = ($data->transPaidAmount - $calAllInterest) * (-1);
+                    $newData->transRestPenaltyFee = $generatedPenaltyFee - ($data->transPaidAmount - $calAllInterest);
                 }
-             
- 
-                // $newData->transRestInterest = $getTransactionData->transRestInterest;
-                // $newData->transRestPenaltyFee = $getTransactionData->transRestPenaltyFee;
                 
-                $newData->save();
-                
-                return redirect()->back()->with('message','successful');
-
-
-
-
             }else {
-                return "This user has not paid his / her interest for a year or more. Please make a decision. The system can not store transaction data!";
+                $newData->transPaidInterest = $data->transPaidAmount;
+                //store penalty fee
+                $newData->transPaidPenaltyFee = 0.0;
+                //reset penalty fee store
+                $newData->transRestPenaltyFee = $generatedPenaltyFee;
+                //reset Interest
+                $newData->transRestInterest = ($data->transPaidAmount - $calAllInterest) * (-1);
             }
+             
             
+            $newData->save();
             
+            return redirect()->back()->with('message','successful');
+
+
+
+
             
-            
-            //->route('your_url_where_you_want_to_redirect');
 
         }else{
 
@@ -373,7 +323,8 @@ class admin_TransactionCtr extends Controller
             ->get()->first();
 
             
-            return $getTransactionData;
+            //return $getTransactionData;
+            return 'There is data in Trans table';
             
     
             
