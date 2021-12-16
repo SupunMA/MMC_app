@@ -112,7 +112,7 @@
     $newDate2 = Carbon\Carbon::createFromFormat('Y-m-d', $newDate);
 
     //get different amount of Months
-    $diff_in_months = $CurrentMonthDueDate->diffInMonths($loanGotDateCal);
+    $diff_in_months = $CurrentMonthDueDate->diffInMonths($loanLastPaidDateCal);
     
     $diff_in_months2 = $newDate2->diffInMonths($loanGotDateCal);
 
