@@ -2,7 +2,7 @@
 
 //Generate penaltyFee
 
-    $generatedPenaltyFee = 0;
+$generatedPenaltyFee = 0;
     $penaltyDays = 0;
     $getDate = new DateTime();
     $newDate = $getDate->format('Y-m-d');
@@ -137,8 +137,6 @@
 
     $generatedPenaltyFee = (round((($item->loanAmount) * ($item->penaltyRate) / 100) / 30 * $penaltyDays ,0));
     
-
-
 //Generate Interest
 
     $getDate = new DateTime();
@@ -146,11 +144,11 @@
     
     $loanGotDateCal = $item->loanDate;
 
-            
+
 
             if ($moreMonths > 0 && $moreDays > 0 && $moreYears > 0) {
-                $calAllInterest = (($item->loanAmount * ($item->loanRate/100)) * ($moreMonths + ($moreYears * 12)));
-                //$calAllInterest =0;
+                $calAllInterest = (($item->loanAmount * ($item->loanRate/100)) * ($moreMonths + 1 + ($moreYears * 12)));
+                
             }
 
             if ($moreMonths == 0 && $moreDays > 0 && $moreYears > 0) {

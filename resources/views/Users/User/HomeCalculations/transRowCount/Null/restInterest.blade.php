@@ -14,7 +14,7 @@
             $moreYears = $interval->y;
 
             if ($moreMonths > 0 && $moreDays > 0 && $moreYears > 0) {
-                $calAllInterest = (($item->loanAmount * ($item->loanRate/100)) * ($moreMonths + ($moreYears * 12)));
+                $calAllInterest = (($item->loanAmount * ($item->loanRate/100)) * ($moreMonths + 1 + ($moreYears * 12)));
                 
             }
 
@@ -50,3 +50,6 @@
 ?>
 
 {{$calAllInterest}}
+{{-- {{$moreDays}}
+{{$moreMonths}}
+{{$moreYears}} --}}
