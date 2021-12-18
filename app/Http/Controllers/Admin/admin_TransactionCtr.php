@@ -82,7 +82,7 @@ class admin_TransactionCtr extends Controller
             //dd($moreMonths);
 
             if ($moreMonths > 0 && $moreDays > 0 && $moreYears > 0) {
-                $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * (($moreMonths + 1) + ($moreYears * 12)));
+                $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * ($moreMonths + ($moreYears * 12)));
                 
             }
 

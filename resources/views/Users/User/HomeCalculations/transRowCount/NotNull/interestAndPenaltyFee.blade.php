@@ -210,8 +210,13 @@
         
     }
 
-    if ($moreYears == 1) {
-        $penaltyDays = $penaltyDays + (330 * $moreYears);
+    if ($moreMonths == 0 ) {
+        if ($moreYears >= 1) {
+
+            $penaltyDays = $penaltyDays + ((360 * $moreYears)-30);
+
+        }
+        
     }
 
     $generatedPenaltyFee = (round((($item->loanAmount) * ($item->penaltyRate) / 100) / 30 * $penaltyDays ,0));
