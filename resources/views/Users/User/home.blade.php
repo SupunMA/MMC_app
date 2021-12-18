@@ -54,7 +54,7 @@
 
                                     </span>
                                     <span class="info-box-number">
-                                        <h5><b>රු.{{$item->loanAmount * $item->loanRate / 100}}</b></h5>
+                                        <h5><b>රු.{{round($item->loanAmount * $item->loanRate / 100,0)}}</b></h5>
                                     </span>
                                 </div>
 
