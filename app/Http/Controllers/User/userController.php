@@ -22,7 +22,7 @@ class userController extends Controller
 
         $transactionData = Land::join('users','users.id','=','lands.ownerID')
         ->join('loans','loans.loanLandID','=','lands.landID')
-        ->join('transactions','transactions.transLoanID','=','lands.landID')
+        ->join('transactions','transactions.transLoanID','=','loans.loanID')
         ->where('users.id',Auth::user()->id)->get(['users.*','lands.*','loans.*','transactions.*']);
         
         $countTransRows=$transactionData->count();
