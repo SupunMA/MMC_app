@@ -294,15 +294,15 @@ class admin_TransactionCtr extends Controller
 
                     }
 
-
-
                     $newData->transPaidPenaltyFee = $generatedPenaltyFee - ($generatedPenaltyFee - ($data->transPaidAmount - $calAllInterest));
 
                     //reset penalty fee store
                     $newData->transRestPenaltyFee = $generatedPenaltyFee - ($data->transPaidAmount - $calAllInterest);
+
                 }
                 
             }else {
+
                 $newData->transPaidInterest = $data->transPaidAmount;
                 //store penalty fee
                 $newData->transPaidPenaltyFee = 0.0;
@@ -310,6 +310,7 @@ class admin_TransactionCtr extends Controller
                 $newData->transRestPenaltyFee = $generatedPenaltyFee;
                 //reset Interest
                 $newData->transRestInterest = ($data->transPaidAmount - $calAllInterest) * (-1);
+
             }
              
             
@@ -319,8 +320,6 @@ class admin_TransactionCtr extends Controller
 
 
 
-
-            
 
         }else{
 
@@ -332,7 +331,6 @@ class admin_TransactionCtr extends Controller
             return 'There is data in Trans table';
             
     
-            
 
         }
         
