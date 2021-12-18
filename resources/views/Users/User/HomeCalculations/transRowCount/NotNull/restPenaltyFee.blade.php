@@ -136,8 +136,16 @@
 
     $generatedPenaltyFee = (round((($item->loanAmount) * ($item->penaltyRate) / 100) / 30 * $penaltyDays ,0));
     
+/// Filter Minues values 
+    if (($generatedPenaltyFee + $item->transRestPenaltyFee) < 0) {
+        $allPenaltyFee = 0;
+    }
+    else{
+        $allPenaltyFee = ($generatedPenaltyFee + $item->transRestPenaltyFee);
+    }
 
 ?>
 
-{{$generatedPenaltyFee + $item->transRestPenaltyFee}}
+
+{{$allPenaltyFee}}
 

@@ -208,6 +208,15 @@ $getDate = new DateTime();
     }
 
     $generatedPenaltyFee = (round((($item->loanAmount) * ($item->penaltyRate) / 100) / 30 * $penaltyDays ,0));
+
+
+/// Filter Minues values 
+    if (($generatedPenaltyFee + $item->transRestPenaltyFee + $calAllInterest) < 0) {
+        $allFee = 0;
+    }
+    else{
+        $allFee = ($generatedPenaltyFee + $item->transRestPenaltyFee + $calAllInterest);
+    }
 ?>
 
-{{$generatedPenaltyFee + $item->transRestPenaltyFee + $calAllInterest}}
+{{$allFee}}
