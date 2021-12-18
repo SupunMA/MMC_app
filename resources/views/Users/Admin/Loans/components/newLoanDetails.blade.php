@@ -27,16 +27,16 @@
                     @include('Users.Admin.messages.addMsg')
 
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
                             <div class="form-group">
                                 <label>Select (Land ID - NIC - Client Name)</label>
                                 <select class="form-control select2bs4" style="width: 100%;" name="loanLandID">
                                     {{-- <option selected="selected">Alabama</option> --}}
-                                       
+
                                     @foreach ($ClientsWithLand as $data)
-                                            <option value="{{$data->landID}}">{{$data->landID}} - {{$data->NIC}} -
-                                                {{$data->name}}</option>
-                                        @endforeach
+                                    <option value="{{$data->landID}}">{{$data->landID}} - {{$data->NIC}} -
+                                        {{$data->name}}</option>
+                                    @endforeach
 
 
                                 </select>
@@ -44,7 +44,7 @@
                             <!-- /.form-group -->
 
 
-                            
+
                             <div class="form-group">
                                 <label>Loan Amount</label>
                                 <div class="input-group">
@@ -62,17 +62,10 @@
 
                             <!-- /.form-group -->
 
-
-
-
-
-
-
-
                         </div>
                         <!-- /.col -->
 
-                        <div class="col-md-4">
+                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
                             <!-- IP mask -->
                             <div class="form-group">
                                 <label class="text-danger">Interest Rate (Monthly) </label>
@@ -107,14 +100,10 @@
                             <!-- /.form group -->
 
 
-
-
                         </div>
                         <!--end column-->
 
-                        <div class="col-md-4">
-
-
+                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12">
 
                             <!-- Date dd/mm/yyyy -->
                             <div class="form-group">
@@ -132,61 +121,25 @@
                             <!-- /.form group -->
 
 
-
+                            <!-- Text area -->
                             <div class="form-group">
-                                <label>Due Day</label>
-                                <select class="form-control" name="dueDate">
+                                <label>Description (More Details)</label>
 
-                                    <option value="1">1st</option>
-                                    <option value="2">2nd</option>
-                                    <option value="3">3rd</option>
-                                    <option value="4">4th</option>
-                                    <option value="5">5th</option>
-                                    <option value="6">6th</option>
-                                    <option value="7">7th</option>
-                                    <option value="8">8th</option>
-                                    <option value="9">9th</option>
-                                    <option value="10">10th</option>
-                                    <option value="11">11th</option>
-                                    <option value="12">12th</option>
-                                    <option value="13">13th</option>
-                                    <option value="14">14th</option>
-                                    <option value="15">15th</option>
-                                    <option value="16">16th</option>
-                                    <option value="17">17th</option>
-                                    <option value="18">18th</option>
-                                    <option value="19">19th</option>
-                                    <option value="20">20th</option>
-                                    <option value="21">21st</option>
-                                    <option value="22">22nd</option>
-                                    <option value="23">23rd</option>
-                                    <option value="24">24th</option>
-                                    <option value="25">25th</option>
-                                    <option value="26">26th</option>
-                                    <option value="27">27th</option>
-                                    <option value="28">28th</option>
-                                    <option value="29">29th</option>
-                                    <option value="30">30th</option>
-
-                                </select>
+                                <div class="input-group">
+                                    <textarea name="description" cols="60" rows="3" class="form-control"></textarea>
+                                </div>
+                                <!-- /.input group -->
                             </div>
-
+                            <!-- /.form group -->
 
                         </div>
                         <!--end column-->
 
+
+
                     </div>
                     <!-- /.row -->
-                    <!-- Text area -->
-                    <div class="form-group">
-                        <label>Description (More Details)</label>
 
-                        <div class="input-group">
-                            <textarea name="description" cols="60" rows="3" class="form-control"></textarea>
-                        </div>
-                        <!-- /.input group -->
-                    </div>
-                    <!-- /.form group -->
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">

@@ -30,7 +30,7 @@
                     <td>{{$data->loanAmount}}</td>
                     <td>{{$data->loanRate}}%</td>
                     <td>{{$data->penaltyRate}}%</td>
-                    <td>{{$data->loanDate}} | {{$data->dueDate}}</td>
+                    <td>{{$data->loanDate}}</td>
                     
                     <td>{{$data->description}}</td>
                     <td>

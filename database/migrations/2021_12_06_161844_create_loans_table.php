@@ -19,7 +19,7 @@ class CreateLoansTable extends Migration
             $table->float('loanAmount',10,2)->nullable();
             $table->float('penaltyRate',4,2)->nullable();
             $table->date('loanDate')->nullable();
-            $table->integer('dueDate')->nullable();
+           // $table->integer('dueDate')->nullable();
             $table->string('description')->nullable();
 
             $table->integer('loanLandID');

@@ -48,7 +48,7 @@ class admin_LoanCtr extends Controller
         'loans.loanRate',
         'loans.penaltyRate',
         'loans.loanDate',
-        'loans.dueDate',
+        //'loans.dueDate',
         'loans.description']);
         //dd($ClientsWithLand);
         return view('Users.Admin.Loans.allLoans',compact('LoansWithLand'));
@@ -62,7 +62,7 @@ class admin_LoanCtr extends Controller
             'loanRate' =>['required'],
             'penaltyRate' =>['required'],
             'loanDate' =>['required'],
-            'dueDate' =>['required']
+            //'dueDate' =>['required']
          ]);
         $user = Loan::create($data->all());
         return redirect()->back()->with('message','successful');
@@ -87,14 +87,14 @@ class admin_LoanCtr extends Controller
             'loanRate' =>['required'],
             'penaltyRate' =>['required'],
             'loanDate' =>['required'],
-            'dueDate' =>['required']
+            //'dueDate' =>['required']
          ]);
         Loan::where('loanID', $data->loanID)
         ->update(['loanRate' => $data->loanRate,
             'loanAmount' => $data->loanAmount,
             'penaltyRate' => $data->penaltyRate,
             'loanDate' => $data->loanDate,
-            'dueDate' => $data->dueDate,
+            //'dueDate' => $data->dueDate,
             //'loanLandID'=> $data->loanLandID,
             'description' => $data->description]);
 

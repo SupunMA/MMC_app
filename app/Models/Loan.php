@@ -17,7 +17,7 @@ class Loan extends Model
         'loanAmount',
         'penaltyRate',
         'loanDate',
-        'dueDate',
+        //'dueDate',
         'loanLandID',
         'description'
     ];
