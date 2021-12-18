@@ -24,11 +24,23 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-                        {{-- Null Transaction Rows --}}
-                        @include('Users.User.HomeCalculations.transRowCount.ifNullRows')
-
+                        
+                        @if ($countTransRows != 0)
+                       
                         {{-- Not Null Transaction Rows --}}
                         @include('Users.User.HomeCalculations.transRowCount.NotNullRows')
+                        @endif
+
+
+                        @if ($countTransRows == 0)
+    
+                        {{-- Null Transaction Rows --}}
+                        @include('Users.User.HomeCalculations.transRowCount.ifNullRows')
+                        
+                        @endif
+                        
+                       
+
 
                         @foreach ($loanData as $item)
                         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
