@@ -21,7 +21,7 @@
             }
 
             if ($moreMonths == 0 && $moreDays > 0 && $moreYears > 0) {
-                $calAllInterest = ($item->transRestInterest - $item->transExtraMoney) + ($item->loanAmount * ($item->loanRate/100)) *  (1 + ($moreYears * 12));
+                $calAllInterest = ($item->transRestInterest - $item->transExtraMoney) + ($item->loanAmount * ($item->loanRate/100)) *  ($moreYears * 12);
             }
 
             if ($moreMonths > 0 && $moreDays == 0 && $moreYears > 0) {
