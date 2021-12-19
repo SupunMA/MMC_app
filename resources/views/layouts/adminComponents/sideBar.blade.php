@@ -51,7 +51,7 @@
 
                 {{-- Transactions --}}
                 <li class="nav-item">
-                    <a href="{{ route('admin.addTransaction') }}" class="nav-link  text-white">
+                    <a href="{{ route('admin.addTransaction') }}" class="nav-link  text-white {{ Route::currentRouteNamed('admin.addTransaction') || Route::currentRouteNamed('admin.allTransaction') || Route::currentRouteNamed('admin.allTransactionOfLoan') ? 'active' : ' ' }}">
                         <i class="far fa-handshake"></i>
                         <p>Transactions
                             <span class="right badge badge-success">Pay</span>
