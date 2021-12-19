@@ -3,7 +3,17 @@
 $getDate = new DateTime();
     $newDate = $getDate->format('Y-m-d');
     
-    $lastPaidDateCal = $item->paidDate;
+        $loanGotDateCal = $item->loanDate;
+
+            $loanGotDate1 = new DateTime($loanGotDateCal);
+            $currentDate1 = new DateTime($newDate);
+            $loanDayInterval = $loanGotDate1->diff($currentDate1);
+           
+            $loanDayMoreDays = $loanDayInterval->d;
+
+            /////////////////////////////////////////
+
+        $lastPaidDateCal = $item->paidDate;
 
             $lastPaidDate = new DateTime($lastPaidDateCal);
             $currentDate = new DateTime($newDate);
@@ -33,7 +43,17 @@ $getDate = new DateTime();
             }
 
             if ($moreMonths == 0 && $moreDays == 0 && $moreYears == 0) {
-                $calAllInterest = ($item->transRestInterest - $item->transExtraMoney);
+
+                if ($loanDayMoreDays > 0) {
+
+                    $calAllInterest = ($item->transRestInterest - $item->transExtraMoney)+ (($item->loanAmount * ($item->loanRate/100)) * 1);
+
+                }else{
+
+                    $calAllInterest = ($item->transRestInterest - $item->transExtraMoney);
+
+                }
+                
             }
 
             if ($moreMonths > 0 && $moreDays > 0 && $moreYears == 0) {
