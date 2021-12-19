@@ -15,7 +15,7 @@
                 </a>
 
                 <!-- Import Table -->
-               @include('Users.Admin.Transactions.components.allTransactionTable')
+               @include('Users.Admin.Transactions.components.viewTransactions.viewTransactions')
             
             </div>
             <!-- /.col -->
@@ -26,11 +26,8 @@
 </section>
 
 
-
-
-
 @endsection
 
 @section('header')
-All Transactions
+View Transactions
 @endsection

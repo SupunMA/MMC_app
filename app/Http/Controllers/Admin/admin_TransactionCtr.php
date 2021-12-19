@@ -38,7 +38,30 @@ class admin_TransactionCtr extends Controller
 
     public function allTransaction()
     {
-        return view('Users.Admin.Transactions.allTransaction');
+        $transactionData = Land::join('users','users.id','=','lands.ownerID')
+        ->join('loans','loans.loanLandID','=','lands.landID')
+        //->join('transactions','transactions.transLoanID','=','loans.loanID')
+        ->get(['users.*','lands.*','loans.*']);
+        return view('Users.Admin.Transactions.allTransaction',compact('transactionData'));
+    }
+
+    public function allTransactionOfLoan($loanID)
+    {
+        $transactionData = Land::join('users','users.id','=','lands.ownerID')
+        ->join('loans','loans.loanLandID','=','lands.landID')
+        ->join('transactions','transactions.transLoanID','=','loans.loanID')
+        ->where('loans.loanID',$loanID)->get(['users.*','lands.*','loans.*','transactions.*']);
+        return view('Users.Admin.Transactions.viewTransaction',compact('transactionData'));
+
+    }
+
+    public function deleteTransaction($transID)
+    {
+        //dd($branchID);
+        $delete = Transaction::find($transID);
+        $delete->delete();
+        //return redirect()->back()->with('message','successful');
+        return redirect()->route('admin.allTransaction');
     }
 
     public function addingTransaction(Request $data)
@@ -56,14 +79,16 @@ class admin_TransactionCtr extends Controller
         $getTransactionData = Transaction::where('transLoanID',$data->transLoanID)
         ->orderBy('transID', 'desc')->first();
 
+        $loanData = Loan::where('loanID', $data->transLoanID)
+        ->get()->first();
+
         $getDate = new DateTime();
         $newDate = $getDate->format('Y-m-d');
 
         if ($getTransactionData == Null){
             
             //$user = Transaction::create($data->all());
-            $loanData = Loan::where('loanID', $data->transLoanID)
-            ->get()->first();
+            
 
 
             $generatedPenaltyFee = 0;
@@ -323,14 +348,210 @@ class admin_TransactionCtr extends Controller
 
         }else{
 
-            $loanDate = Loan::where('loanID', $data->transLoanID)
-            ->get()->first();
+            
+            $newPaidDate = $data->paidDate;
+
+
+            //get Due date from loan table
+            $date = Carbon::createFromFormat('Y-m-d', $loanData->loanDate);
+            $dueDay = $date->format('j');
+
+            $date = Carbon::createFromFormat('Y-m-d', $newPaidDate);
+            //month
+            $dueMonth = $date->format('n');
+            $dueYear = $date->format('Y');
+
+            $createdDate = Carbon::createFromDate($dueYear, $dueMonth, $dueDay)->toDateString();
+            
+
+            $lastPaidDueDate = Carbon::createFromFormat('Y-m-d', $createdDate);
+
+           // $today = Carbon::createFromFormat('Y-m-d', $newDate);
+
+
+
+            $interval = $lastPaidDueDate->diff($newPaidDate);
+            
+            
+            $moreDays = $interval->d+1;
+            $moreMonths = $interval->m;
+            $moreYears = $interval->y;
+
+            //dd($moreDays,$moreMonths,$moreYears);
+            //dd($lastPaidDueDate);
+            
+
+
+            if ($moreMonths > 0 && $moreDays > 0 && $moreYears > 0) {
+                $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * ($moreMonths + ($moreYears * 12)));
+                
+            }
+
+            if ($moreMonths == 0 && $moreDays > 0 && $moreYears > 0) {
+                $calAllInterest = ($loanData->loanAmount * ($loanData->loanRate/100)) *  (1 + ($moreYears * 12));
+            }
+
+            if ($moreMonths > 0 && $moreDays == 0 && $moreYears > 0) {
+                $calAllInterest = ($loanData->loanAmount * ($loanData->loanRate/100)) * ($moreMonths + ($moreYears * 12));
+            }
+
+            if ($moreMonths == 0 && $moreDays == 0 && $moreYears > 0) {
+                $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * ($moreYears * 12));
+            }
+
+            if ($moreMonths == 0 && $moreDays == 0 && $moreYears == 0) {
+                $calAllInterest = 0;
+            }
+
+            if ($moreMonths > 0 && $moreDays > 0 && $moreYears == 0) {
+                $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * ($moreMonths ));
+            }
+
+            if ($moreMonths == 0 && $moreDays > 0 && $moreYears == 0) {
+                $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * 1);
+                
+            }
+
+            if ($moreMonths > 0 && $moreDays == 0 && $moreYears == 0) {
+                $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * $moreMonths );
+            }
+
+
+            $newData = new Transaction();
+            $newData->paidDate = $data->paidDate;
+            $newData->transPaidAmount = $data->transPaidAmount;
+            $newData->transLoanID = $data->transLoanID;
+            $newData->transDetails = $data->transDetails;
+            $newData->transAllPaid = $data->transPaidAmount;
+
 
             
-            //return $getTransactionData;
-            return 'There is data in Trans table';
+            //current Loan Paying month and year
+            $paidDateToGetTheMonth = Carbon::createFromFormat('Y-m-d', $data->paidDate);
+            $monthName = $paidDateToGetTheMonth->format('m');
+            $year = $paidDateToGetTheMonth->format('Y');
             
-    
+            //get Due date from loan table
+            $date = Carbon::createFromFormat('Y-m-d', $loanData->loanDate);
+            $dueDate = $date->format('d');
+
+
+
+             ////////////////////////////////////////////////////////////////////////
+            //get Due date from loan table
+            $date = Carbon::createFromFormat('Y-m-d', $loanData->loanDate);
+            $dueDay = $date->format('j');
+
+            //get Current month and year
+            $date = Carbon::createFromFormat('Y-m-d', $newDate);
+            //month
+            $dueMonth = $date->format('n');
+            //year
+            $dueYear = $date->format('Y');
+
+            //create date according to current month year and Due date 
+            $createdDate = Carbon::createFromDate($dueYear, $dueMonth, $dueDay)->toDateString();
+
+            $CurrentMonthDueDate = Carbon::createFromFormat('Y-m-d', $createdDate);
+            $newDate2 = Carbon::createFromFormat('Y-m-d', $data->paidDate);
+
+            //get different amount of Months
+            $diff_in_months = $CurrentMonthDueDate->diffInMonths($loanData->loanDate);
+            
+            $diff_in_months2 = $newDate2->diffInMonths($loanData->loanDate);
+
+            ////////////////////////////////////////////////////////////////////
+
+            
+
+            if ($diff_in_months >=1 && $diff_in_months2 > 0){
+                
+
+                if ($monthName == 1 || $monthName == 3 || $monthName == 5 || $monthName == 7 || $monthName == 8 || $monthName == 10 || $monthName == 12) {
+                    
+                    $extraDays = 31 - $dueDate;
+
+                    if ($moreDays >= $extraDays ) {
+
+                        $penaltyDays = $moreDays-1;
+                        
+                    }else{
+                        $penaltyDays = $moreDays;
+                    }
+
+                }elseif ($monthName == 2) {
+                    if ($year / 4 ==0) {
+                        $extraDays = 29 - $dueDate;
+
+                        if ($moreDays >= $extraDays ) {
+                            
+                            $penaltyDays = $moreDays+1;
+                            
+                        }else{
+                            $penaltyDays = $moreDays;
+                        }
+                    }else{
+                        $extraDays = 28 - $dueDate;
+
+                        if ($moreDays >= $extraDays ) {
+
+                            $penaltyDays = $moreDays+2;
+                            
+                        }else{
+                            $penaltyDays = $moreDays;
+                        }
+                    }
+                }else {
+
+                    //If there is no extra days
+                    $penaltyDays = $moreDays;
+
+                }
+            }
+            
+            //Calculate penalty fee and store
+            if ( $moreMonths > 1 ) {
+
+                $penaltyDays = $penaltyDays + ($moreMonths - 1) * 30;
+        
+                if ( $moreYears > 0 ) {
+        
+                    $penaltyDays = $penaltyDays + (360 * $moreYears);
+        
+                }
+        
+            }
+        
+            if ($moreMonths == 1) {
+        
+                if ( $moreYears > 0 ) {
+        
+                    $penaltyDays = $penaltyDays + (360 * $moreYears);
+        
+                }
+                
+            }
+        
+            if ($moreMonths == 0 ) {
+                if ($moreYears >= 1) {
+        
+                    $penaltyDays = $penaltyDays + ((360 * $moreYears)-30);
+        
+                }
+                
+            }
+        
+            $generatedPenaltyFee = (round((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays ,0));
+            
+
+        
+
+dd($generatedPenaltyFee,$calAllInterest);
+dd();
+            //return $getTransactionData;
+            
+            
+            
 
         }
         
