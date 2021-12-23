@@ -2,11 +2,13 @@
     <div class="card-header">
 
         {{-- Title --}}
-        <h3 class="card-title">No Transaction Data</h3>
-        @foreach ($transactionData as $data)
-            <h3 class="card-title">All Transactions of {{$data->loanID}} - {{$data->name}} - {{$data->NIC}}</h3>
-        @break
-        @endforeach
+        
+        @forelse ($transactionData as $data)
+            <h3 class="card-title">All Transactions of Land ID :- {{$data->loanID}} - {{$data->name}} - {{$data->NIC}}</h3>
+        @empty
+            <h3 class="card-title">No Data</h3>
+        @endforelse
+        
 
     </div>
     <!-- /.card-header -->
