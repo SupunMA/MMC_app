@@ -93,7 +93,7 @@ $getDate = new DateTime();
 
            // $check = Carbon::now()->between($startDate, $endDate);
 
-    $generatedPenaltyFee = 0;
+           $generatedPenaltyFee = 0;
     $penaltyDays = 0;
     $getDate = new DateTime();
     $newDate = $getDate->format('Y-m-d');
@@ -107,7 +107,7 @@ $getDate = new DateTime();
     $dueDay = $date->format('j');
 
     //get Current month and year
-    $date = Carbon\Carbon::createFromFormat('Y-m-d', $newDate);
+    $date = Carbon\Carbon::createFromFormat('Y-m-d', $loanLastPaidDateCal);
     //month
     $dueMonth = $date->format('n');
     //year
@@ -120,9 +120,12 @@ $getDate = new DateTime();
     $newDate2 = Carbon\Carbon::createFromFormat('Y-m-d', $newDate);
 
     //get different amount of Months
-    $diff_in_months = $CurrentMonthDueDate->diffInMonths($loanLastPaidDateCal);
+        
+    $diff_in_days = $CurrentMonthDueDate->diffInDays($loanLastPaidDateCal) + 1;
     
     $diff_in_months2 = $newDate2->diffInMonths($loanGotDateCal);
+    
+   
 
     ////////////////////////////////////////////////////////////////////
 
@@ -147,9 +150,11 @@ $getDate = new DateTime();
     $date = Carbon\Carbon::createFromFormat('Y-m-d', $item->loanDate);
     $dueDate = $date->format('d');
 
+//dd($createdDate <= $loanLastPaidDateCal);
     ///////////////////////////////////////////////////////////////
+//dd($diff_in_days,$moreDays,$moreMonths,$moreYears);
 
-    if ($diff_in_months >=1 && $diff_in_months2 > 0)
+    if (($createdDate <= $loanLastPaidDateCal) && $diff_in_months2 > 0)
     {
 
         if ($monthName == 1 || $monthName == 3 || $monthName == 5 || $monthName == 7 || $monthName == 8 || $monthName == 10 || $monthName == 12) {
@@ -197,7 +202,7 @@ $getDate = new DateTime();
     
     if ( $moreMonths > 1 ) {
 
-        $penaltyDays = $penaltyDays + ($moreMonths - 1) * 30;
+        $penaltyDays = $penaltyDays + ($moreMonths -1) * 30;
 
         if ( $moreYears > 0 ) {
 
@@ -215,7 +220,14 @@ $getDate = new DateTime();
 
         }
 
-        
+        //If there are rest penalty fee more than 1 month
+        if ($moreDays > 0 && ($item->transRestPenaltyFee > 0)) {
+
+            $penaltyDays = $penaltyDays + 30;
+
+        }
+
+            
     }
 
     if ($moreMonths == 0 ) {
@@ -228,6 +240,8 @@ $getDate = new DateTime();
     }
 
     $generatedPenaltyFee = (round((($item->loanAmount) * ($item->penaltyRate) / 100) / 30 * $penaltyDays ,0));
+
+    //dd($generatedPenaltyFee);
 
 
 /// Filter Minues values 
