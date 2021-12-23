@@ -41,7 +41,7 @@ class admin_TransactionCtr extends Controller
         $transactionData = Land::join('users','users.id','=','lands.ownerID')
         ->join('loans','loans.loanLandID','=','lands.landID')
         //->join('transactions','transactions.transLoanID','=','loans.loanID')
-        ->get(['users.*','lands.*','loans.*']);
+        ->get(['users.*','loans.*','lands.landID']);
         return view('Users.Admin.Transactions.allTransaction',compact('transactionData'));
     }
 
@@ -50,7 +50,7 @@ class admin_TransactionCtr extends Controller
         $transactionData = Land::join('users','users.id','=','lands.ownerID')
         ->join('loans','loans.loanLandID','=','lands.landID')
         ->join('transactions','transactions.transLoanID','=','loans.loanID')
-        ->where('loans.loanID',$loanID)->get(['users.*','lands.*','loans.*','transactions.*']);
+        ->where('loans.loanID',$loanID)->get(['users.name','users.NIC','loans.loanID','transactions.*']);
         return view('Users.Admin.Transactions.viewTransaction',compact('transactionData'));
 
     }
@@ -547,7 +547,7 @@ class admin_TransactionCtr extends Controller
         
 
 dd($generatedPenaltyFee,$calAllInterest);
-dd();
+
             //return $getTransactionData;
             
             
