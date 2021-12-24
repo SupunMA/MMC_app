@@ -1,3 +1,110 @@
+
+{{-- rest Interest Calculation and substract extra money from reset penalty fee--}}
+<?php
+
+$getDate = new DateTime();
+    $newDate = $getDate->format('Y-m-d');
+    
+        $loanGotDateCal = $item->loanDate;
+
+            $loanGotDate1 = new DateTime($loanGotDateCal);
+            $currentDate1 = new DateTime($newDate);
+            $loanDayInterval = $loanGotDate1->diff($currentDate1);
+           
+            $loanDayMoreDays = $loanDayInterval->d;
+
+            /////////////////////////////////////////
+
+        $lastPaidDateCal = $item->paidDate;
+
+            $lastPaidDate = new DateTime($lastPaidDateCal);
+            $currentDate = new DateTime($newDate);
+            $interval = $lastPaidDate->diff($currentDate);
+            
+            
+            $moreDays = $interval->d;
+            $moreMonths = $interval->m;
+            $moreYears = $interval->y;
+
+
+
+            if ($moreMonths > 0 && $moreDays > 0 && $moreYears > 0) {
+                $calAllInterest = ($item->transRestInterest - $item->transExtraMoney) + (($item->loanAmount * ($item->loanRate/100)) * (($moreMonths+1) + ($moreYears * 12)));
+            }
+
+            if ($moreMonths == 0 && $moreDays > 0 && $moreYears > 0) {
+                $calAllInterest = ($item->transRestInterest - $item->transExtraMoney) + ($item->loanAmount * ($item->loanRate/100)) *  ($moreYears * 12);
+            }
+
+            if ($moreMonths > 0 && $moreDays == 0 && $moreYears > 0) {
+                $calAllInterest = ($item->transRestInterest - $item->transExtraMoney) + ($item->loanAmount * ($item->loanRate/100)) * ($moreMonths + ($moreYears * 12));
+            }
+
+            if ($moreMonths == 0 && $moreDays == 0 && $moreYears > 0) {
+                $calAllInterest = ($item->transRestInterest - $item->transExtraMoney) + (($item->loanAmount * ($item->loanRate/100)) * ($moreYears * 12));
+            }
+
+            if ($moreMonths == 0 && $moreDays == 0 && $moreYears == 0) {
+
+                if ($loanDayMoreDays > 0) {
+
+                    $calAllInterest = ($item->transRestInterest - $item->transExtraMoney)+ (($item->loanAmount * ($item->loanRate/100)) * 1);
+
+                }else{
+
+                    $calAllInterest = ($item->transRestInterest - $item->transExtraMoney);
+
+                }
+                
+            }
+
+            if ($moreMonths > 0 && $moreDays > 0 && $moreYears == 0) {
+                $calAllInterest = ($item->transRestInterest - $item->transExtraMoney) + (($item->loanAmount * ($item->loanRate/100)) * ($moreMonths + 1));
+            }
+
+            if ($moreMonths == 0 && $moreDays > 0 && $moreYears == 0) {
+                $calAllInterest = ($item->transRestInterest - $item->transExtraMoney) + (($item->loanAmount * ($item->loanRate/100)) * 1);
+            }
+
+            if ($moreMonths > 0 && $moreDays == 0 && $moreYears == 0) {
+                $calAllInterest = ($item->transRestInterest - $item->transExtraMoney) + (($item->loanAmount * ($item->loanRate/100)) * $moreMonths );
+            }
+
+
+            //get Due date from loan table
+            $date = Carbon\Carbon::createFromFormat('Y-m-d', $item->loanDate);
+            $dueDay = $date->format('j');
+
+            $date = Carbon\Carbon::createFromFormat('Y-m-d', $newDate);
+            //month
+            $dueMonth = $date->format('n');
+            $dueYear = $date->format('Y');
+
+            $createdDate = Carbon\Carbon::createFromDate($dueYear, $dueMonth, $dueDay)->toDateString();
+            
+
+            $CurrentMonthDueDate = Carbon\Carbon::createFromFormat('Y-m-d', $createdDate);
+
+            $today = Carbon\Carbon::createFromFormat('Y-m-d', $newDate);
+
+            if ($CurrentMonthDueDate > $today) {
+
+                $calAllInterest = ($item->transRestInterest - $item->transExtraMoney);
+                
+            }
+
+           // $check = Carbon::now()->between($startDate, $endDate);
+/// Filter Minues values 
+      
+?>
+
+
+
+
+
+
+
+
 <?php
 
     $generatedPenaltyFee = 0;
@@ -29,6 +136,8 @@
     //get different amount of Months
         
     $diff_in_days = $CurrentMonthDueDate->diffInDays($loanLastPaidDateCal) + 1;
+    $diff_in_Months = $newDate2->diffInMonths($loanLastPaidDateCal);
+    
     
     $diff_in_months2 = $newDate2->diffInMonths($loanGotDateCal);
     
@@ -57,11 +166,11 @@
     $date = Carbon\Carbon::createFromFormat('Y-m-d', $item->loanDate);
     $dueDate = $date->format('d');
 
-//dd($createdDate <= $loanLastPaidDateCal);
-    ///////////////////////////////////////////////////////////////
-//dd($diff_in_days,$moreDays,$moreMonths,$moreYears);
+    //dd($createdDate <= $loanLastPaidDateCal);
+        ///////////////////////////////////////////////////////////////
+    //dd($diff_in_days,$moreDays,$moreMonths,$moreYears);
 
-    if (($createdDate <= $loanLastPaidDateCal) && $diff_in_months2 > 0)
+    if (($createdDate <= $loanLastPaidDateCal) && $diff_in_months2 > 0 && ($diff_in_Months > 0 || $item->transRestPenaltyFee > 0))
     {
 
         if ($monthName == 1 || $monthName == 3 || $monthName == 5 || $monthName == 7 || $monthName == 8 || $monthName == 10 || $monthName == 12) {
@@ -150,13 +259,20 @@
 
     //dd($generatedPenaltyFee);
 
-/// Filter Minues values 
-    if (($generatedPenaltyFee + $item->transRestPenaltyFee) < 0) {
+    $allPenaltyFee = ($generatedPenaltyFee + $item->transRestPenaltyFee);
+    if ($calAllInterest < 0) {
+
+        $allPenaltyFee = $allPenaltyFee + $calAllInterest;
+
+}
+
+    // Filter Minues values 
+    if ($allPenaltyFee <= 0) {
+
         $allPenaltyFee = 0;
+
     }
-    else{
-        $allPenaltyFee = ($generatedPenaltyFee + $item->transRestPenaltyFee);
-    }
+    
 
 ?>
 
