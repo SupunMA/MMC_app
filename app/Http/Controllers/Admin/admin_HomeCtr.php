@@ -9,6 +9,7 @@ use App\Models\branches;
 use App\Models\User;
 use App\Models\Land;
 use App\Models\Loan;
+use App\Models\Transaction;
 
 class admin_HomeCtr extends Controller
 {
@@ -30,7 +31,8 @@ class admin_HomeCtr extends Controller
         $LandCount = Land::count();
         $BranchesCount=Branches::count();
         $LoanCount=Loan::count();
-        return view('Users.Admin.home',compact('ClientsCount','LandCount','BranchesCount','LoanCount'));
+        $TransCount=Transaction::count();
+        return view('Users.Admin.home',compact('ClientsCount','LandCount','BranchesCount','LoanCount','TransCount'));
     }
 
     
