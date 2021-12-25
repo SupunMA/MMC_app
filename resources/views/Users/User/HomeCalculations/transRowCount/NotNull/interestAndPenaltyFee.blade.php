@@ -92,8 +92,14 @@ $getDate = new DateTime();
             }
 
            // $check = Carbon::now()->between($startDate, $endDate);
+/// Filter Minues values 
+      
+?>
 
-           $generatedPenaltyFee = 0;
+
+<?php
+
+    $generatedPenaltyFee = 0;
     $penaltyDays = 0;
     $getDate = new DateTime();
     $newDate = $getDate->format('Y-m-d');
@@ -122,6 +128,8 @@ $getDate = new DateTime();
     //get different amount of Months
         
     $diff_in_days = $CurrentMonthDueDate->diffInDays($loanLastPaidDateCal) + 1;
+    $diff_in_Months = $newDate2->diffInMonths($loanLastPaidDateCal);
+    
     
     $diff_in_months2 = $newDate2->diffInMonths($loanGotDateCal);
     
@@ -150,11 +158,11 @@ $getDate = new DateTime();
     $date = Carbon\Carbon::createFromFormat('Y-m-d', $item->loanDate);
     $dueDate = $date->format('d');
 
-//dd($createdDate <= $loanLastPaidDateCal);
-    ///////////////////////////////////////////////////////////////
-//dd($diff_in_days,$moreDays,$moreMonths,$moreYears);
+    //dd($createdDate <= $loanLastPaidDateCal);
+        ///////////////////////////////////////////////////////////////
+    //dd($diff_in_days,$moreDays,$moreMonths,$moreYears);
 
-    if (($createdDate <= $loanLastPaidDateCal) && $diff_in_months2 > 0)
+    if (($createdDate <= $loanLastPaidDateCal) && $diff_in_months2 > 0 && ($diff_in_Months > 0 || $item->transRestPenaltyFee > 0))
     {
 
         if ($monthName == 1 || $monthName == 3 || $monthName == 5 || $monthName == 7 || $monthName == 8 || $monthName == 10 || $monthName == 12) {
@@ -243,14 +251,27 @@ $getDate = new DateTime();
 
     //dd($generatedPenaltyFee);
 
+    $allPenaltyFee = ($generatedPenaltyFee + $item->transRestPenaltyFee);
+    if ($calAllInterest < 0) {
 
-/// Filter Minues values 
-    if (($generatedPenaltyFee + $item->transRestPenaltyFee + $calAllInterest) < 0) {
-        $allFee = 0;
+        $allPenaltyFee = $allPenaltyFee + $calAllInterest;
+
+}
+
+    // Filter Minues values penalty fee
+    if ($allPenaltyFee <= 0) {
+
+        $allPenaltyFee = 0;
+
     }
-    else{
-        $allFee = ($generatedPenaltyFee + $item->transRestPenaltyFee + $calAllInterest);
+    
+    // Filter Minues values Interest
+    if ($calAllInterest < 0) {
+
+        $calAllInterest = 0;
+
     }
 ?>
 
-{{$allFee}}
+
+{{$allPenaltyFee + $calAllInterest}}
