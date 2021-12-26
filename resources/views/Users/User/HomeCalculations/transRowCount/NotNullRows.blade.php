@@ -1,4 +1,3 @@
-@foreach ($transactionData as $item)
 <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12">
     <div class="info-box shadow">
         <span class="info-box-icon bg-warning"><i class="far fa-handshake"></i></span>
@@ -78,4 +77,4 @@
     </div>
     <!-- /.info-box -->
 </div>
-@endforeach
+

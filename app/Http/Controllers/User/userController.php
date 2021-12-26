@@ -23,9 +23,15 @@ class userController extends Controller
         $transactionData = Land::join('users','users.id','=','lands.ownerID')
         ->join('loans','loans.loanLandID','=','lands.landID')
         ->join('transactions','transactions.transLoanID','=','loans.loanID')
-        ->where('users.id',Auth::user()->id)->get(['users.*','lands.*','loans.*','transactions.*']);
+        ->where('users.id',Auth::user()->id)->get(['users.*','lands.*','loans.*','transactions.*'])
+        ->sortByDesc('transID')->first();
         
-        $countTransRows=$transactionData->count();
+        $transactionDataForCount = Land::join('users','users.id','=','lands.ownerID')
+        ->join('loans','loans.loanLandID','=','lands.landID')
+        ->join('transactions','transactions.transLoanID','=','loans.loanID')
+        ->where('users.id',Auth::user()->id);
+        //dd($transactionData);
+        $countTransRows = $transactionDataForCount->count();
         //dd($clients);
         return view('Users.User.home',compact('loanData','transactionData','countTransRows'));
     }
