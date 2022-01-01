@@ -69,7 +69,7 @@
                 <h5>ගෙවූ වාරිකයේ අතිරික්තය</h5>
             </span>
             <span class="info-box-number">
-                <h5><b>රු.{{$item->transExtraMoney}}</b></h5>
+                <h5><b>රු.{{$transactionData->transExtraMoney}}</b></h5>
             </span>
         </div>
 
