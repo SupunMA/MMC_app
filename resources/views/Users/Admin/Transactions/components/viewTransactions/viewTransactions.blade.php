@@ -1,11 +1,18 @@
-<div class="card card-secondary">
-    <div class="card-header">
+
+    
 
         {{-- Title --}}
         
         @forelse ($transactionData as $data)
-            <h3 class="card-title">All Transactions of Land ID :- {{$data->loanID}} - {{$data->name}} - {{$data->NIC}}</h3>
+            <h5> | Name :- {{$data->name}} | NIC :- {{$data->NIC}} <br>| Loan Date :- {{$data->loanDate}}| Loan ID :- {{$data->loanID}}</h5>
+            
+            <div class="card card-secondary">
+            <div class="card-header">
+            <h3 class="card-title">All Transactions</h3>
+            @break
         @empty
+        <div class="card card-secondary">
+        <div class="card-header">
             <h3 class="card-title">No Data</h3>
         @endforelse
         
@@ -20,7 +27,7 @@
             <thead>
                 <tr>
                     <th>Transaction ID</th>
-                    <th>Loan ID - Owner - NIC</th>
+                    
                     <th>Paid Date </th>
                     <th>Paid Amount </th>
                     <th>Paid Interest</th>
@@ -41,7 +48,7 @@
                 <tr>
 
                     <td>{{$data->transID}}</td>
-                    <td>{{$data->loanID}} <br> {{$data->name}} <br> {{$data->NIC}}</td>
+                    
                     <td>{{$data->paidDate}}</td>
                     <td>{{$data->transPaidAmount}}</td>
                     <td>{{$data->transPaidInterest}}</td>
@@ -69,7 +76,7 @@
             <tfoot>
                 <tr>
                     <th>Transaction ID</th>
-                    <th>Loan ID - Owner - NIC</th>
+                    
                     <th>Paid Date </th>
                     <th>Paid Amount </th>
                     <th>Paid Interest</th>
