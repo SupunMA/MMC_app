@@ -35,11 +35,11 @@
                                         <span class="input-group-text">Rs.</span>
                                     </div>
                                     <input type="text" min="100000" step="1000.00" value="{{$data->landValue}}" class="form-control"
-                                        data-inputmask="'mask': [ '999999','9999999','99999999']" data-mask
+                                        data-inputmask="'mask': [ '999999.99','9999999.99','99999999.99']" data-mask
                                         name="landValue">
-                                    <div class="input-group-append">
+                             <!--   <div class="input-group-append">
                                         <span class="input-group-text">.00</span>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
 

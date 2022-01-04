@@ -38,11 +38,11 @@
                                         <span class="input-group-text">Rs.</span>
                                     </div>
                                     <input type="text" min="100000" step="1000.00" name="loanAmount"
-                                        class="form-control" data-inputmask="'mask': [ '999999','9999999','99999999']"
+                                        class="form-control" data-inputmask="'mask': [ '999999.99','9999999.99','99999999.99']"
                                         data-mask value="{{$data->loanAmount}}">
-                                    <div class="input-group-append">
+                               <!-- <div class="input-group-append">
                                         <span class="input-group-text">.00</span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
 
