@@ -4,7 +4,7 @@
             <div class="row">
 
                 <div class="col-lg-4 col-md-6 footer-info">
-                    <h3>Madhushanka MicroCredit<br>(pvt)LTD</h3>
+                    <h3>Madhushanka Micro Credit<br>(Pvt) Ltd</h3>
                     <p>Today, our company resonates the prowess of a dynamic entity – a stalwart in Sri Lanka’s
                         rapidly evolving finance industry.</p>
                 </div>
@@ -22,7 +22,7 @@
                 <div class="col-lg-4 col-md-12 footer-contact">
                     <h4>Contact Us</h4>
                     <p>
-                        Madhushanka MicroCredit, <br>
+                        Madhushanka Micro Credit, <br>
                         136/01/05, Radawana Road,<br>
                         Delovita, Kirindiwela. <br>
                         <strong>Phone:</strong> 0113 682 800<br>
@@ -47,7 +47,7 @@
     <div class="container">
         <footer class="main-footer text-center">
             <strong>Copyright &copy; 2022 <a href="/" style="color:white;">Madhushanka
-                    MicroCredit(pvt)LTD</a>.</strong>
+                    Micro Credit (pvt) Ltd</a>.</strong>
             All rights reserved.
         </footer>
     </div>

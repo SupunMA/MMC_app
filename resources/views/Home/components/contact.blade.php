@@ -21,15 +21,15 @@
                     <div class="row">
                         <div class="col-md-5 info">
                             <i class="ion-ios-location-outline"></i>
-                            <p>Madhushanka MicroCredit,</p>
+                            <p>Madhushanka Micro Credit (Pvt) Ltd,</p>
                         </div>
                         <div class="col-md-4 info">
                             <i class="ion-ios-email-outline"></i>
-                            <p>info@mmc.com</p>
+                            <p>aththanagodha@gmail.com</p>
                         </div>
                         <div class="col-md-3 info">
                             <i class="ion-ios-telephone-outline"></i>
-                            <p>01123453343</p>
+                            <p>0113 682 800</p>
                         </div>
                     </div>
 
@@ -55,7 +55,9 @@
 
                                     <select class="form-control" id="sel1" data-rule="required">
 
-                                        <option value="jk">jk</option>
+                                        @foreach ($bdata as $oneBranch)
+                                            <option value="{{$oneBranch->branchID}}">{{$oneBranch->branchName}}</option>
+                                        @endforeach
 
                                     </select>
                                     <div class="validation"></div>
