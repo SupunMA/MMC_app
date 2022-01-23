@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\admin_LoanCtr;
 use App\Http\Controllers\Admin\admin_LandCtr;
 use App\Http\Controllers\Admin\admin_TransactionCtr;
 
+use App\Http\Controllers\Home\homePageController;
+
 
 use App\Http\Controllers\User\userController;
 use App\Http\Controllers\Manager\managerController;
@@ -31,9 +33,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('Home.welcome');
-})->name('welcome');
+
+Route::get('/', [homePageController::class, 'index'])->name('welcome');
 
 //Preventing go back
 Route::middleware(['middleware'=>'lockBack'])->group(function(){
