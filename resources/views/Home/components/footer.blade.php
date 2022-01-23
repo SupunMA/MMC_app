@@ -23,10 +23,10 @@
                     <h4>Contact Us</h4>
                     <p>
                         Madhushanka MicroCredit, <br>
-                        Gampaha,<br>
-                        Sri Lanka. <br>
-                        <strong>Phone:</strong> 011 023456754<br>
-                        <strong>Email:</strong> info@mmc.com<br>
+                        136/01/05, Radawana Road,<br>
+                        Delovita, Kirindiwela. <br>
+                        <strong>Phone:</strong> 0113 682 800<br>
+                        <strong>Email:</strong> aththanagodha@gmail.com<br>
                     </p>
 
                     <div class="social-links">
@@ -46,7 +46,7 @@
 
     <div class="container">
         <footer class="main-footer text-center">
-            <strong>Copyright &copy; 2020 <a href="/" style="color:white;">Madhushanka
+            <strong>Copyright &copy; 2022 <a href="/" style="color:white;">Madhushanka
                     MicroCredit(pvt)LTD</a>.</strong>
             All rights reserved.
         </footer>

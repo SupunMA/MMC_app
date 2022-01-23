@@ -37,16 +37,16 @@
         @include('Home.components.why')
         
         <!--Portfolio Section-->
-        @include('Home.components.Portfolio')
+        {{-- @include('Home.components.Portfolio') --}}
 
         <!--testimonials-->
-        @include('Home.components.testimonials')
+        {{-- @include('Home.components.testimonials') --}}
 
         <!--Team Section=-->
-        @include('Home.components.team')
+        {{-- @include('Home.components.team') --}}
 
         <!--Clients Section-->
-        @include('Home.components.clients')
+        {{-- @include('Home.components.clients') --}}
 
         <br>
         <!--Available Branches-->

@@ -12,9 +12,7 @@
 
                 <div class="col-lg-6">
                     <div class="map mb-4 mb-lg-0">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.7985117576864!2d79.97075581432779!3d6.914677495003809!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae256db1a6771c5%3A0x2c63e344ab9a7536!2sSri%20Lanka%20Institute%20of%20Information%20Technology!5e0!3m2!1sen!2slk!4v1600411333080!5m2!1sen!2slk"
-                            frameborder="0" style="border:0; width: 100%; height: 312px;" allowfullscreen></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d989.9330755648917!2d80.1252581292212!3d7.0407141306741385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae301b74bd30b09%3A0x15c5bb473efa2599!2sWeliweriya%20-%20Kirindiwela%20Rd!5e0!3m2!1sen!2slk!4v1642921780220!5m2!1sen!2slk" width="800" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 
                     </div>
                 </div>
