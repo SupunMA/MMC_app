@@ -77,8 +77,7 @@ class LoginController extends Controller
             }
 
         }else{
-            return redirect()->route('login')
-                ->with('error','Email-Address and Password are wrong');
+            return redirect()->route('login')->with('message','NIC or Password is Wrong!. Try again');
 
         }
     }

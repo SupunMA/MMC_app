@@ -16,26 +16,24 @@
                         <form action="{{ route('login') }}" method="post">
                             @csrf
 
-                            @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+                            {{-- Message --}}
+                            @if (\Session::has('message')) 
+                                <ul class="alert alert-danger" role="alert">
+                                    <li>{!! \Session::get('message') !!}</li>
+                                </ul>
+                            @endif
 
+                          
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" name="NIC" required placeholder="Your NIC">
+                                <input type="text" class="form-control" name="NIC" required placeholder="NIC Number (Numbers only)">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="far fa-address-card"></span>
                                     </div>
+                                    
                                 </div>
                             </div>
-
-                            @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+                                    
 
                             <div class="input-group mb-3">
                                 <input type="password" class="form-control" placeholder="Password" name="password"
