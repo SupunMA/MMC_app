@@ -26,7 +26,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Profile</h5>
                         <p class="card-text">Every Customer Can Create Profile.</p>
-                        <a href="/registerCus" class="readmore">Create Profile NOW</a>
+                        <a href="/login" class="readmore">Create Profile NOW</a>
                     </div>
                 </div>
             </div>
