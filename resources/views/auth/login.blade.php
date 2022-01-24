@@ -60,7 +60,7 @@
                             <a href="{{ route('forgotPWD') }}">I forgot my password</a>
                         </p>
                         <p class="mb-2">
-                            <a href="{{ route('forgotPWD') }}" class="text-center">Register a new membership</a>
+                            <a href="{{ route('forgotPWD') }}" class="text-center">Register a new member</a>
                         </p>
                     </div>
                     <!-- /.card-body -->
