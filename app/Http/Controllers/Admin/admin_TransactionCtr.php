@@ -393,6 +393,19 @@ class admin_TransactionCtr extends Controller
                 $AddOneMonLastPaidDueDate = $FormattedLastPaidDueDate->addMonth(1)->toDateString();
 
                 //This part join with cal penalty fee
+                if ($createdDate == $loanLastPaidDateCal) {
+                    
+                    $AddOneMonDateCal = new DateTime($createdDate);
+                    $currentDate = new DateTime($data->paidDate);
+                    $interval = $AddOneMonDateCal->diff($currentDate);
+                    
+
+                    $moreDays = $interval->d;
+                    $moreMonths = $interval->m;
+                    $moreYears = $interval->y;
+
+                    //dd($moreDays,$moreMonths,$moreYears);
+                }
                 if ($allPenaltyFee > 0) {
                     
                     $AddOneMonDateCal = new DateTime($AddOneMonLastPaidDueDate);
@@ -417,6 +430,8 @@ class admin_TransactionCtr extends Controller
                     $moreDays = $interval->d;
                     $moreMonths = $interval->m;
                     $moreYears = $interval->y;
+
+                    
 
                     if ($moreMonths > 0 && $moreDays > 0 && $moreYears > 0) {
                         $calAllInterest = ($getTransactionData->transRestInterest - $getTransactionData->transExtraMoney) + (($loanData->loanAmount * ($loanData->loanRate/100)) * (($moreMonths+1) + ($moreYears * 12)));
@@ -573,12 +588,12 @@ class admin_TransactionCtr extends Controller
                    // dd($penaltyDays);
 
                     
-
-                   $generatedPenaltyFee = ((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays);
+                   $generatedPenaltyFee = (round((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays ,0));
+                   //$generatedPenaltyFee = ((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays);
 
                    //dd($generatedPenaltyFee);
 
-                   $allPenaltyFee = round(($generatedPenaltyFee + $getTransactionData->transRestPenaltyFee),0);
+                   $allPenaltyFee = ($generatedPenaltyFee + $getTransactionData->transRestPenaltyFee);
 
                     
                 }
@@ -634,10 +649,10 @@ class admin_TransactionCtr extends Controller
 
                         }
 
-                        $newData->transPaidPenaltyFee = round($allPenaltyFee - ($allPenaltyFee - ($allPaidAmount - $calAllInterest)),0);
+                        $newData->transPaidPenaltyFee = $allPenaltyFee - ($allPenaltyFee - ($allPaidAmount - $calAllInterest));
 
                         //reset penalty fee store
-                        $newData->transRestPenaltyFee = round($allPenaltyFee - ($allPaidAmount - $calAllInterest),0);
+                        $newData->transRestPenaltyFee = $allPenaltyFee - ($allPaidAmount - $calAllInterest);
 
                     }
                     
@@ -738,7 +753,7 @@ class admin_TransactionCtr extends Controller
                     
                     
                     
-                    $moreDays = $interval->d;
+                    $moreDays = $interval->d + 1;
                     $PenMoreMonths = $interval->m;
                     $PenMoreYears = $interval->y;
 
@@ -830,15 +845,15 @@ class admin_TransactionCtr extends Controller
                         
                     }
                         
-                   // dd($penaltyDays);
+                    //dd($penaltyDays);
 
-                    
+                    $generatedPenaltyFee = (round((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays ,0));
 
-                    $generatedPenaltyFee = ((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays);
+                    //$generatedPenaltyFee = ((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays);
 
                     //dd($generatedPenaltyFee);
 
-                    $allPenaltyFee = round(($generatedPenaltyFee + $getTransactionData->transRestPenaltyFee),0);
+                    $allPenaltyFee = ($generatedPenaltyFee + $getTransactionData->transRestPenaltyFee);
 
                     
                 }
@@ -894,10 +909,10 @@ class admin_TransactionCtr extends Controller
 
                         }
 
-                        $newData->transPaidPenaltyFee = round($allPenaltyFee - ($allPenaltyFee - ($allPaidAmount - $calAllInterest)),0);
+                        $newData->transPaidPenaltyFee = $allPenaltyFee - ($allPenaltyFee - ($allPaidAmount - $calAllInterest));
 
                         //reset penalty fee store
-                        $newData->transRestPenaltyFee = round($allPenaltyFee - ($allPaidAmount - $calAllInterest),0);
+                        $newData->transRestPenaltyFee = $allPenaltyFee - ($allPaidAmount - $calAllInterest);
 
                     }
                     

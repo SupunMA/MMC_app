@@ -12,7 +12,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="https://yt3.ggpht.com/ytc/AKedOLRJ7vDbP2EUGugOC5RpY5WwbegndXfVGUxnxFiOHA=s88-c-k-c0x00ffffff-no-rj"
+                <img src="https://drive.google.com/uc?export=view&id={{ Auth::user()->photo }}"
                     class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">

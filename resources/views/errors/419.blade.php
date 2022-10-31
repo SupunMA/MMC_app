@@ -43,7 +43,7 @@
                 <!-- Your text -->
                 <h1>Oops! 419 Page Expired.</h1>
 
-                <p>We think your session has been Expired.<br>
+                <p>We think your session Expired.<br>
                     Please try logging in again.</p>
                      
 
