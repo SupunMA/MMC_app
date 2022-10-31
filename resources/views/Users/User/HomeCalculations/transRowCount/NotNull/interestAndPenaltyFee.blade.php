@@ -1,9 +1,9 @@
 <?php
 
-$getDate = new DateTime();
-    $newDate = $getDate->format('Y-m-d');
+    $getDate = new DateTime();
+    $newDate = $getDate->format('Y-m-d');//Today
     
-        $loanGotDateCal = $transactionData->loanDate;
+        $loanGotDateCal = $transactionData->loanDate;//Loan Date
 
             $loanGotDate1 = new DateTime($loanGotDateCal);
             $currentDate1 = new DateTime($newDate);
@@ -24,7 +24,7 @@ $getDate = new DateTime();
             $moreMonths = $interval->m;
             $moreYears = $interval->y;
 
-
+            //dd($moreDays,$moreMonths,$moreYears,$lastPaidDate);
 
             if ($moreMonths > 0 && $moreDays > 0 && $moreYears > 0) {
                 $calAllInterest = ($transactionData->transRestInterest - $transactionData->transExtraMoney) + (($transactionData->loanAmount * ($transactionData->loanRate/100)) * (($moreMonths+1) + ($moreYears * 12)));

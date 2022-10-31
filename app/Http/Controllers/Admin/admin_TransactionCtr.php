@@ -95,7 +95,7 @@ class admin_TransactionCtr extends Controller
             $gotPaidDate = new DateTime($data->paidDate);
             $interval = $gotLoanDate->diff($gotPaidDate);
             $days = $interval->format('%a');//now do whatever you like with $days
-            
+            //dd($days);
             //dd($interval->m,$interval->d);
             
             $moreDays = $interval->d;
@@ -690,7 +690,7 @@ class admin_TransactionCtr extends Controller
                     $moreMonths = $interval->m;
                     $moreYears = $interval->y;
 
-//dd($moreDays, $moreMonths,$moreYears);
+                    //dd($moreDays, $moreMonths,$moreYears);
 
                     if ($moreMonths > 0 && $moreDays > 0 && $moreYears > 0) {
                         $calAllInterest = ($getTransactionData->transRestInterest) + (($loanData->loanAmount * ($loanData->loanRate/100)) * (($moreMonths+1) + ($moreYears * 12)));
