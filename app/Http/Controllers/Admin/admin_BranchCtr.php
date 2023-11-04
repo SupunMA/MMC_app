@@ -10,8 +10,8 @@ use App\Models\branches;
 
 class admin_BranchCtr extends Controller
 {
-    
-   
+
+
  //Authenticate all Admin routes
     public function __construct()
     {
@@ -26,7 +26,7 @@ class admin_BranchCtr extends Controller
     {
         return view('Users.Admin.Branches.AddNewBranch');
     }
-    
+
     public function allBranch()
     {
         $bdata = branches::all();
@@ -40,7 +40,7 @@ class admin_BranchCtr extends Controller
             'branchAddress' =>'required'
          ]);
         $user = Branches::create($data->all());
-        return redirect()->back()->with('message','successful');
+        return redirect()->back()->with('message','Added Branch!');
         //->route('your_url_where_you_want_to_redirect');
     }
 
@@ -49,7 +49,7 @@ class admin_BranchCtr extends Controller
         //dd($branchID);
         $delete = Branches::find($branchID);
         $delete->delete();
-        return redirect()->back()->with('message','successful');
+        return redirect()->back()->with('message','Deleted Branch!');
     }
 
     public function updateBranch(Request $data)
@@ -64,7 +64,7 @@ class admin_BranchCtr extends Controller
                 'branchTP' => $data->branchTP,
                 'branchLocation' => $data->branchLocation
             ]);
-        return redirect()->back()->with('message','successful');
+        return redirect()->back()->with('message','Updated Branch!');
     }
-    
+
 }

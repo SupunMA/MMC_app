@@ -10,8 +10,8 @@ use App\Models\Loan;
 
 class admin_LoanCtr extends Controller
 {
-   
-   
+
+
  //Authenticate all Admin routes
     public function __construct()
     {
@@ -65,16 +65,16 @@ class admin_LoanCtr extends Controller
             //'dueDate' =>['required']
          ]);
         $user = Loan::create($data->all());
-        return redirect()->back()->with('message','successful');
+        return redirect()->back()->with('message','Added Loan!');
         //->route('your_url_where_you_want_to_redirect');
     }
-    
+
     public function deleteLoan($loanID)
     {
         //dd($branchID);
         $delete = Loan::find($loanID);
         $delete->delete();
-        return redirect()->back()->with('message','successful');
+        return redirect()->back()->with('message','Deleted Loan!');
     }
 
     public function updateLoan(Request $data)
@@ -98,6 +98,6 @@ class admin_LoanCtr extends Controller
             //'loanLandID'=> $data->loanLandID,
             'description' => $data->description]);
 
-        return redirect()->back()->with('message','successful');
+        return redirect()->back()->with('message','Updated Loan!');
     }
 }

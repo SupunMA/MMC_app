@@ -15,7 +15,7 @@ use DateTime;
 
 class admin_TransactionCtr extends Controller
 {
-   
+
  //Authenticate all Admin routes
     public function __construct()
     {
@@ -61,7 +61,7 @@ class admin_TransactionCtr extends Controller
         $delete = Transaction::find($transID);
         $delete->delete();
         //return redirect()->back()->with('message','successful');
-        return redirect()->route('admin.allTransaction');
+        return redirect()->route('admin.allTransaction')->with('message','Deleted Transaction!');;
     }
 
     public function addingTransaction(Request $data)
@@ -71,7 +71,7 @@ class admin_TransactionCtr extends Controller
             'paidDate' => ['required','date'],
             'transPaidAmount' => ['required','max:99999999','numeric'],
             'transLoanID' => ['required']
-            
+
         ]);
 
         //dd($data->extraMoney);
@@ -86,9 +86,9 @@ class admin_TransactionCtr extends Controller
         $newDate = $getDate->format('Y-m-d');
 
         if ($getTransactionData == Null){
-            
+
             //$user = Transaction::create($data->all());
-            
+
             $generatedPenaltyFee = 0;
             $penaltyDays = 0;
             $gotLoanDate = new DateTime($loanData->loanDate);
@@ -97,16 +97,16 @@ class admin_TransactionCtr extends Controller
             $days = $interval->format('%a');//now do whatever you like with $days
             //dd($days);
             //dd($interval->m,$interval->d);
-            
+
             $moreDays = $interval->d;
             $moreMonths = $interval->m;
             $moreYears = $interval->y;
-            
+
             //dd($moreDays,$moreMonths,$moreYears);
 
             if ($moreMonths > 0 && $moreDays > 0 && $moreYears > 0) {
                 $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * ($moreMonths + 1 + ($moreYears * 12)));
-                
+
             }
 
             if ($moreMonths == 0 && $moreDays > 0 && $moreYears > 0) {
@@ -131,7 +131,7 @@ class admin_TransactionCtr extends Controller
 
             if ($moreMonths == 0 && $moreDays > 0 && $moreYears == 0) {
                 $calAllInterest = (($loanData->loanAmount * ($loanData->loanRate/100)) * 1);
-                
+
             }
 
             if ($moreMonths > 0 && $moreDays == 0 && $moreYears == 0) {
@@ -147,12 +147,12 @@ class admin_TransactionCtr extends Controller
             $newData->transAllPaid = $data->transPaidAmount;
 
 
-            
+
             //current Loan Paying month and year
             $paidDateToGetTheMonth = Carbon::createFromFormat('Y-m-d', $data->paidDate);
             $monthName = $paidDateToGetTheMonth->format('m');
             $year = $paidDateToGetTheMonth->format('Y');
-            
+
             //get Due date from loan table
             $date = Carbon::createFromFormat('Y-m-d', $loanData->loanDate);
             $dueDate = $date->format('d');
@@ -171,7 +171,7 @@ class admin_TransactionCtr extends Controller
             //year
             $dueYear = $date->format('Y');
 
-            //create date according to current month year and Due date 
+            //create date according to current month year and Due date
             $createdDate = Carbon::createFromDate($dueYear, $dueMonth, $dueDay)->toDateString();
 
             $CurrentMonthDueDate = Carbon::createFromFormat('Y-m-d', $createdDate);
@@ -179,24 +179,24 @@ class admin_TransactionCtr extends Controller
 
             //get different amount of Months
             $diff_in_months = $CurrentMonthDueDate->diffInMonths($loanData->loanDate);
-            
+
             $diff_in_months2 = $newDate2->diffInMonths($loanData->loanDate);
 
             ////////////////////////////////////////////////////////////////////
 
-            
+
 
             if ($diff_in_months >=1 && $diff_in_months2 > 0){
-                
+
 
                 if ($monthName == 1 || $monthName == 3 || $monthName == 5 || $monthName == 7 || $monthName == 8 || $monthName == 10 || $monthName == 12) {
-                    
+
                     $extraDays = 31 - $dueDate;
 
                     if ($moreDays >= $extraDays ) {
 
                         $penaltyDays = $moreDays-1;
-                        
+
                     }else{
                         $penaltyDays = $moreDays;
                     }
@@ -206,9 +206,9 @@ class admin_TransactionCtr extends Controller
                         $extraDays = 29 - $dueDate;
 
                         if ($moreDays >= $extraDays ) {
-                            
+
                             $penaltyDays = $moreDays+1;
-                            
+
                         }else{
                             $penaltyDays = $moreDays;
                         }
@@ -218,7 +218,7 @@ class admin_TransactionCtr extends Controller
                         if ($moreDays >= $extraDays ) {
 
                             $penaltyDays = $moreDays+2;
-                            
+
                         }else{
                             $penaltyDays = $moreDays;
                         }
@@ -230,44 +230,44 @@ class admin_TransactionCtr extends Controller
 
                 }
             }
-            
+
             //Calculate penalty fee and store
             if ( $moreMonths > 1 ) {
 
                 $penaltyDays = $penaltyDays + ($moreMonths - 1) * 30;
-        
+
                 if ( $moreYears > 0 ) {
-        
+
                     $penaltyDays = $penaltyDays + (360 * $moreYears);
-        
+
                 }
-        
+
             }
-        
+
             if ($moreMonths == 1) {
-        
+
                 if ( $moreYears > 0 ) {
-        
+
                     $penaltyDays = $penaltyDays + (360 * $moreYears);
-        
+
                 }
-                
+
             }
-        
+
             if ($moreMonths == 0 ) {
                 if ($moreYears >= 1) {
-        
+
                     $penaltyDays = $penaltyDays + ((360 * $moreYears)-30);
-        
+
                 }
-                
+
             }
-        
+
             $generatedPenaltyFee = (round((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays ,0));
-            
-            
-            
-            
+
+
+
+
             //if paid amount less than allInterest
             if ($data->transPaidAmount > $calAllInterest) {
 
@@ -275,7 +275,7 @@ class admin_TransactionCtr extends Controller
                 //store penalty fee
 
                 if (($data->transPaidAmount - $calAllInterest) >= $generatedPenaltyFee) {
-                    
+
                     $newData->transPaidPenaltyFee = $generatedPenaltyFee;
 
                     //handle Extra money
@@ -283,9 +283,9 @@ class admin_TransactionCtr extends Controller
 
                         //store extra money
                         $newData->transExtraMoney = ($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee;
-                    
+
                     }elseif($data->extraMoney == 'reduce'){
-                        
+
                         $newData->transReducedAmount = ($data->transPaidAmount - $calAllInterest)-$generatedPenaltyFee;
 
                         //reduce money from the loan
@@ -295,7 +295,7 @@ class admin_TransactionCtr extends Controller
                             ]);
 
                     }
-                    
+
 
                 }else {
 
@@ -304,7 +304,7 @@ class admin_TransactionCtr extends Controller
 
                         //store extra money
                         $newData->transExtraMoney = $data->transPaidAmount - $calAllInterest;
-                    
+
                     }elseif($data->extraMoney == 'reduce'){
 
                         $newData->transReducedAmount = $data->transPaidAmount - $calAllInterest;
@@ -323,7 +323,7 @@ class admin_TransactionCtr extends Controller
                     $newData->transRestPenaltyFee = $generatedPenaltyFee - ($data->transPaidAmount - $calAllInterest);
 
                 }
-                
+
             }else {
 
                 $newData->transPaidInterest = $data->transPaidAmount;
@@ -335,11 +335,11 @@ class admin_TransactionCtr extends Controller
                 $newData->transRestInterest = ($data->transPaidAmount - $calAllInterest) * (-1);
 
             }
-             
-            
+
+
             $newData->save();
-            
-            return redirect()->back()->with('message','successful');
+
+            return redirect()->back()->with('message','Added Transaction!');
 
 
 
@@ -379,7 +379,7 @@ class admin_TransactionCtr extends Controller
             //year
             $dueYear = $date->format('Y');
 
-            //create date according to Last Paid month year and Due date 
+            //create date according to Last Paid month year and Due date
             $createdDate = Carbon::createFromDate($dueYear, $dueMonth, $dueDay)->toDateString();
             $FormattedLastPaidDueDate = Carbon::createFromFormat('Y-m-d', $createdDate);
 
@@ -394,11 +394,11 @@ class admin_TransactionCtr extends Controller
 
                 //This part join with cal penalty fee
                 if ($createdDate == $loanLastPaidDateCal) {
-                    
+
                     $AddOneMonDateCal = new DateTime($createdDate);
                     $currentDate = new DateTime($data->paidDate);
                     $interval = $AddOneMonDateCal->diff($currentDate);
-                    
+
 
                     $moreDays = $interval->d;
                     $moreMonths = $interval->m;
@@ -407,31 +407,31 @@ class admin_TransactionCtr extends Controller
                     //dd($moreDays,$moreMonths,$moreYears);
                 }
                 if ($allPenaltyFee > 0) {
-                    
+
                     $AddOneMonDateCal = new DateTime($AddOneMonLastPaidDueDate);
                     $currentDate = new DateTime($data->paidDate);
                     $interval = $AddOneMonDateCal->diff($currentDate);
-                    
+
 
                     $moreDays = $interval->d;
                     $moreMonths = $interval->m;
                     $moreYears = $interval->y;
                 }
-                
+
                 //Cal Interest
                 //Compare with new paying date
                 if ($AddOneMonLastPaidDueDate <= $data->paidDate) {
-                    
+
                     $AddOneMonDateCal = new DateTime($AddOneMonLastPaidDueDate);
                     $currentDate = new DateTime($data->paidDate);
                     $interval = $AddOneMonDateCal->diff($currentDate);
-                    
+
 
                     $moreDays = $interval->d;
                     $moreMonths = $interval->m;
                     $moreYears = $interval->y;
 
-                    
+
 
                     if ($moreMonths > 0 && $moreDays > 0 && $moreYears > 0) {
                         $calAllInterest = ($getTransactionData->transRestInterest - $getTransactionData->transExtraMoney) + (($loanData->loanAmount * ($loanData->loanRate/100)) * (($moreMonths+1) + ($moreYears * 12)));
@@ -452,7 +452,7 @@ class admin_TransactionCtr extends Controller
                     if ($moreMonths == 0 && $moreDays == 0 && $moreYears == 0) {
 
                         $calAllInterest = ($getTransactionData->transRestInterest - $getTransactionData->transExtraMoney)+ (($loanData->loanAmount * ($loanData->loanRate/100)) * 1);
-                
+
                     }
 
                     if ($moreMonths > 0 && $moreDays > 0 && $moreYears == 0) {
@@ -476,10 +476,10 @@ class admin_TransactionCtr extends Controller
                 //dd($moreDays,$moreMonths,$moreYears);
                 //Calculate Penalty Fee
                 if ( $moreDays > 0 || $moreMonths > 1 || $moreYears >= 1  ) {
-                    
+
                     ////////////////////////////////////////////////////////////////////
                     if ($getTransactionData->transRestPenaltyFee != 0) {
-                        
+
                         $getLastLoanPaidDate = new DateTime($loanLastPaidDateCal);
                         $getNewPaidDate = new DateTime($data->paidDate);
                         $interval = $getLastLoanPaidDate->diff($getNewPaidDate);
@@ -491,40 +491,40 @@ class admin_TransactionCtr extends Controller
                         $interval = $getLastLoanPaidDate->diff($getNewPaidDate);
 
                     }
-                    
-                    
+
+
                     $moreDays = $interval->d;
                     $PenMoreMonths = $interval->m;
                     $PenMoreYears = $interval->y;
 
                     ///////////////////////////////////////////////////////////////////
-                    
-                                
+
+
                     //current Loan Paying month and year
                     $paidDateToGetTheMonth = Carbon::createFromFormat('Y-m-d', $loanLastPaidDateCal);
                     $monthName = $paidDateToGetTheMonth->format('m');
                     $year = $paidDateToGetTheMonth->format('Y');
-                    
+
                     //get Due date from loan table
                     $date = Carbon::createFromFormat('Y-m-d', $loanData->loanDate);
                     $dueDate = $date->format('d');
 
                     //dd($createdDate <= $loanLastPaidDateCal);
                         ///////////////////////////////////////////////////////////////
-                    
+
 
                     $penaltyDays = 0;
 
                     if ($moreDays != 0) {
-                        
+
                         if ($monthName == 1 || $monthName == 3 || $monthName == 5 || $monthName == 7 || $monthName == 8 || $monthName == 10 || $monthName == 12) {
-                            
+
                             $extraDays = 31 - $dueDate;
 
                             if ($moreDays >= $extraDays ) {
-                            
+
                                 $penaltyDays = $moreDays-1;
-                                
+
                             }else{
                                 $penaltyDays = $moreDays;
                             }
@@ -534,9 +534,9 @@ class admin_TransactionCtr extends Controller
                                 $extraDays = 29 - $dueDate;
 
                                 if ($moreDays >= $extraDays ) {
-                                    
+
                                     $penaltyDays = $moreDays+1;
-                                    
+
                                 }else{
                                     $penaltyDays = $moreDays;
                                 }
@@ -546,21 +546,21 @@ class admin_TransactionCtr extends Controller
                                 if ($moreDays >= $extraDays ) {
 
                                     $penaltyDays = $moreDays+2;
-                                    
+
                                 }else{
                                     $penaltyDays = $moreDays;
                                 }
                             }
                         }else {
 
-                            
+
                             $penaltyDays = $moreDays;
 
                         }
 
                     }
 
-                    
+
                     if ( $PenMoreMonths > 0 ) {
 
                         //Reduce one month if more than one month has NOT paid
@@ -569,10 +569,10 @@ class admin_TransactionCtr extends Controller
                         }else {
                             $penaltyDays = $penaltyDays + ($PenMoreMonths * 30);
                         }
-                        
+
                     }
 
-                    
+
 
                     if ($PenMoreYears > 0) {
 
@@ -582,12 +582,12 @@ class admin_TransactionCtr extends Controller
                         }else {
                             $penaltyDays = $penaltyDays + (360 * $PenMoreYears);
                         }
-                        
+
                     }
-                        
+
                    // dd($penaltyDays);
 
-                    
+
                    $generatedPenaltyFee = (round((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays ,0));
                    //$generatedPenaltyFee = ((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays);
 
@@ -595,19 +595,19 @@ class admin_TransactionCtr extends Controller
 
                    $allPenaltyFee = ($generatedPenaltyFee + $getTransactionData->transRestPenaltyFee);
 
-                    
+
                 }
 
                 //dd($calAllInterest,$allPenaltyFee);
-                
+
                 //if paid amount less than allInterest
                 if ($allPaidAmount > $calAllInterest) {
-                    
+
                     $newData->transPaidInterest = $allPaidAmount - ($allPaidAmount - $calAllInterest);
                     //store penalty fee
 
                     if (($allPaidAmount - $calAllInterest) >= $allPenaltyFee) {
-                        
+
                         $newData->transPaidPenaltyFee = $allPenaltyFee;
 
                         //handle Extra money
@@ -615,9 +615,9 @@ class admin_TransactionCtr extends Controller
 
                             //store extra money
                             $newData->transExtraMoney = ($allPaidAmount - $calAllInterest)-$allPenaltyFee;
-                        
+
                         }elseif($data->extraMoney == 'reduce'){
-                            
+
                             $newData->transReducedAmount = ($allPaidAmount - $calAllInterest)-$allPenaltyFee;
 
                             //reduce money from the loan
@@ -627,7 +627,7 @@ class admin_TransactionCtr extends Controller
                                 ]);
 
                         }
-                        
+
 
                     }else {
 
@@ -636,7 +636,7 @@ class admin_TransactionCtr extends Controller
 
                             //store extra money
                             $newData->transExtraMoney = $allPaidAmount - $calAllInterest;
-                        
+
                         }elseif($data->extraMoney == 'reduce'){
 
                             $newData->transReducedAmount = $allPaidAmount - $calAllInterest;
@@ -655,9 +655,9 @@ class admin_TransactionCtr extends Controller
                         $newData->transRestPenaltyFee = $allPenaltyFee - ($allPaidAmount - $calAllInterest);
 
                     }
-                    
+
                 }else {
-                    
+
                     $newData->transPaidInterest = $allPaidAmount;
                     //store penalty fee
                     $newData->transPaidPenaltyFee = 0.0;
@@ -667,25 +667,25 @@ class admin_TransactionCtr extends Controller
                     $newData->transRestInterest = ($allPaidAmount - $calAllInterest) * (-1);
 
                 }
-                
-                
+
+
                 if($newData->save()){
                     return redirect()->back()->with('message','successful');
                 }
-                
-                
 
-                
+
+
+
             }else {
                 //Compare with new paying date
                 if ($createdDate <= $data->paidDate) {
-                    
+
                     //Calculate Interest
                     $LatPayDueDateCal = new DateTime($createdDate);
                     $currentDate = new DateTime($data->paidDate);
                     $interval = $LatPayDueDateCal->diff($currentDate);
-                    
-                    
+
+
                     $moreDays = $interval->d;
                     $moreMonths = $interval->m;
                     $moreYears = $interval->y;
@@ -711,7 +711,7 @@ class admin_TransactionCtr extends Controller
                     if ($moreMonths == 0 && $moreDays == 0 && $moreYears == 0) {
 
                         $calAllInterest = ($getTransactionData->transRestInterest)+ (($loanData->loanAmount * ($loanData->loanRate/100)) * 1);
-                
+
                     }
 
                     if ($moreMonths > 0 && $moreDays > 0 && $moreYears == 0) {
@@ -735,10 +735,10 @@ class admin_TransactionCtr extends Controller
 
                 //Calculate Penalty Fee
                 if ( $getTransactionData->transRestPenaltyFee != 0 ||($moreDays > 0 || $moreMonths > 1 || $moreYears >= 1)  ) {
-                    
+
                     ////////////////////////////////////////////////////////////////////
                     if ($getTransactionData->transRestPenaltyFee != 0) {
-                        
+
                         $getLastLoanPaidDate = new DateTime($loanLastPaidDateCal);
                         $getNewPaidDate = new DateTime($data->paidDate);
                         $interval = $getLastLoanPaidDate->diff($getNewPaidDate);
@@ -750,21 +750,21 @@ class admin_TransactionCtr extends Controller
                         $interval = $getLastLoanPaidDate->diff($getNewPaidDate);
 
                     }
-                    
-                    
-                    
+
+
+
                     $moreDays = $interval->d + 1;
                     $PenMoreMonths = $interval->m;
                     $PenMoreYears = $interval->y;
 
                     ///////////////////////////////////////////////////////////////////
-                    
-                                
+
+
                     //current Loan Paying month and year
                     $paidDateToGetTheMonth = Carbon::createFromFormat('Y-m-d', $loanLastPaidDateCal);
                     $monthName = $paidDateToGetTheMonth->format('m');
                     $year = $paidDateToGetTheMonth->format('Y');
-                    
+
                     //get Due date from loan table
                     $date = Carbon::createFromFormat('Y-m-d', $loanData->loanDate);
                     $dueDate = $date->format('d');
@@ -776,15 +776,15 @@ class admin_TransactionCtr extends Controller
                     $penaltyDays = 0;
 
                     if ($moreDays != 0) {
-                        
+
                         if ($monthName == 1 || $monthName == 3 || $monthName == 5 || $monthName == 7 || $monthName == 8 || $monthName == 10 || $monthName == 12) {
-                            
+
                             $extraDays = 31 - $dueDate;
 
                             if ($moreDays >= $extraDays ) {
-                            
+
                                 $penaltyDays = $moreDays-1;
-                                
+
                             }else{
                                 $penaltyDays = $moreDays;
                             }
@@ -794,9 +794,9 @@ class admin_TransactionCtr extends Controller
                                 $extraDays = 29 - $dueDate;
 
                                 if ($moreDays >= $extraDays ) {
-                                    
+
                                     $penaltyDays = $moreDays+1;
-                                    
+
                                 }else{
                                     $penaltyDays = $moreDays;
                                 }
@@ -806,21 +806,21 @@ class admin_TransactionCtr extends Controller
                                 if ($moreDays >= $extraDays ) {
 
                                     $penaltyDays = $moreDays+2;
-                                    
+
                                 }else{
                                     $penaltyDays = $moreDays;
                                 }
                             }
                         }else {
 
-                            
+
                             $penaltyDays = $moreDays;
 
                         }
 
                     }
 
-                    
+
                     if ( $PenMoreMonths > 0 ) {
 
                         //Reduce one month if more than one month has NOT paid
@@ -829,10 +829,10 @@ class admin_TransactionCtr extends Controller
                         }else {
                             $penaltyDays = $penaltyDays + ($PenMoreMonths * 30);
                         }
-                        
+
                     }
 
-                    
+
 
                     if ($PenMoreYears > 0) {
 
@@ -842,9 +842,9 @@ class admin_TransactionCtr extends Controller
                         }else {
                             $penaltyDays = $penaltyDays + (360 * $PenMoreYears);
                         }
-                        
+
                     }
-                        
+
                     //dd($penaltyDays);
 
                     $generatedPenaltyFee = (round((($loanData->loanAmount) * ($loanData->penaltyRate) / 100) / 30 * $penaltyDays ,0));
@@ -855,19 +855,19 @@ class admin_TransactionCtr extends Controller
 
                     $allPenaltyFee = ($generatedPenaltyFee + $getTransactionData->transRestPenaltyFee);
 
-                    
+
                 }
                 //dd($calAllInterest,$generatedPenaltyFee,$allPenaltyFee);
 
 
                 //if paid amount less than allInterest
                 if ($allPaidAmount > $calAllInterest) {
-                    
+
                     $newData->transPaidInterest = $allPaidAmount - ($allPaidAmount - $calAllInterest);
                     //store penalty fee
 
                     if (($allPaidAmount - $calAllInterest) >= $generatedPenaltyFee) {
-                        
+
                         $newData->transPaidPenaltyFee = $generatedPenaltyFee;
 
                         //handle Extra money
@@ -875,9 +875,9 @@ class admin_TransactionCtr extends Controller
 
                             //store extra money
                             $newData->transExtraMoney = (($allPaidAmount - $calAllInterest)-$generatedPenaltyFee);
-                        
+
                         }elseif($data->extraMoney == 'reduce'){
-                            
+
                             $newData->transReducedAmount = (($allPaidAmount - $calAllInterest)-$generatedPenaltyFee);
 
                             //reduce money from the loan
@@ -887,7 +887,7 @@ class admin_TransactionCtr extends Controller
                                 ]);
 
                         }
-                        
+
 
                     }else {
 
@@ -896,7 +896,7 @@ class admin_TransactionCtr extends Controller
 
                             //store extra money
                             $newData->transExtraMoney = $allPaidAmount - $calAllInterest;
-                        
+
                         }elseif($data->extraMoney == 'reduce'){
 
                             $newData->transReducedAmount = $allPaidAmount - $calAllInterest;
@@ -915,9 +915,9 @@ class admin_TransactionCtr extends Controller
                         $newData->transRestPenaltyFee = $allPenaltyFee - ($allPaidAmount - $calAllInterest);
 
                     }
-                    
+
                 }else {
-                    
+
                     $newData->transPaidInterest = $allPaidAmount;
                     //store penalty fee
                     $newData->transPaidPenaltyFee = 0.0;
@@ -927,16 +927,16 @@ class admin_TransactionCtr extends Controller
                     $newData->transRestInterest = ($allPaidAmount - $calAllInterest) * (-1);
 
                 }
-                
-                
+
+
                 if($newData->save()){
-                    return redirect()->back()->with('message','successful');
+                    return redirect()->back()->with('message','Added Transaction!');
                 }
             }
-                    
-       
 
-            
-        }        
+
+
+
+        }
     }
 }

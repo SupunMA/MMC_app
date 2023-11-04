@@ -16,14 +16,14 @@
                     <th>Loan Rate</th>
                     <th>Penalty Fee Rate</th>
                     <th>Loan Date | Due Date</th>
-                    
+
                     <th>Description</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($LoansWithLand as $data)
-                    
+
                 <tr>
                     <td>{{$data->loanID}}</td>
                     <td>{{$data->landID}} <br> {{$data->name}} <br> {{$data->NIC}}</td>
@@ -31,7 +31,7 @@
                     <td>{{$data->loanRate}}%</td>
                     <td>{{$data->penaltyRate}}%</td>
                     <td>{{$data->loanDate}}</td>
-                    
+
                     <td>{{$data->description}}</td>
                     <td>
                         <a class="btn btn-warning" type="button" data-toggle="modal" data-target="#loanEditModal-{{$data->loanID}}" >
@@ -57,7 +57,7 @@
                     <th>Loan Rate</th>
                     <th>Penalty Fee Rate</th>
                     <th>Loan Date | Due Date</th>
-                    
+
                     <th>Description</th>
                     <th>Actions</th>
                 </tr>
@@ -68,19 +68,15 @@
 </div>
 <!-- /.card -->
 
+@push('specificCss')
+@include('layouts.adminComponents.lib.specific-style.dataTables')
+
+@endpush
+
+
 @push('specificJs')
 
 {{-- toastr msg --}}
-<script>
-    $('.toastrDefaultSuccess').click(function () {
-        toastr.success('&#160; Done Successfully !.&#160;')
-    });
-
-    $('.toastrDefaultError').click(function () {
-        toastr.error("Could't Save the Data. Please try again")
-    });
-
-</script>
 
 {{-- toastr auto click --}}
 <script type="text/javascript">
@@ -90,5 +86,9 @@
     });
 
 </script>
+
+<!-- DataTables  & Plugins -->
+@include('layouts.adminComponents.lib.specific-js.dataTables')
+@include('layouts.adminComponents.lib.specific-js.formInput')
 
 @endpush

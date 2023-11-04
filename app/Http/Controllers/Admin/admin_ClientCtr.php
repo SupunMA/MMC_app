@@ -11,8 +11,8 @@ use App\Models\User;
 
 class admin_ClientCtr extends Controller
 {
-    
-   
+
+
  //Authenticate all Admin routes
     public function __construct()
     {
@@ -39,13 +39,13 @@ class admin_ClientCtr extends Controller
         //->join('table1','table1.id','=','table3.id');
         return view('Users.Admin.Clients.allClients',compact('clients','branches'));
     }
-    
+
     public function deleteClient($userID)
     {
         //dd($branchID);
         $delete = User::find($userID);
         $delete->delete();
-        return redirect()->back()->with('message','successful');
+        return redirect()->back()->with('message','Deleted Customer!');
     }
 
     public function updateClient(Request $request)
@@ -76,7 +76,7 @@ class admin_ClientCtr extends Controller
                     'refBranch' => $request->refBranch
                 ]);
 
-        return redirect()->back()->with('message','successful');
+        return redirect()->back()->with('message','Updated Customer!');
 
     }
 }

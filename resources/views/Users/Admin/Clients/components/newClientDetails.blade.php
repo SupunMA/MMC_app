@@ -97,13 +97,13 @@
                 <div class="col-lg-6 col-12">
                     <div class="form-group">
                         <label>Select The Branch</label>
-                        
+
                         <select class="form-control select2bs4" style="width: 100%;" name="refBranch">
                             {{-- <option selected="selected">Alabama</option> --}}
                             @foreach ($branches as $bd)
                                 <option value="{{$bd->branchID}}">{{$bd->branchName}}</option>
                             @endforeach
-                            
+
                         </select>
                     </div>
                 </div>
@@ -124,16 +124,6 @@
 @push('specificJs')
 
 {{-- toastr msg --}}
-<script>
-    $('.toastrDefaultError').click(function () {
-        toastr.error("Could't Save the Data. Please try again")
-    });
-
-    $('.toastrDefaultSuccess').click(function () {
-        toastr.success('&#160; Saved Successfully!.&#160;')
-    });
-
-</script>
 
 {{-- toastr auto click --}}
 <script type="text/javascript">
@@ -143,4 +133,7 @@
     });
 
 </script>
+
+@include('layouts.adminComponents.lib.specific-js.formInput')
+
 @endpush
