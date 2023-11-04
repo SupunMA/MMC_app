@@ -6,7 +6,7 @@
     <div class="card-body">
 
         @include('Users.Admin.messages.addMsg')
-        
+
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -48,7 +48,7 @@
                     @include('Users.Admin.Lands.components.deleteLand')
 
                 @endforeach
-                
+
             </tbody>
             <tfoot>
                 <tr>
@@ -67,20 +67,14 @@
 </div>
 <!-- /.card -->
 
+@push('specificCss')
+@include('layouts.adminComponents.lib.specific-style.dataTables')
+
+@endpush
 
 @push('specificJs')
 
 {{-- toastr msg --}}
-<script>
-    $('.toastrDefaultSuccess').click(function () {
-        toastr.success('&#160; Done Successfully !.&#160;')
-    });
-
-    $('.toastrDefaultError').click(function () {
-        toastr.error("Could't Save the Data. Please try again")
-    });
-
-</script>
 
 {{-- toastr auto click --}}
 <script type="text/javascript">
@@ -90,5 +84,10 @@
     });
 
 </script>
+
+
+<!-- DataTables  & Plugins -->
+@include('layouts.adminComponents.lib.specific-js.dataTables')
+@include('layouts.adminComponents.lib.specific-js.formInput')
 
 @endpush

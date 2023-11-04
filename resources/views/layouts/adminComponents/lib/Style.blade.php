@@ -10,10 +10,7 @@ href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&d
 {{-- <link rel="stylesheet" href={{ URL::asset('dist/css/adminlte.min.css'); }}> --}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
 
-<!-- DataTables -->
-    <link rel="stylesheet" href={{ URL::asset('adminPages/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'); }}>
-    <link rel="stylesheet" href={{ URL::asset('adminPages/plugins/datatables-responsive/css/responsive.bootstrap4.min.css'); }}>
-    <link rel="stylesheet" href={{ URL::asset('adminPages/plugins/datatables-buttons/css/buttons.bootstrap4.min.css'); }}> 
+
 
 <!-- dropdown menu and form style -->
     <!-- daterange picker -->
@@ -39,3 +36,6 @@ href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&d
     <link rel="stylesheet" href={{ URL::asset('adminPages/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css'); }}>
     <!-- Toastr -->
     <link rel="stylesheet" href={{ URL::asset('adminPages/plugins/toastr/toastr.min.css'); }}>
+
+
+    @stack('specificCss')

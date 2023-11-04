@@ -4,13 +4,13 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-        
+
         @include('Users.Admin.messages.addMsg')
 
 
-        
+
         <table id="example1" class="table table-bordered table-striped">
-            
+
             <thead>
                 <tr>
                     <th>ID</th>
@@ -39,8 +39,8 @@
                             <a name="" id="" class="btn btn-secondary" target="_blank" href="{{$client->userMap}}" role="button"><i class="fas fa-street-view"></i></a>
                             <a name="" id="" class="btn btn-primary" target="_blank" href="https://drive.google.com/uc?export=view&id={{$client->photo}}" role="button"><i class="fas fa-portrait"></i></a>
                         </td>
-                        
-                        
+
+
                         <td>
                             <a class="btn btn-warning" type="button" data-toggle="modal" data-target="#ClientEditModal-{{$client->id}}" >
                                 <i class="far fa-edit"></i>
@@ -78,18 +78,14 @@
 </div>
 <!-- /.card -->
 
+
+@push('specificCss')
+@include('layouts.adminComponents.lib.specific-style.dataTables')
+
+@endpush
+
 @push('specificJs')
 {{-- toastr msg --}}
-<script>
-    $('.toastrDefaultSuccess').click(function () {
-        toastr.success('&#160; Done Successfully !.&#160;')
-    });
-
-    $('.toastrDefaultError').click(function () {
-        toastr.error("Could't Save the Data. Please try again")
-    });
-
-</script>
 
 {{-- toastr auto click --}}
 <script type="text/javascript">
@@ -99,6 +95,12 @@
     });
 
 </script>
+
+
+<!-- DataTables  & Plugins -->
+
+@include('layouts.adminComponents.lib.specific-js.dataTables')
+@include('layouts.adminComponents.lib.specific-js.formInput')
 
 
 @endpush

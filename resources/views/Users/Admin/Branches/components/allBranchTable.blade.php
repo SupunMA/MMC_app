@@ -3,7 +3,7 @@
         <h3 class="card-title">All Branches</h3>
     </div>
     <!-- /.card-header -->
-    
+
 
     <div class="card-body">
         @include('Users.Admin.messages.addMsg')
@@ -41,7 +41,7 @@
                             </a>
                         </td>
                     </tr>
-                    
+
                             {{-- update modal and delete modal --}}
                             @include('Users.Admin.Branches.components.updateBranch')
                             @include('Users.Admin.Branches.components.deleteBranch')
@@ -64,22 +64,17 @@
 </div>
 <!-- /.card -->
 
+@push('specificCss')
+@include('layouts.adminComponents.lib.specific-style.dataTables')
+
+@endpush
 
 @push('specificJs')
-{{-- toastr msg --}}
-<script>
-    $('.toastrDefaultSuccess').click(function () {
-        toastr.success('&#160; Done Successfully !.&#160;')
-    });
-
-    $('.toastrDefaultError').click(function () {
-        toastr.error("Could't Save the Data. Please try again")
-    });
-
-</script>
+{{-- toastr msg -- @include('Users.Admin.messages.addMsg') }}
 
 {{-- toastr auto click --}}
 <script type="text/javascript">
+
     $(document).ready(function () {
         $(".toastrDefaultSuccess").click();
         $(".toastrDefaultError").click();
@@ -88,4 +83,10 @@
 </script>
 
 
+<!-- DataTables  & Plugins -->
+@include('layouts.adminComponents.lib.specific-js.dataTables')
+@include('layouts.adminComponents.lib.specific-js.formInput')
+
 @endpush
+
+

@@ -11,8 +11,8 @@ use App\Models\Land;
 class admin_LandCtr extends Controller
 {
    //protected $task;
-    
-   
+
+
  //Authenticate all Admin routes
     public function __construct()
     {
@@ -45,7 +45,7 @@ class admin_LandCtr extends Controller
             'landValue' =>'required','min:100000','max:10000000'
          ]);
         $user = Land::create($data->all());
-        return redirect()->back()->with('message','successful');
+        return redirect()->back()->with('message','Added Land!');
         //->route('your_url_where_you_want_to_redirect');
     }
 
@@ -54,7 +54,7 @@ class admin_LandCtr extends Controller
         //dd($branchID);
         $delete = Land::find($landID);
         $delete->delete();
-        return redirect()->back()->with('message','successful');
+        return redirect()->back()->with('message','Deleted Land!');
     }
 
     public function updateLand(Request $data)
@@ -68,7 +68,7 @@ class admin_LandCtr extends Controller
                 'landMap' => $data->landMap,
                 'landAddress' => $data->landAddress
             ]);
-        return redirect()->back()->with('message','successful');
+        return redirect()->back()->with('message','Updated Land!');
     }
 
 
