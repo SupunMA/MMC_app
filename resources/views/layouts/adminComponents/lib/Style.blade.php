@@ -10,8 +10,6 @@ href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&d
 {{-- <link rel="stylesheet" href={{ URL::asset('dist/css/adminlte.min.css'); }}> --}}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
 
-
-
 <!-- dropdown menu and form style -->
     <!-- daterange picker -->
     <link rel="stylesheet" href={{ URL::asset('adminPages/plugins/daterangepicker/daterangepicker.css'); }}>
