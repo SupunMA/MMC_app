@@ -31,7 +31,7 @@
                         <td>{{$client->id}}</td>
                         <td>{{$client->name}}</td>
                         <td>{{$client->address}}</td>
-                        <td>{{$client->mobile}}</td>
+                        <td>{{$client->mobile}} &nbsp;&nbsp; <a class="btn btn-success" href="tel:{{$client->mobile}}"><i class="fa fa-phone" aria-hidden="true"></i></a></td>
                         <td>{{$client->NIC}}</td>
                         <td>{{$client->fileName}}</td>
                         <td>{{$client->branchName}}</td>
