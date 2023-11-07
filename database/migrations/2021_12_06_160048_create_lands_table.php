@@ -18,8 +18,7 @@ class CreateLandsTable extends Migration
             $table->string('landAddress')->nullable();
             $table->string('landMap')->nullable();
             $table->string('landDetails')->nullable();
-            $table->float('landValue',10,2)->nullable();
-
+            $table->decimal('landValue',10,2)->nullable();
             $table->integer('ownerID')->nullable();
 
             $table->timestamps();

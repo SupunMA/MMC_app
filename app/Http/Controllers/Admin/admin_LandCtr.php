@@ -42,7 +42,7 @@ class admin_LandCtr extends Controller
     {
          $data->validate([
             'ownerID' =>'required',
-            'landValue' =>'required','min:100000','max:10000000'
+            'landValue' =>'required','numeric','min:100000.00','max:99999999.99'
          ]);
         $user = Land::create($data->all());
         return redirect()->back()->with('message','Added Land!');
@@ -60,7 +60,7 @@ class admin_LandCtr extends Controller
     public function updateLand(Request $data)
     {
         $data->validate([
-            'landValue' =>'required','min:100000','max:10000000',
+            'landValue' =>'required','numeric','min:100000.0','max:99999999.99'
          ]);
         Land::where('landID', $data->landID)
         ->update(['landValue' => $data->landValue,

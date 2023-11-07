@@ -12,13 +12,13 @@
 
             <form action="{{route('admin.updateLand')}}" method="post">
                 @csrf
-                
+
                 <div class="modal-body">
-                   
+
                     <input type="hidden" name="landID" value="{{$data->landID}}">
-                    
-                    
-                    
+
+
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Owner's Name - NIC</label>

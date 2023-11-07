@@ -51,7 +51,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Rs.</span>
                                     </div>
-                                    <input type="text" min="100000" step="1000.00" value="" name="loanAmount"
+                                    <input type="text" pattern="^(?!.*_).*$" min="100000" step="1000.00" value="" name="loanAmount"
                                         class="form-control" data-inputmask="'mask': [ '999999','9999999','99999999']"
                                         data-mask>
                                     <div class="input-group-append">
@@ -72,7 +72,7 @@
 
                                 <div class="input-group">
 
-                                    <input type="text" class="form-control" placeholder="Percentage : 3.5"
+                                    <input type="text" pattern="^(?!.*_).*$" class="form-control" placeholder="Percentage : 3.5"
                                         data-inputmask="'mask': ['9.9','99.9']" data-mask name="loanRate">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">%</span>
@@ -88,7 +88,7 @@
 
                                 <div class="input-group">
 
-                                    <input type="text" class="form-control"
+                                    <input type="text" pattern="^(?!.*_).*$" class="form-control"
                                         data-inputmask="'mask': [ '9.9','99.9','100']" data-mask
                                         placeholder="Percentage : 1" name="penaltyRate">
                                     <div class="input-group-prepend">

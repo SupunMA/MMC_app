@@ -50,12 +50,12 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Rs.</span>
                                     </div>
-                                    <input type="text" min="100000" step="1000.00" value="100000" class="form-control"
-                                        data-inputmask="'mask': [ '999999','9999999','99999999']" data-mask
+                                    <input type="text" pattern="^(?!.*_).*$" min="100000.00" step="1000.00" value="100000.00" class="form-control"
+                                        data-inputmask="'mask': [ '999999.99','9999999.99','99999999.99']" data-mask
                                         name="landValue">
-                                    <div class="input-group-append">
+                                    {{-- <div class="input-group-append">
                                         <span class="input-group-text">.00</span>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
 
