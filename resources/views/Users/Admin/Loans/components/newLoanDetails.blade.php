@@ -113,7 +113,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" data-inputmask-alias="datetime"
+                                    <input type="text" pattern="\d{4}-\d{2}-\d{2}" class="form-control" data-inputmask-alias="datetime"
                                         name="loanDate" data-inputmask-inputformat="yyyy-mm-dd" data-mask>
                                 </div>
                                 <!-- /.input group -->
