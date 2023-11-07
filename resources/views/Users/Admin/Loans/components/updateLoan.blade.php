@@ -12,32 +12,32 @@
 
             <form action="{{route('admin.updateLoan')}}" method="post">
                 @csrf
-                
+
                 <div class="modal-body">
-                   
+
                     <input type="hidden" name="loanID" value="{{$data->loanID}}">
-                    
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Land ID - NIC - Client Name</label>
                                 <select class="form-control select2bs4" style="width: 100%;" name="loanLandID" disabled>
-                                    
+
                                     <option selected="selected" value="{{$data->landID}}">{{$data->landID}} - {{$data->NIC}} - {{$data->name}}</option>
-                                        
+
                                 </select>
                                 <i>Land and owner of the loan can not be changed.</i>
                             </div>
                             <!-- /.form-group -->
 
 
-                            
+
                             <div class="form-group">
                                 <label>Loan Amount</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Rs.</span>
                                     </div>
-                                    <input type="text" min="100000" step="1000.00" name="loanAmount"
+                                    <input type="text" pattern="^(?!.*_).*$" min="100000" step="1000.00" name="loanAmount"
                                         class="form-control" data-inputmask="'mask': [ '999999','9999999','99999999']"
                                         data-mask value="{{$data->loanAmount}}">
                                <!-- <div class="input-group-append">
@@ -49,7 +49,7 @@
                             <!-- /.form-group -->
 
 
-                            
+
                         </div>
                         <!-- /.col -->
 
@@ -60,7 +60,7 @@
 
                                 <div class="input-group">
 
-                                    <input type="text" class="form-control" placeholder="Percentage : 3.5"
+                                    <input type="text" pattern="^(?!.*_).*$" class="form-control" placeholder="Percentage : 3.5"
                                         data-inputmask="'mask': ['9','9.9','99.9']" data-mask name="loanRate"
                                         value="{{$data->loanRate}}">
                                     <div class="input-group-prepend">
@@ -77,7 +77,7 @@
 
                                 <div class="input-group">
 
-                                    <input type="text" class="form-control"
+                                    <input type="text" pattern="^(?!.*_).*$" class="form-control"
                                         data-inputmask="'mask': [ '9','9.9','99.9']" data-mask
                                         placeholder="Percentage : 1" name="penaltyRate" value="{{$data->penaltyRate}}">
                                     <div class="input-group-prepend">
