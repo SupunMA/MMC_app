@@ -29,7 +29,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Select (Land ID - NIC - Client Name)</label>
+                                <label>Select (Loan ID - NIC - Client Name)</label>
                                 <select class="form-control select2bs4" style="width: 100%;" name="transLoanID">
                                     {{-- <option selected="selected">Alabama</option> --}}
 
