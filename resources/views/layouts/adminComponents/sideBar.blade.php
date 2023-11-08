@@ -32,8 +32,8 @@
                 </div>
             </div>
         </div> --}}
-        
-        
+
+
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
@@ -51,7 +51,7 @@
 
                 {{-- Transactions --}}
                 <li class="nav-item">
-                    <a href="{{ route('admin.addTransaction') }}" class="nav-link  text-white {{ Route::currentRouteNamed('admin.addTransaction') || Route::currentRouteNamed('admin.allTransaction') || Route::currentRouteNamed('admin.allTransactionOfLoan') ? 'active' : ' ' }}">
+                    <a href="{{ route('admin.addTransaction') }}" class="nav-link {{ Route::currentRouteNamed('admin.addTransaction') || Route::currentRouteNamed('admin.allTransaction') || Route::currentRouteNamed('admin.allTransactionOfLoan') ? 'active' : ' ' }}">
                         <i class="far fa-handshake"></i>
                         <p>Transactions
                             <span class="right badge badge-success">Pay</span>
@@ -182,10 +182,10 @@
                 {{-- Logout --}}
                 <li class="nav-item">
                     <!-- Logout modal trigger Button -->
-                    <a href="#" class="nav-link btn btn-danger" data-toggle="modal" data-target="#staticBackdrop">                
+                    <a href="#" class="nav-link btn btn-danger" data-toggle="modal" data-target="#staticBackdrop">
                     <i class="fas fa-sign-out-alt"></i>
                         <p>Logout</p>
-                    </a>                         
+                    </a>
                 </li>
 
             </ul>
