@@ -7,9 +7,9 @@
         {{-- <!-- SELECT2 EXAMPLE --> --}}
         <form action="{{route('admin.addingTransaction')}}" method="post">
             @csrf
-            <div class="card card-danger">
+            <div class="card card-success">
                 <div class="card-header">
-                    <h3 class="card-title">New Transaction Details</h3>
+                    <h3 class="card-title">Paying Details</h3>
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -27,7 +27,9 @@
                     @include('Users.Admin.messages.addMsg')
 
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+
+
                             <div class="form-group">
                                 <label>Select (Loan ID - NIC - Client Name)</label>
                                 <select class="form-control select2bs4" style="width: 100%;" name="transLoanID">
