@@ -86,7 +86,8 @@ class admin_TransactionCtr extends Controller
         $this->loanDate = Loan::where('loanID', $data->transLoanID)->value('loanDate');
 
         if($getTransactionData){
-            dd("not first");
+
+            dd($getTransactionData);
 
         }else{
 
@@ -98,19 +99,19 @@ class admin_TransactionCtr extends Controller
 
             if ($currentMonthPayDate > $data->paidDate){
                 // Your original date
-                // echo "sss";
+                echo "sss";
                 $givenDate = Carbon::parse($currentMonthPayDate);
 
                 // Get the number of days in the previous month
                 $numberOfDaysInPreviousMonth = $givenDate->subMonthNoOverflow()->daysInMonth;
 
                 if ($numberOfDaysInPreviousMonth == 31){
-                    // echo"tttt";
+                    echo"tttt";
                     $this->calcInterest(-1);
 
                 }
                 elseif($numberOfDaysInPreviousMonth == 28){
-                    // echo"oooooo";
+                    echo"oooooo";
                     $this->calcInterest(+2);
 
                 }
@@ -124,14 +125,17 @@ class admin_TransactionCtr extends Controller
             else{
                 // Your date value
                 $transPayDate = Carbon::parse($data->paidDate);
-                // Get the number of days in transaction date month
-                $daysInTransPayMonth = $transPayDate->daysInMonth;
+                // Get the day from transaction date
+                // $daysInTransPayMonth = $transPayDate->daysInMonth;
 
-                if($daysInTransPayMonth == 31){
-                    // echo"uuuuuu";
+
+                $transPayDay = $transPayDate->day;
+
+                if($transPayDay == 31){
+                    echo"uuuuuu";
                     $this->calcInterest(-1);
                 }else{
-                    // echo"ssssss";
+                    echo"xxxx";
                     $this->calcInterest(0);
                 }
 
@@ -139,7 +143,7 @@ class admin_TransactionCtr extends Controller
             }
 
         }
-        return redirect()->back()->with('message','Added Transaction!');
+       // return redirect()->back()->with('message','Added Transaction!');
 
 
     }
@@ -257,12 +261,14 @@ class admin_TransactionCtr extends Controller
 
 
         // Save the model to the database
-        $storeToTransaction->save();
+          $storeToTransaction->save();
 
 
 
         // $showdays = $diff->d + $changingDayDiff;
-        //  echo "date: $showdays\n<br><br>";
+         echo "date: $daysGap\n<br><br>";
+         echo "date: $monthsGap\n<br><br>";
+         echo "date: $changingDayDiff\n<br><br>";
 
         //  echo "date: $requestData->paidDate\n";
         //  echo "paid amount: $transPaidAmount\n <br><br>";
