@@ -68,6 +68,7 @@ class admin_TransactionCtr extends Controller
 
     public function addingTransaction(Request $data)
     {
+        //dd($data);
         $data->validate([
 
             'paidDate' => ['required','date'],
@@ -91,30 +92,30 @@ class admin_TransactionCtr extends Controller
 
             $startDate = Carbon::parse($this->loanDate);
             $endDate = Carbon::parse($data->paidDate);
-            echo "{$startDate} - {$endDate}<br><br>";
+            // echo "{$startDate} - {$endDate}<br><br>";
             $currentMonthPayDate =  $endDate->day($startDate->day)->toDateString();
-            echo "{$currentMonthPayDate}<br><br>";
+            // echo "{$currentMonthPayDate}<br><br>";
 
             if ($currentMonthPayDate > $data->paidDate){
                 // Your original date
-                echo "sss";
+                // echo "sss";
                 $givenDate = Carbon::parse($currentMonthPayDate);
 
                 // Get the number of days in the previous month
                 $numberOfDaysInPreviousMonth = $givenDate->subMonthNoOverflow()->daysInMonth;
 
                 if ($numberOfDaysInPreviousMonth == 31){
-                    echo"tttt";
+                    // echo"tttt";
                     $this->calcInterest(-1);
 
                 }
                 elseif($numberOfDaysInPreviousMonth == 28){
-                    echo"oooooo";
+                    // echo"oooooo";
                     $this->calcInterest(+2);
 
                 }
                 elseif($numberOfDaysInPreviousMonth == 29){
-                    echo"iiiiii";
+                    // echo"iiiiii";
                     $this->calcInterest(+1);
 
                 }
@@ -127,10 +128,10 @@ class admin_TransactionCtr extends Controller
                 $daysInTransPayMonth = $transPayDate->daysInMonth;
 
                 if($daysInTransPayMonth == 31){
-                    echo"uuuuuu";
+                    // echo"uuuuuu";
                     $this->calcInterest(-1);
                 }else{
-                    echo"ssssss";
+                    // echo"ssssss";
                     $this->calcInterest(0);
                 }
 
@@ -138,6 +139,7 @@ class admin_TransactionCtr extends Controller
             }
 
         }
+        return redirect()->back()->with('message','Added Transaction!');
 
 
     }
@@ -235,20 +237,44 @@ class admin_TransactionCtr extends Controller
         elseif($requestData->extraMoney == "reduce" && $requestData->transPaidAmount > 0 ) {
             $transReducedAmount = $requestData->transPaidAmount;
         }
-        $showdays = $diff->d + $changingDayDiff;
-         echo "date: $showdays\n<br><br>";
 
-         echo "date: $requestData->paidDate\n";
-         echo "paid amount: $transPaidAmount\n <br><br>";
+        // Create a new instance of the Transaction model
+        $storeToTransaction = new Transaction();
 
-         echo "transPaidLateFee: $transPaidLateFee\n";
-         echo "transRestLateFee: $transRestLateFee\n<br><br>";
 
-         echo "transPaidInterest: $transPaidInterest\n";
-         echo "transRestInterest: $transRestInterest\n<br><br>";
+        // Set the values for each column based on your data
+        $storeToTransaction->paidDate = $requestData->paidDate;
+        $storeToTransaction->transDetails = $requestData->transDetails;
+        $storeToTransaction->transPaidAmount = $transPaidAmount;
+        $storeToTransaction->transAllPaid = $transPaidAmount;
+        $storeToTransaction->transPaidInterest = $transPaidInterest;
+        $storeToTransaction->transPaidPenaltyFee = $transPaidLateFee;
+        $storeToTransaction->transRestInterest = $transRestInterest;
+        $storeToTransaction->transRestPenaltyFee = $transRestLateFee;
+        $storeToTransaction->transReducedAmount = $transReducedAmount;
+        $storeToTransaction->transExtraMoney = $transExtraMoney;
+        $storeToTransaction->transLoanID = $requestData->transLoanID;
 
-         echo "transExtraMoney: $transExtraMoney\n";
-         echo "transReducedAmount: $transReducedAmount\n";
+
+        // Save the model to the database
+        $storeToTransaction->save();
+
+
+
+        // $showdays = $diff->d + $changingDayDiff;
+        //  echo "date: $showdays\n<br><br>";
+
+        //  echo "date: $requestData->paidDate\n";
+        //  echo "paid amount: $transPaidAmount\n <br><br>";
+
+        //  echo "transPaidLateFee: $transPaidLateFee\n";
+        //  echo "transRestLateFee: $transRestLateFee\n<br><br>";
+
+        //  echo "transPaidInterest: $transPaidInterest\n";
+        //  echo "transRestInterest: $transRestInterest\n<br><br>";
+
+        //  echo "transExtraMoney: $transExtraMoney\n";
+        //  echo "transReducedAmount: $transReducedAmount\n";
 
     }
 
