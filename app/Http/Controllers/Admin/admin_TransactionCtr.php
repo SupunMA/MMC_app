@@ -76,8 +76,6 @@ class admin_TransactionCtr extends Controller
 
         ]);
 
-        //dd($data->extraMoney);
-
         //pass data to calcInterest method
         $this->requestData = $data;
 
@@ -86,30 +84,15 @@ class admin_TransactionCtr extends Controller
 
         $this->loanDate = Loan::where('loanID', $data->transLoanID)->value('loanDate');
 
-
-        // $getDate = new DateTime();
-        // $newDate = $getDate->format('Y-m-d');
-
-
-
-       // dd($getTransactionData,$loanData,$newDate);
-
-
         if($getTransactionData){
             dd("not first");
 
         }else{
 
-
-            // echo " - - monthly interest is {$monthlyInterest}-- {$monthlyLateFee} -- {$dailyLateFee}";
-
             $startDate = Carbon::parse($this->loanDate);
             $endDate = Carbon::parse($data->paidDate);
- echo " - -start {$startDate}-- end {$endDate}";
-
 
             $currentMonthPayDate =  $endDate->day($startDate->day)->toDateString();
-
 
             if ($currentMonthPayDate > $data->paidDate){
                 // Your original date
@@ -119,31 +102,48 @@ class admin_TransactionCtr extends Controller
                 $numberOfDaysInPreviousMonth = $givenDate->subMonthNoOverflow()->daysInMonth;
 
                 if ($numberOfDaysInPreviousMonth == 31){
-                    $numberOfDaysInPreviousMonth = $numberOfDaysInPreviousMonth-1;
-                    echo "{$numberOfDaysInPreviousMonth}";
-                    $this->calcInterest();
+
+                    $this->calcInterest(-1);
+
                 }
                 elseif($numberOfDaysInPreviousMonth == 28){
-                    $numberOfDaysInPreviousMonth = $numberOfDaysInPreviousMonth+2;
-                    echo "{$numberOfDaysInPreviousMonth}";
+
+                    $this->calcInterest(+2);
+
                 }
                 elseif($numberOfDaysInPreviousMonth == 29){
-                    $numberOfDaysInPreviousMonth = $numberOfDaysInPreviousMonth+1;
-                    echo "{$numberOfDaysInPreviousMonth}";
+
+                    $this->calcInterest(+1);
+
                 }
 
             }
+            else{
+                // Your date value
+                $transPayDate = Carbon::parse($data->paidDate);
+                // Get the number of days in transaction date month
+                $daysInTransPayMonth = $date->daysInMonth;
 
-            // echo "/ {$diff->y}-{$diff->m}-{$diff->d}  -  -  - {$currentMonthPayDate}";
-
+                if($daysInTransPayMonth == 31){
+                    $this->calcInterest(-1);
+                }
+            }
 
         }
 
 
     }
 
-    private function calcInterest(){
+    private function calcInterest($changingDayDiff){
         //get request data from main method
+
+        $transPaidLateFee = 0;
+        $transRestLateFee = 0;
+        $transPaidInterest = 0;
+        $transRestInterest = 0;
+        $transExtraMoney = 0;
+        $transReducedAmount = 0;
+
         $requestData = $this->requestData;
 
         $loanData = Loan::where('loanID', $requestData->transLoanID)
@@ -160,19 +160,69 @@ class admin_TransactionCtr extends Controller
 
         $startDate = Carbon::parse($this->loanDate);
         $endDate = Carbon::parse($requestData->paidDate);
-        // Calculate the difference between the two dates
+        // Calculate the difference between loan date and transaction date
         $diff = $startDate->diff($endDate);
-        $daysGap = $diff->d;
+        $daysGap = $diff->d + $changingDayDiff; //according to addingTransaction method add or minus value
         $monthsGap = $diff->m;
         $yearsGap = $diff->y;
 
-        //Interest calculation
-        
+        //Total Interest calculation
+        $totalInterest = $monthlyInterest * 12 * $yearsGap;
+        $totalInterest = $totalInterest + $monthlyInterest * $monthsGap;
+        $totalInterest = $totalInterest + $monthlyInterest;
 
-        // echo "Days Gap: $daysGap\n";
-        // echo "mon Gap: $monthsGap\n";
-        // echo "years Gap: $yearsGap\n";
-        // echo "hoooooo {$loanValue}";
+        //Total late fees calculation
+        $totalLateFee = $monthlyLateFee * 12 * $yearsGap;
+        $totalLateFee = $totalLateFee + $monthlyLateFee * $monthsGap;
+        $totalLateFee = $totalLateFee + $dailyLateFee * $daysGap;
+
+
+        //Add late fees to DB $transPaidLateFee - $transRestLateFee
+        if($requestData->transPaidAmount >= $totalLateFee){
+
+            $transPaidLateFee = $totalLateFee;
+            $transRestLateFee = 0;
+            $requestData->transPaidAmount = $requestData->transPaidAmount - $totalLateFee;
+
+        }
+        else{
+
+            $transPaidLateFee = $requestData->transPaidAmount;
+            $transRestLateFee = $totalLateFee - $requestData->transPaidAmount;
+            $requestData->transPaidAmount = 0;
+
+        }
+
+        //Add interest to DB
+        if($requestData->transPaidAmount >= $totalInterest){
+            $transPaidInterest = $totalInterest;
+            $transRestInterest = 0;
+            $requestData->transPaidAmount= $requestData->transPaidAmount - $totalInterest;
+        }
+        else{
+
+            $transPaidInterest = $requestData->transPaidAmount;
+            $transRestInterest = $totalInterest - $requestData->transPaidAmount;
+            $requestData->transPaidAmount = 0;
+
+        }
+
+        //Add extra money or reduce from loan
+        if($requestData->extraMoney == "keep" && $requestData->transPaidAmount > 0 ){
+            $transExtraMoney = $requestData->transPaidAmount;
+        }
+        elseif($requestData->extraMoney == "reduce" && $requestData->transPaidAmount > 0 ) {
+            $transReducedAmount = $requestData->transPaidAmount;
+        }
+         echo "transPaidLateFee: $transPaidLateFee\n";
+         echo "transRestLateFee: $transRestLateFee\n";
+
+         echo "transPaidInterest: $transPaidInterest\n";
+         echo "transRestInterest: $transRestInterest\n";
+
+         echo "transExtraMoney: $transExtraMoney\n";
+         echo "transReducedAmount: $transReducedAmount\n";
+
     }
 
 }
