@@ -91,28 +91,30 @@ class admin_TransactionCtr extends Controller
 
             $startDate = Carbon::parse($this->loanDate);
             $endDate = Carbon::parse($data->paidDate);
-
+            echo "{$startDate} - {$endDate}<br><br>";
             $currentMonthPayDate =  $endDate->day($startDate->day)->toDateString();
+            echo "{$currentMonthPayDate}<br><br>";
 
             if ($currentMonthPayDate > $data->paidDate){
                 // Your original date
+                echo "sss";
                 $givenDate = Carbon::parse($currentMonthPayDate);
 
                 // Get the number of days in the previous month
                 $numberOfDaysInPreviousMonth = $givenDate->subMonthNoOverflow()->daysInMonth;
 
                 if ($numberOfDaysInPreviousMonth == 31){
-
+                    echo"tttt";
                     $this->calcInterest(-1);
 
                 }
                 elseif($numberOfDaysInPreviousMonth == 28){
-
+                    echo"oooooo";
                     $this->calcInterest(+2);
 
                 }
                 elseif($numberOfDaysInPreviousMonth == 29){
-
+                    echo"iiiiii";
                     $this->calcInterest(+1);
 
                 }
@@ -122,11 +124,17 @@ class admin_TransactionCtr extends Controller
                 // Your date value
                 $transPayDate = Carbon::parse($data->paidDate);
                 // Get the number of days in transaction date month
-                $daysInTransPayMonth = $date->daysInMonth;
+                $daysInTransPayMonth = $transPayDate->daysInMonth;
 
                 if($daysInTransPayMonth == 31){
+                    echo"uuuuuu";
                     $this->calcInterest(-1);
+                }else{
+                    echo"ssssss";
+                    $this->calcInterest(0);
                 }
+
+
             }
 
         }
@@ -136,7 +144,10 @@ class admin_TransactionCtr extends Controller
 
     private function calcInterest($changingDayDiff){
         //get request data from main method
+        $requestData = $this->requestData;
 
+        // assign variables
+        $transPaidAmount = $requestData->transPaidAmount;
         $transPaidLateFee = 0;
         $transRestLateFee = 0;
         $transPaidInterest = 0;
@@ -144,7 +155,7 @@ class admin_TransactionCtr extends Controller
         $transExtraMoney = 0;
         $transReducedAmount = 0;
 
-        $requestData = $this->requestData;
+
 
         $loanData = Loan::where('loanID', $requestData->transLoanID)
         ->get()->first();
@@ -172,10 +183,18 @@ class admin_TransactionCtr extends Controller
         $totalInterest = $totalInterest + $monthlyInterest;
 
         //Total late fees calculation
-        $totalLateFee = $monthlyLateFee * 12 * $yearsGap;
-        $totalLateFee = $totalLateFee + $monthlyLateFee * $monthsGap;
-        $totalLateFee = $totalLateFee + $dailyLateFee * $daysGap;
+        $monthsDifference = $startDate->diffInMonths($endDate);
+        if($monthsDifference >= 1){
 
+            $totalLateFee = $monthlyLateFee * 12 * $yearsGap;
+            $totalLateFee = $totalLateFee + $monthlyLateFee * ($monthsGap - 1);
+            $totalLateFee = $totalLateFee + $dailyLateFee * $daysGap;
+
+        }elseif($monthsDifference == 0){
+
+            $totalLateFee = 0;
+
+        }
 
         //Add late fees to DB $transPaidLateFee - $transRestLateFee
         if($requestData->transPaidAmount >= $totalLateFee){
@@ -192,6 +211,8 @@ class admin_TransactionCtr extends Controller
             $requestData->transPaidAmount = 0;
 
         }
+
+
 
         //Add interest to DB
         if($requestData->transPaidAmount >= $totalInterest){
@@ -214,11 +235,17 @@ class admin_TransactionCtr extends Controller
         elseif($requestData->extraMoney == "reduce" && $requestData->transPaidAmount > 0 ) {
             $transReducedAmount = $requestData->transPaidAmount;
         }
+        $showdays = $diff->d + $changingDayDiff;
+         echo "date: $showdays\n<br><br>";
+
+         echo "date: $requestData->paidDate\n";
+         echo "paid amount: $transPaidAmount\n <br><br>";
+
          echo "transPaidLateFee: $transPaidLateFee\n";
-         echo "transRestLateFee: $transRestLateFee\n";
+         echo "transRestLateFee: $transRestLateFee\n<br><br>";
 
          echo "transPaidInterest: $transPaidInterest\n";
-         echo "transRestInterest: $transRestInterest\n";
+         echo "transRestInterest: $transRestInterest\n<br><br>";
 
          echo "transExtraMoney: $transExtraMoney\n";
          echo "transReducedAmount: $transReducedAmount\n";
