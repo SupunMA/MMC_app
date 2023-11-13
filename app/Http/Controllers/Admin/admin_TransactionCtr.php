@@ -69,22 +69,26 @@ class admin_TransactionCtr extends Controller
     public function addingTransaction(Request $data)
     {
         //dd($data);
+        //get loan date from db
+        $this->loanDate = Loan::where('loanID', $data->transLoanID)->value('loanDate');
+
         $data->validate([
 
-            'paidDate' => ['required','date'],
+            'paidDate' => ['required','date','after:' . $this->loanDate],
             'transPaidAmount' => ['required','max:99999999','numeric'],
             'transLoanID' => ['required']
 
         ]);
 
-        //pass data to calcInterest method
+        //pass data to calcInterest method (public variable)
         $this->requestData = $data;
 
+        //get transaction last record from db
         $getTransactionData = Transaction::where('transLoanID',$data->transLoanID)
         ->orderBy('transID', 'desc')->first();
 
-        $this->loanDate = Loan::where('loanID', $data->transLoanID)->value('loanDate');
 
+        //check is there old transactions
         if($getTransactionData){
 
             dd($getTransactionData);
@@ -98,20 +102,19 @@ class admin_TransactionCtr extends Controller
             // echo "{$currentMonthPayDate}<br><br>";
 
             if ($currentMonthPayDate > $data->paidDate){
-                // Your original date
-                echo "sss";
-                $givenDate = Carbon::parse($currentMonthPayDate);
 
+                // echo "sss";
+                $givenDate = Carbon::parse($currentMonthPayDate);
                 // Get the number of days in the previous month
                 $numberOfDaysInPreviousMonth = $givenDate->subMonthNoOverflow()->daysInMonth;
 
                 if ($numberOfDaysInPreviousMonth == 31){
-                    echo"tttt";
+                    // echo"tttt";
                     $this->calcInterest(-1);
 
                 }
                 elseif($numberOfDaysInPreviousMonth == 28){
-                    echo"oooooo";
+                    // echo"oooooo";
                     $this->calcInterest(+2);
 
                 }
@@ -120,33 +123,25 @@ class admin_TransactionCtr extends Controller
                     $this->calcInterest(+1);
 
                 }
-
             }
             else{
-                // Your date value
+                // transaction date
                 $transPayDate = Carbon::parse($data->paidDate);
                 // Get the day from transaction date
-                // $daysInTransPayMonth = $transPayDate->daysInMonth;
-
-
                 $transPayDay = $transPayDate->day;
 
                 if($transPayDay == 31){
-                    echo"uuuuuu";
+                    // echo"uuuuuu";
                     $this->calcInterest(-1);
                 }else{
-                    echo"xxxx";
+                    // echo"xxxx";
                     $this->calcInterest(0);
                 }
-
-
             }
-
         }
-       // return redirect()->back()->with('message','Added Transaction!');
-
-
+        return redirect()->back()->with('message','Added Transaction!');
     }
+
 
     private function calcInterest($changingDayDiff){
         //get request data from main method
@@ -161,8 +156,7 @@ class admin_TransactionCtr extends Controller
         $transExtraMoney = 0;
         $transReducedAmount = 0;
 
-
-
+        //Get loan data from db
         $loanData = Loan::where('loanID', $requestData->transLoanID)
         ->get()->first();
 
@@ -189,6 +183,7 @@ class admin_TransactionCtr extends Controller
         $totalInterest = $totalInterest + $monthlyInterest;
 
         //Total late fees calculation
+        //month diff is more than or 1, calculate late fees
         $monthsDifference = $startDate->diffInMonths($endDate);
         if($monthsDifference >= 1){
 
@@ -219,9 +214,9 @@ class admin_TransactionCtr extends Controller
         }
 
 
-
         //Add interest to DB
         if($requestData->transPaidAmount >= $totalInterest){
+
             $transPaidInterest = $totalInterest;
             $transRestInterest = 0;
             $requestData->transPaidAmount= $requestData->transPaidAmount - $totalInterest;
@@ -234,6 +229,7 @@ class admin_TransactionCtr extends Controller
 
         }
 
+
         //Add extra money or reduce from loan
         if($requestData->extraMoney == "keep" && $requestData->transPaidAmount > 0 ){
             $transExtraMoney = $requestData->transPaidAmount;
@@ -244,7 +240,6 @@ class admin_TransactionCtr extends Controller
 
         // Create a new instance of the Transaction model
         $storeToTransaction = new Transaction();
-
 
         // Set the values for each column based on your data
         $storeToTransaction->paidDate = $requestData->paidDate;
@@ -261,14 +256,14 @@ class admin_TransactionCtr extends Controller
 
 
         // Save the model to the database
-          $storeToTransaction->save();
+        $storeToTransaction->save();
 
 
 
         // $showdays = $diff->d + $changingDayDiff;
-         echo "date: $daysGap\n<br><br>";
-         echo "date: $monthsGap\n<br><br>";
-         echo "date: $changingDayDiff\n<br><br>";
+        //  echo "date: $daysGap\n<br><br>";
+        //  echo "date: $monthsGap\n<br><br>";
+        //  echo "date: $changingDayDiff\n<br><br>";
 
         //  echo "date: $requestData->paidDate\n";
         //  echo "paid amount: $transPaidAmount\n <br><br>";
