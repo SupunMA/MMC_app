@@ -71,7 +71,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" data-inputmask-alias="datetime"
+                                    <input type="text" class="form-control" data-inputmask-alias="datetime" id="dateInput"
                                         name="paidDate" data-inputmask-inputformat="yyyy-mm-dd" data-mask>
                                 </div>
                                 <!-- /.input group -->
@@ -147,6 +147,18 @@
         $(".toastrDefaultError").click();
     });
 
+</script>
+
+{{-- transaction today date --}}
+<script>
+    // Get the current date
+    var currentDate = new Date();
+
+    // Format the date as "YYYY-MM-DD" (assuming you want the same format as your example)
+    var formattedDate = currentDate.toISOString().split('T')[0];
+
+    // Set the formatted date as the value for the input element
+    document.getElementById('dateInput').value = formattedDate;
 </script>
 
 @include('layouts.adminComponents.lib.specific-js.formInput')
