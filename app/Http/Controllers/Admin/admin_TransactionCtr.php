@@ -180,7 +180,13 @@ class admin_TransactionCtr extends Controller
         //Total Interest calculation
         $totalInterest = $monthlyInterest * 12 * $yearsGap;
         $totalInterest = $totalInterest + $monthlyInterest * $monthsGap;
-        $totalInterest = $totalInterest + $monthlyInterest;
+        //on monthly loan pay date will not add monthly interest, after that date add monthly interest value
+        if(($monthsGap <> 0 || $yearsGap <> 0) && $daysGap == 0){
+
+        }else{
+            $totalInterest = $totalInterest + $monthlyInterest;
+        }
+
 
         //Total late fees calculation
         //month diff is more than or 1, calculate late fees
@@ -236,6 +242,11 @@ class admin_TransactionCtr extends Controller
         }
         elseif($requestData->extraMoney == "reduce" && $requestData->transPaidAmount > 0 ) {
             $transReducedAmount = $requestData->transPaidAmount;
+
+            // update loan value by reducing
+            Loan::where('loanID', $requestData->transLoanID)
+            ->decrement('loanAmount', $transReducedAmount);
+
         }
 
         // Create a new instance of the Transaction model
