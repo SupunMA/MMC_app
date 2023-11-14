@@ -27,7 +27,7 @@
                     @include('Users.Admin.messages.addMsg')
 
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-12 col-sm-8 col-md-6 col-lg-6 col-xl-5">
 
 
                             <div class="form-group">
@@ -83,7 +83,7 @@
 
 
 
-                        <div class="col-md-4">
+                        <div class="col-12 col-sm-8 col-md-6 col-lg-6 col-xl-5">
 
                             <!-- Text area -->
                             <div class="form-group">
