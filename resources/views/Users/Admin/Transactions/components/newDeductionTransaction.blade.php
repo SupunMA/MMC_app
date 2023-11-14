@@ -24,7 +24,7 @@
                 <div class="card-body">
 
                     {{-- Msg after submit --}}
-                    @include('Users.Admin.messages.addMsg')
+                    {{-- @include('Users.Admin.messages.addMsg') --}}
 
                     <div class="row">
                         <div class="col-md-3">
