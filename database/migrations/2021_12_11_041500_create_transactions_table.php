@@ -28,6 +28,8 @@ class CreateTransactionsTable extends Migration
             $table->float('transExtraMoney',10,2)->default(0.0);
 
             $table->integer('transLoanID')->nullable();
+
+            $table->integer('transStatus')->default(0); //0 = interestPaying, 1 = loan reducing, 2 = interest,late fee,loan cut off
             $table->timestamps();
         });
     }
