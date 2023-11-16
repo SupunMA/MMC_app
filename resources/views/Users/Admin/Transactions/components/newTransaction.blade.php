@@ -27,7 +27,7 @@
                     @include('Users.Admin.messages.addMsg')
 
                     <div class="row">
-                        <div class="col-12 col-sm-8 col-md-6 col-lg-6 col-xl-5">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-5">
 
 
                             <div class="form-group">
@@ -83,7 +83,7 @@
 
 
 
-                        <div class="col-12 col-sm-8 col-md-6 col-lg-6 col-xl-5">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-5">
 
                             <!-- Text area -->
                             <div class="form-group">
@@ -100,12 +100,17 @@
 
                             {{-- radio --}}
                             <div class="form-group">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch1" name="reduceLoan">
+                                    <label class="custom-control-label" for="customSwitch1">Reduce the Loan Amount</label>
+                                    </div>
+<br>
                                 <h5 class="form-title">If there is extra money ?</h5>
                                 <div class="custom-control custom-radio">
                                   <input class="custom-control-input custom-control-input-danger" value="keep" type="radio" id="Radio1" name="extraMoney" checked>
                                   <label for="Radio1" class="custom-control-label">Keep the extra money until the next payment.</label>
                                 </div>
-                                <br>
+
                                 <div class="custom-control custom-radio">
                                   <input class="custom-control-input custom-control-input-danger" value="reduce" type="radio" id="Radio2" name="extraMoney">
                                   <label for="Radio2" class="custom-control-label">Reduce extra money from the loan</label>

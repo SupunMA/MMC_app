@@ -80,6 +80,16 @@ class admin_TransactionCtr extends Controller
 
         ]);
 
+        if($data->reduceLoan == true ){
+
+
+            // update loan value by reducing
+            Loan::where('loanID', $data->transLoanID)
+            ->decrement('loanAmount', $data->transPaidAmount);
+
+            return redirect()->back()->with('message','Added Transaction!');
+        }
+
         //pass data to calcInterest method (public variable)
         $this->requestData = $data;
 
@@ -91,7 +101,8 @@ class admin_TransactionCtr extends Controller
         //check is there old transactions
         if($getTransactionData){
 
-            dd($getTransactionData);
+
+
 
         }else{
 
