@@ -87,6 +87,34 @@ class admin_TransactionCtr extends Controller
             Loan::where('loanID', $data->transLoanID)
             ->decrement('loanAmount', $data->transPaidAmount);
 
+            //get transaction last record AllPaid Value
+            $latestAllPaid= Transaction::select('transAllPaid')
+            ->where('transLoanID',$data->transLoanID)
+            ->orderBy('transID', 'desc')->first();
+
+            $latestAllPaid = $latestAllPaid ?? 0; // check there is value, if not = 0
+
+            // Create a new instance of the Transaction model
+            $storeToTransaction = new Transaction();
+
+            // Set the values for each column based on your data
+            $storeToTransaction->paidDate = $data->paidDate;
+            $storeToTransaction->transDetails = $data->transDetails;
+            $storeToTransaction->transPaidAmount = $data->transPaidAmount;
+            $storeToTransaction->transAllPaid = $data->transPaidAmount + $latestAllPaid;
+            $storeToTransaction->transPaidInterest = 0;
+            $storeToTransaction->transPaidPenaltyFee = 0;
+            $storeToTransaction->transRestInterest = 0;
+            $storeToTransaction->transRestPenaltyFee = 0;
+            $storeToTransaction->transReducedAmount = $data->transPaidAmount;
+            $storeToTransaction->transExtraMoney = 0;
+            $storeToTransaction->transLoanID = $data->transLoanID;
+            $storeToTransaction->transStatus = 1;
+
+
+            // Save the model to the database
+            $storeToTransaction->save();
+
             return redirect()->back()->with('message','Added Transaction!');
         }
 
@@ -95,6 +123,7 @@ class admin_TransactionCtr extends Controller
 
         //get transaction last record from db
         $getTransactionData = Transaction::where('transLoanID',$data->transLoanID)
+        ->where('transStatus', 0)
         ->orderBy('transID', 'desc')->first();
 
 
