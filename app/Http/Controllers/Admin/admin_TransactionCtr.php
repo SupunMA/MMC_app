@@ -138,9 +138,19 @@ class admin_TransactionCtr extends Controller
             if($payDateNewTransDate > $loanDate){
                 $newTransDate = Carbon::parse($data->paidDate);
                 $oldTransDate = Carbon::parse($getTransactionData->paidDate);
-
+                $payDateOldTransDate =  $oldTransDate->day($loanDate->day)->toDateString();
                 // Calculate the $newTransDate, oldTransDate difference in days
                 $diffInDaysOldTransNewTransDates = $newTransDate->diffInDays($oldTransDate);
+
+                //Get loan data from db
+                $loanData = Loan::where('loanID', $data->transLoanID)
+                ->get()->first();
+
+                $loanValue = $loanData['loanAmount'];
+                $interestRate = $loanData['loanRate'];
+                $lateFeeRate = $loanData['penaltyRate'];
+
+                $monthlyInterest = $loanValue * $interestRate/100;
 
                 if($$diffInDaysOldTransNewTransDates >= 30){
                     $loanDate = Carbon::parse($this->loanDate);
@@ -148,15 +158,7 @@ class admin_TransactionCtr extends Controller
                     $payDateOldTransDate =  $oldTransDate->day($loanDate->day)->toDateString();
                     $oldTransDate = Carbon::parse($getTransactionData->paidDate);
 
-                    //Get loan data from db
-                    $loanData = Loan::where('loanID', $data->transLoanID)
-                    ->get()->first();
 
-                    $loanValue = $loanData['loanAmount'];
-                    $interestRate = $loanData['loanRate'];
-                    $lateFeeRate = $loanData['penaltyRate'];
-
-                    $monthlyInterest = $loanValue * $interestRate/100;
 
                     if($payDateOldTransDate > $oldTransDate){
 
@@ -201,10 +203,131 @@ class admin_TransactionCtr extends Controller
                         }
                     }
                 }else{
-                    
+                    if ($newTransDate->month == $oldTransDate->month){
+
+                        if($oldTransDate < $payDateOldTransDate && $payDateOldTransDate < $newTransDate){
+
+                            if($getTransactionData->transRestInterest > $monthlyInterest && $getTransactionData->transRestInterest < (2  * $monthlyInterest)){
+
+                                $diffInDaysOldTransAndPayDateOldTransDates = $oldTransDate->diffInDays($payDateOldTransDate);
+
+                                $getSmallInterest = $getTransactionData->transRestInterest - $monthlyInterest;
+
+                                $getSmallLoan = $getSmallInterest * ($interestRate / 100);
+                                $getMonthlyLateFeeForSmallLoan = $getSmallLoan * ($lateFeeRate / 100);
+
+                                $getDailyLateFeeForSmallLoan = $getMonthlyLateFeeForSmallLoan / 30;
+
+                                $lateFeeForSmallLoan = $diffInDaysOldTransAndPayDateOldTransDates * $getDailyLateFeeForSmallLoan;
+                            }
+
+                        }elseif($oldTransDate < $newTransDate && $newTransDate <= $payDateOldTransDate){
+
+                            if($getTransactionData->transRestInterest > $monthlyInterest && $getTransactionData->transRestInterest < (2  * $monthlyInterest)){
+
+                                $diffInDaysOldTransAndNewTransDates = $oldTransDate->diffInDays($newTransDate);
+
+                                $getSmallInterest = $getTransactionData->transRestInterest - $monthlyInterest;
+
+                                $getSmallLoan = $getSmallInterest * ($interestRate / 100);
+                                $getMonthlyLateFeeForSmallLoan = $getSmallLoan * ($lateFeeRate / 100);
+
+                                $getDailyLateFeeForSmallLoan = $getMonthlyLateFeeForSmallLoan / 30;
+
+                                $lateFeeForSmallLoan = $diffInDaysOldTransAndNewTransDates * $getDailyLateFeeForSmallLoan;
+                            }
+
+                        }elseif($payDateOldTransDate <= $oldTransDate && $oldTransDate < $newTransDate){
+
+
+                            if($getTransactionData->transRestInterest > $monthlyInterest && $getTransactionData->transRestInterest < (2  * $monthlyInterest)){
+
+                                $diffInDaysOldTransAndNewTransDates = $oldTransDate->diffInDays($newTransDate);
+
+                                if($newTransDate->day == 31){
+                                    $diffInDaysOldTransAndNewTransDates = $diffInDaysOldTransAndNewTransDates - 1;
+                                }
+
+                                $getSmallInterest = $getTransactionData->transRestInterest - $monthlyInterest;
+
+                                $getSmallLoan = $getSmallInterest * ($interestRate / 100);
+                                $getMonthlyLateFeeForSmallLoan = $getSmallLoan * ($lateFeeRate / 100);
+
+                                $getDailyLateFeeForSmallLoan = $getMonthlyLateFeeForSmallLoan / 30;
+
+                                $lateFeeForSmallLoan = $diffInDaysOldTransAndNewTransDates * $getDailyLateFeeForSmallLoan;
+                            }
+
+
+                        }
+
+                    }else{
+                        if($oldTransDate < $payDateOldTransDate){
+                            if($getTransactionData->transRestInterest > $monthlyInterest && $getTransactionData->transRestInterest < (2  * $monthlyInterest)){
+
+                                $diffInDaysOldTransAndPayDateOldTransDates = $oldTransDate->diffInDays($payDateOldTransDate);
+
+                                $getSmallInterest = $getTransactionData->transRestInterest - $monthlyInterest;
+
+                                $getSmallLoan = $getSmallInterest * ($interestRate / 100);
+                                $getMonthlyLateFeeForSmallLoan = $getSmallLoan * ($lateFeeRate / 100);
+
+                                $getDailyLateFeeForSmallLoan = $getMonthlyLateFeeForSmallLoan / 30;
+
+                                $lateFeeForSmallLoan = $diffInDaysOldTransAndPayDateOldTransDates * $getDailyLateFeeForSmallLoan;
+                            }
+                        }else{
+                            if($newTransDate <= $payDateNewTransDate){
+                                if($getTransactionData->transRestInterest > $monthlyInterest && $getTransactionData->transRestInterest < (2  * $monthlyInterest)){
+
+                                    $diffInDaysOldTransAndNewTransDates = $oldTransDate->diffInDays($newTransDate);
+
+
+                                    if($oldTransDate->daysInMonth() == 31){
+                                        $diffInDaysOldTransAndNewTransDates = $diffInDaysOldTransAndNewTransDates - 1;
+                                    }elseif($oldTransDate->daysInMonth() == 28){
+                                        $diffInDaysOldTransAndNewTransDates = $diffInDaysOldTransAndNewTransDates + 2;
+                                    }elseif($oldTransDate->daysInMonth() == 29){
+                                        $diffInDaysOldTransAndNewTransDates = $diffInDaysOldTransAndNewTransDates + 1;
+                                    }
+
+                                    $getSmallInterest = $getTransactionData->transRestInterest - $monthlyInterest;
+
+                                    $getSmallLoan = $getSmallInterest * ($interestRate / 100);
+                                    $getMonthlyLateFeeForSmallLoan = $getSmallLoan * ($lateFeeRate / 100);
+
+                                    $getDailyLateFeeForSmallLoan = $getMonthlyLateFeeForSmallLoan / 30;
+
+                                    $lateFeeForSmallLoan = $diffInDaysOldTransAndNewTransDates * $getDailyLateFeeForSmallLoan;
+                                }
+                            }elseif($payDateNewTransDate < $newTransDate){
+                                if($getTransactionData->transRestInterest > $monthlyInterest && $getTransactionData->transRestInterest < (2  * $monthlyInterest)){
+
+                                    $diffInDaysOldTransAndPayDateNewTransDates = $oldTransDate->diffInDays($payDateNewTransDate);
+
+                                    if($oldTransDate->daysInMonth() == 31){
+                                        $diffInDaysOldTransAndPayDateNewTransDates = $diffInDaysOldTransAndPayDateNewTransDates - 1;
+                                    }elseif($oldTransDate->daysInMonth() == 28){
+                                        $diffInDaysOldTransAndPayDateNewTransDates = $diffInDaysOldTransAndPayDateNewTransDates + 2;
+                                    }elseif($oldTransDate->daysInMonth() == 29){
+                                        $diffInDaysOldTransAndPayDateNewTransDates = $diffInDaysOldTransAndPayDateNewTransDates + 1;
+                                    }
+
+                                    $getSmallInterest = $getTransactionData->transRestInterest - $monthlyInterest;
+
+                                    $getSmallLoan = $getSmallInterest * ($interestRate / 100);
+                                    $getMonthlyLateFeeForSmallLoan = $getSmallLoan * ($lateFeeRate / 100);
+
+                                    $getDailyLateFeeForSmallLoan = $getMonthlyLateFeeForSmallLoan / 30;
+
+                                    $lateFeeForSmallLoan = $diffInDaysOldTransAndPayDateNewTransDates * $getDailyLateFeeForSmallLoan;
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
+dd($lateFeeForSmallLoan);
 
         }else{
 
