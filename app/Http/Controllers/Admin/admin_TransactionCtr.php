@@ -80,6 +80,7 @@ class admin_TransactionCtr extends Controller
 
         ]);
 
+        //Reduce Loan Amount Directly
         if($data->reduceLoan == true ){
 
 
@@ -88,12 +89,11 @@ class admin_TransactionCtr extends Controller
             ->decrement('loanAmount', $data->transPaidAmount);
 
             //get transaction last record AllPaid Value
-            $latestAllPaid= Transaction::select('transAllPaid')
-            ->where('transLoanID',$data->transLoanID)
+            $latestAllPaid= Transaction::where('transLoanID',$data->transLoanID)
             ->orderBy('transID', 'desc')->first();
 
-            $latestAllPaid = $latestAllPaid ?? 0; // check there is value, if not = 0
-
+            $latestAllPaid['transAllPaid'] = $latestAllPaid['transAllPaid'] ?? 0; // check there is value, if not = 0
+            // dd($data->transPaidAmount + $latestAllPaid['transAllPaid']);
             // Create a new instance of the Transaction model
             $storeToTransaction = new Transaction();
 
@@ -101,7 +101,7 @@ class admin_TransactionCtr extends Controller
             $storeToTransaction->paidDate = $data->paidDate;
             $storeToTransaction->transDetails = $data->transDetails;
             $storeToTransaction->transPaidAmount = $data->transPaidAmount;
-            $storeToTransaction->transAllPaid = $data->transPaidAmount + $latestAllPaid;
+            $storeToTransaction->transAllPaid = ($data->transPaidAmount + $latestAllPaid['transAllPaid']);
             $storeToTransaction->transPaidInterest = 0;
             $storeToTransaction->transPaidPenaltyFee = 0;
             $storeToTransaction->transRestInterest = 0;
@@ -130,7 +130,80 @@ class admin_TransactionCtr extends Controller
         //check is there old transactions
         if($getTransactionData){
 
+            $loanDate = Carbon::parse($this->loanDate);
+            $newTransDate = Carbon::parse($data->paidDate);
+            // echo "{$startDate} - {$endDate}<br><br>";
+            $payDateNewTransDate =  $newTransDate->day($loanDate->day)->toDateString();
 
+            if($payDateNewTransDate > $loanDate){
+                $newTransDate = Carbon::parse($data->paidDate);
+                $oldTransDate = Carbon::parse($getTransactionData->paidDate);
+
+                // Calculate the $newTransDate, oldTransDate difference in days
+                $diffInDaysOldTransNewTransDates = $newTransDate->diffInDays($oldTransDate);
+
+                if($$diffInDaysOldTransNewTransDates >= 30){
+                    $loanDate = Carbon::parse($this->loanDate);
+                    $oldTransDate = Carbon::parse($getTransactionData->paidDate);
+                    $payDateOldTransDate =  $oldTransDate->day($loanDate->day)->toDateString();
+                    $oldTransDate = Carbon::parse($getTransactionData->paidDate);
+
+                    //Get loan data from db
+                    $loanData = Loan::where('loanID', $data->transLoanID)
+                    ->get()->first();
+
+                    $loanValue = $loanData['loanAmount'];
+                    $interestRate = $loanData['loanRate'];
+                    $lateFeeRate = $loanData['penaltyRate'];
+
+                    $monthlyInterest = $loanValue * $interestRate/100;
+
+                    if($payDateOldTransDate > $oldTransDate){
+
+                        if($getTransactionData->transRestInterest > $monthlyInterest && $getTransactionData->transRestInterest < (2  * $monthlyInterest)){
+
+                            $diffOldTransAndPayDateOldTransDates = $oldTransDate->diff($payDateOldTransDate);
+                            $getSmallInterest = $getTransactionData->transRestInterest - $monthlyInterest;
+
+                            $getSmallLoan = $getSmallInterest * ($interestRate / 100);
+                            $getMonthlyLateFeeForSmallLoan = $getSmallLoan * ($lateFeeRate / 100);
+
+                            $getDailyLateFeeForSmallLoan = $getMonthlyLateFeeForSmallLoan / 30;
+
+                            $lateFeeForSmallLoan = $diffOldTransAndPayDateOldTransDates->d * $getDailyLateFeeForSmallLoan;
+                        }
+                    }elseif($payDateOldTransDate == $oldTransDate){
+                        //
+                    }elseif($payDateOldTransDate < $oldTransDate){
+                        if($getTransactionData->transRestInterest > $monthlyInterest && $getTransactionData->transRestInterest < (2  * $monthlyInterest)){
+
+                            $nextPayDateOldTransDate =  $oldTransDate->day($loanDate->day)->addMonth()->toDateString();
+                            $diffOldTransAndNextPayDateOldTransDates = $oldTransDate->diffInDays($nextPayDateOldTransDate);
+
+                            if($oldTransDate->daysInMonth() == 31){
+                                $diffOldTransAndNextPayDateOldTransDates = $diffOldTransAndNextPayDateOldTransDates - 1;
+                            }elseif($oldTransDate->daysInMonth() == 28){
+                                $diffOldTransAndNextPayDateOldTransDates = $diffOldTransAndNextPayDateOldTransDates + 2;
+                            }elseif($oldTransDate->daysInMonth() == 29){
+                                $diffOldTransAndNextPayDateOldTransDates = $diffOldTransAndNextPayDateOldTransDates + 1;
+                            }
+
+                            $getSmallInterest = $getTransactionData->transRestInterest - $monthlyInterest;
+
+                            $getSmallLoan = $getSmallInterest * ($interestRate / 100);
+                            $getMonthlyLateFeeForSmallLoan = $getSmallLoan * ($lateFeeRate / 100);
+
+                            $getDailyLateFeeForSmallLoan = $getMonthlyLateFeeForSmallLoan / 30;
+
+                            $lateFeeForSmallLoan = $diffOldTransAndNextPayDateOldTransDates * $getDailyLateFeeForSmallLoan;
+
+
+                        }
+                    }
+                }else{
+                    
+                }
+            }
 
 
         }else{
@@ -329,5 +402,6 @@ class admin_TransactionCtr extends Controller
         //  echo "transReducedAmount: $transReducedAmount\n";
 
     }
+
 
 }
