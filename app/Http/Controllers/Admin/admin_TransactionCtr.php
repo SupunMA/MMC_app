@@ -476,17 +476,17 @@ class admin_TransactionCtr extends Controller
                 $numberOfDaysInPreviousMonth = $givenDate->subMonthNoOverflow()->daysInMonth;
 
                 if ($numberOfDaysInPreviousMonth == 31){
-                    // echo"tttt";
+                     echo"tttt";
                     $this->calcInterest(-1);
 
                 }
                 elseif($numberOfDaysInPreviousMonth == 28){
-                    // echo"oooooo";
+                    echo"oooooo";
                     $this->calcInterest(+2);
 
                 }
                 elseif($numberOfDaysInPreviousMonth == 29){
-                    // echo"iiiiii";
+                     echo"iiiiii";
                     $this->calcInterest(+1);
 
                 }
@@ -498,10 +498,10 @@ class admin_TransactionCtr extends Controller
                 $transPayDay = $transPayDate->day;
 
                 if($transPayDay == 31){
-                    // echo"uuuuuu";
+                     echo"uuuuuu";
                     $this->calcInterest(-1);
                 }else{
-                    // echo"xxxx";
+                     echo"xxxx";
                     $this->calcInterest(0);
                 }
             }
@@ -539,28 +539,42 @@ class admin_TransactionCtr extends Controller
         $startDate = Carbon::parse($this->loanDate);
         $endDate = Carbon::parse($requestData->paidDate);
 
-        // Calculate the difference between loan date and transaction date
-        $yearsGap = $startDate->diffInYears($endDate);
-        $monthsGap = $startDate->addYears($yearsGap)->diffInMonths($endDate);
-        $daysGap = $startDate->addMonths($monthsGap)->diffInDays($endDate) + $changingDayDiff; //according to addingTransaction method add or minus value
+
+        //  $diff = $startDate->diff($endDate);
+        // // $diff = date_diff($startDate,$endDate);
+        // $daysGap = $diff->d + $changingDayDiff;//according to addingTransaction method add or minus value
+        // $yearsGap = $diff->y;
+        // $monthsGap =(int)$startDate->floatDiffInMonths($endDate);
 
 
-        dd($changingDayDiff,$daysGap,$monthsGap,$yearsGap);
+        //Calculate the difference between loan date and transaction date
+         $yearsGap1 = $startDate->diffInYears($endDate);
+        $yearsGap = $yearsGap1;
+         $monthsGap1 = $startDate->addYears($yearsGap1)->diffInMonths($endDate);
+        $monthsGap = $monthsGap1;
+         $daysGap1 = $startDate->addMonths($monthsGap1)->diffInDays($endDate) + $changingDayDiff; //according to addingTransaction method add or minus value
+        $daysGap = $daysGap1;
+
+        // dd($changingDayDiff,$daysGap,$monthsGap,$yearsGap);
 
         //Total Interest calculation
         $totalInterest = $monthlyInterest * 12 * $yearsGap;
         $totalInterest = $totalInterest + $monthlyInterest * $monthsGap;
         //on monthly loan pay date will not add monthly interest, after that date add monthly interest value
         if(($monthsGap <> 0 || $yearsGap <> 0) && $daysGap == 0){
-
+// dd("f");
         }else{
+            // dd("ff");
             $totalInterest = $totalInterest + $monthlyInterest;
         }
 
 
         //Total late fees calculation
         //month diff is more than or 1, calculate late fees
+        $startDate = Carbon::parse($this->loanDate);
+        $endDate = Carbon::parse($requestData->paidDate);
         $monthsDifference = $startDate->diffInMonths($endDate);
+        // dd($startDate,$monthsDifference,$endDate);
         if($monthsDifference >= 1){
 
             $totalLateFee = $monthlyLateFee * 12 * $yearsGap;
