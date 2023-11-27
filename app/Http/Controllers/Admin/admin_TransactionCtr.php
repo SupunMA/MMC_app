@@ -343,14 +343,15 @@ class admin_TransactionCtr extends Controller
 
 
             // assign variables
-            $transPaidAmount = $data->transPaidAmount;
+            $transPaidAmount = $data->transPaidAmount + $getTransactionData->transExtraMoney;
             $transPaidLateFee = $data->transPaidPenaltyFee;
             $transRestLateFee = $lateFeeForSmallLoan + $getTransactionData->transRestPenaltyFee;
             $transPaidInterest = $data->transPaidInterest;
             $transRestInterest = $getTransactionData->transRestInterest;
-            $transExtraMoney = $getTransactionData->transExtraMoney;
+            $transExtraMoney = 0;
+            $transReducedAmount = 0;
 
-// dd($transRestInterest);
+ //dd($transRestLateFee);
 
 
             //Get loan data from db
@@ -361,7 +362,7 @@ class admin_TransactionCtr extends Controller
             $interestRate = $loanData['loanRate'];
             $lateFeeRate = $loanData['penaltyRate'];
             $loanDate = $loanData['loanDate'];
-
+// dd($loanDate);
             $monthlyInterest = $loanValue * $interestRate/100;
 
             if($transRestInterest < $monthlyInterest)
@@ -381,11 +382,13 @@ class admin_TransactionCtr extends Controller
             $startDate = Carbon::parse($getTransactionData->paidDate);
             $endDate = Carbon::parse($data->paidDate);
             // Calculate the difference between loan date and transaction date
-            $diff = $startDate->diff($endDate);
-            $daysGap = $diff->d; //according to addingTransaction method add or minus value
-            $monthsGap = $diff->m;
-            $yearsGap = $diff->y;
-            // dd($monthsGap,$yearsGap);
+
+            $yearsGap = $startDate->diffInYears($endDate);
+            $monthsGap = $startDate->addYears($yearsGap)->diffInMonths($endDate);
+            $daysGap = $startDate->addMonths($monthsGap)->diffInDays($endDate); //according to addingTransaction method add or minus value
+
+
+            // dd($monthsGap,$yearsGap,$daysGap);
             //Total Interest calculation
             $totalInterest = $monthlyInterest * 12 * $yearsGap;
             $totalInterest = $totalInterest + $monthlyInterest * $monthsGap;
@@ -400,65 +403,94 @@ class admin_TransactionCtr extends Controller
 
             //Total late fees calculation
             //month diff is more than or 1, calculate late fees
-            $monthsDifference = $startDate->diffInMonths($endDate);
+            $startDate = Carbon::parse($getTransactionData->paidDate);
+           $loanDate = Carbon::parse($loanDate);
+           $endDate = Carbon::parse($data->paidDate);
+            $currentMonthPayDate =  $endDate->day($loanDate->day);
+
+// dd($currentMonthPayDate);
+            $monthsDifference = $currentMonthPayDate->diffInMonths($endDate);
+            // dd($monthsDifference);
             if($monthsDifference >= 1){
 
                 $totalLateFee = $monthlyLateFee * 12 * $yearsGap;
                 $totalLateFee = $totalLateFee + $monthlyLateFee * ($monthsGap - 1);
                 $totalLateFee = $totalLateFee + $dailyLateFee * $daysGap;
 
+                $totalLateFee = $totalLateFee + $transRestLateFee;
             }elseif($monthsDifference == 0){
 
-                $totalLateFee = $lateFeeForSmallLoan;
+                $totalLateFee = $transRestLateFee + $lateFeeForSmallLoan;
 
             }
 
             //Add late fees to DB $transPaidLateFee - $transRestLateFee
-            if($data->transPaidAmount >= $totalLateFee){
+            if($transPaidAmount >= $totalLateFee){
 
                 $transPaidLateFee = $totalLateFee;
                 $transRestLateFee = 0;
-                $data->transPaidAmount = $data->transPaidAmount - $totalLateFee;
+                $transPaidAmount = $transPaidAmount - $totalLateFee;
 
             }
             else{
 
-                $transPaidLateFee = $data->transPaidAmount;
-                $transRestLateFee = $totalLateFee - $data->transPaidAmount;
-                $data->transPaidAmount = 0;
+                $transPaidLateFee = $transPaidAmount;
+                $transRestLateFee = $totalLateFee - $transPaidAmount;
+                $transPaidAmount = 0;
 
             }
 
 
             //Add interest to DB
-            if($data->transPaidAmount >= $totalInterest){
+            if($transPaidAmount >= $totalInterest){
 
                 $transPaidInterest = $totalInterest;
                 $transRestInterest = 0;
-                $data->transPaidAmount= $data->transPaidAmount - $totalInterest;
+                $transPaidAmount= $transPaidAmount - $totalInterest;
             }
             else{
 
-                $transPaidInterest = $data->transPaidAmount;
-                $transRestInterest = $totalInterest - $data->transPaidAmount;
-                $data->transPaidAmount = 0;
+                $transPaidInterest = $transPaidAmount;
+                $transRestInterest = $totalInterest - $transPaidAmount;
+                $transPaidAmount = 0;
 
             }
 
 
             //Add extra money or reduce from loan
-            if($data->extraMoney == "keep" && $data->transPaidAmount > 0 ){
-                $transExtraMoney = $data->transPaidAmount;
+            if($data->extraMoney == "keep" && $transPaidAmount > 0 ){
+                $transExtraMoney = $transPaidAmount;
             }
-            elseif($data->extraMoney == "reduce" && $data->transPaidAmount > 0 ) {
-                $transReducedAmount = $data->transPaidAmount;
+            elseif($data->extraMoney == "reduce" && $transPaidAmount > 0 ) {
+                $transReducedAmount = $transPaidAmount;
 
                 // update loan value by reducing
                 Loan::where('loanID', $data->transLoanID)
                 ->decrement('loanAmount', $transReducedAmount);
 
             }
-            dd("paidamount  $transPaidAmount","latFeesForSmallInt $lateFeeForSmallLoan" ,"RestLateFee $transRestLateFee","RestInterest $transRestInterest","Extram $transExtraMoney","Paid Latefee $transPaidLateFee");
+            // dd("paidamount  $data->transPaidAmount","latFeesForSmallInt $lateFeeForSmallLoan" ,"RestLateFee $transRestLateFee","RestInterest $transRestInterest","Extram $transExtraMoney","Paid Latefee $transPaidLateFee");
+
+            // Create a new instance of the Transaction model
+            $storeToTransaction = new Transaction();
+
+            // Set the values for each column based on your data
+            $storeToTransaction->paidDate = $data->paidDate;
+            $storeToTransaction->transDetails = $data->transDetails;
+            $storeToTransaction->transPaidAmount = $data->transPaidAmount;
+            $storeToTransaction->transAllPaid =  $data->transPaidAmount + $getTransactionData->transAllPaid;
+            $storeToTransaction->transPaidInterest = $transPaidInterest;
+            $storeToTransaction->transPaidPenaltyFee = $transPaidLateFee;
+            $storeToTransaction->transRestInterest = $transRestInterest;
+            $storeToTransaction->transRestPenaltyFee = $transRestLateFee;
+            $storeToTransaction->transReducedAmount = $transReducedAmount;
+            $storeToTransaction->transExtraMoney = $transExtraMoney;
+            $storeToTransaction->transLoanID = $data->transLoanID;
+
+
+            // Save the model to the database
+            $storeToTransaction->save();
+
 
         }else{
 
@@ -548,12 +580,10 @@ class admin_TransactionCtr extends Controller
 
 
         //Calculate the difference between loan date and transaction date
-         $yearsGap1 = $startDate->diffInYears($endDate);
-        $yearsGap = $yearsGap1;
-         $monthsGap1 = $startDate->addYears($yearsGap1)->diffInMonths($endDate);
-        $monthsGap = $monthsGap1;
-         $daysGap1 = $startDate->addMonths($monthsGap1)->diffInDays($endDate) + $changingDayDiff; //according to addingTransaction method add or minus value
-        $daysGap = $daysGap1;
+         $yearsGap = $startDate->diffInYears($endDate);
+         $monthsGap = $startDate->addYears($yearsGap)->diffInMonths($endDate);
+         $daysGap = $startDate->addMonths($monthsGap)->diffInDays($endDate) + $changingDayDiff; //according to addingTransaction method add or minus value
+
 
         // dd($changingDayDiff,$daysGap,$monthsGap,$yearsGap);
 
@@ -562,9 +592,8 @@ class admin_TransactionCtr extends Controller
         $totalInterest = $totalInterest + $monthlyInterest * $monthsGap;
         //on monthly loan pay date will not add monthly interest, after that date add monthly interest value
         if(($monthsGap <> 0 || $yearsGap <> 0) && $daysGap == 0){
-// dd("f");
+
         }else{
-            // dd("ff");
             $totalInterest = $totalInterest + $monthlyInterest;
         }
 
