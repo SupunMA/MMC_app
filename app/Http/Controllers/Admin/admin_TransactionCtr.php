@@ -60,8 +60,8 @@ class admin_TransactionCtr extends Controller
         //dd($branchID);
         $delete = Transaction::find($transID);
         $delete->delete();
-        //return redirect()->back()->with('message','successful');
-        return redirect()->route('admin.allTransaction')->with('message','Deleted Transaction!');;
+        // return redirect()->back()->with('message','successful');
+        return redirect()->route('admin.allTransaction')->with('message','Deleted Transaction!');
     }
 
 
@@ -126,7 +126,7 @@ class admin_TransactionCtr extends Controller
         ->where('transStatus', 0)
         ->orderBy('transID', 'desc')->first();
 
-
+        $this->getTransactionData = $getTransactionData;
         //check is there old transactions
         if($getTransactionData){
 
@@ -341,7 +341,7 @@ class admin_TransactionCtr extends Controller
                     }
                 }
             }
-//  dd($lateFeeForSmallLoan);
+
 
             // assign variables
             $transPaidAmount = $data->transPaidAmount + $getTransactionData->transExtraMoney;
@@ -394,15 +394,15 @@ class admin_TransactionCtr extends Controller
                     if($currentMonthPayDate == $startDate){
                         $totalInterest = $monthlyInterest;
                     }
-                    //  echo "h";
+                     echo "h";
                     //  dd('o');
                     $startDate = Carbon::parse($getTransactionData->paidDate);
                 }elseif($currentMonthPayDate > $endDate && $currentMonthPayDate >= $startDate){
                     if($currentMonthPayDate == $startDate){
                         $totalInterest = $monthlyInterest;
                     }
-                    //  echo "h5";
-                    //  dd('o');
+                     echo "h5";
+                     dd('o');
                     $startDate = Carbon::parse($getTransactionData->paidDate);
                 }elseif($currentMonthPayDate < $endDate && $currentMonthPayDate >= $startDate){
                     if($currentMonthPayDate == $startDate){
@@ -414,43 +414,112 @@ class admin_TransactionCtr extends Controller
                     $startDate = $currentMonthPayDate;
                 }
             } else {
-
+                //dd($lateFeeForSmallLoan);
                 $loanDate = Carbon::parse($loanDate);
-                $currentMonthPayDate =  $endDate->day($loanDate->day);
+                $startDate2 = Carbon::parse($getTransactionData->paidDate);
+                $currentMonthPayDate =  $startDate2->day($loanDate->day);
+                $endDate = Carbon::parse($data->paidDate);
+                //  dd($currentMonthPayDate,$startDate);
 
-                if($currentMonthPayDate <= $endDate){
-
+                if($currentMonthPayDate <= $startDate){
+                    $startDate = $currentMonthPayDate->addMonth();
+// addone month to currentmdate
                 }else{
-
+                    $startDate = $currentMonthPayDate;
                 }
 
 
             }
 
-
+// dd($currentMonthPayDate);
             // Calculate the difference between loan date and transaction date
             $yearsGap = $startDate->diffInYears($endDate);
             $monthsGap = $startDate->addYears($yearsGap)->diffInMonths($endDate);
-            $daysGap = $startDate->addMonths($monthsGap)->diffInDays($endDate); //according to addingTransaction method add or minus value
+            $daysGap = $startDate->addMonths($monthsGap)->diffInDays($endDate);
+
+             //according to addingTransaction method add or minus value
 
 
-            // dd($monthsGap,$yearsGap,$daysGap);
+                    // dd($monthsGap,$yearsGap,$daysGap);
+
+
+                $startDate = Carbon::parse($getTransactionData->paidDate);
+                $endDate = Carbon::parse($data->paidDate);
+
+                if ($startDate->year == $endDate->year && $startDate->month == $endDate->month) {
+
+                    $loanDate = Carbon::parse($loanDate);
+                    $currentMonthPayDate =  $endDate->day($loanDate->day);
+                    $endDate = Carbon::parse($data->paidDate);
+                    if($currentMonthPayDate < $endDate && $currentMonthPayDate <= $startDate){
+                        if($currentMonthPayDate == $startDate){
+                            $totalInterest = $monthlyInterest;
+                        }
+                         echo "h";
+                        //  dd('o');
+                        $startDate = Carbon::parse($getTransactionData->paidDate);
+                    }elseif($currentMonthPayDate > $endDate && $currentMonthPayDate >= $startDate){
+                        if($currentMonthPayDate == $startDate){
+                            $totalInterest = $monthlyInterest;
+                        }
+                         echo "h5";
+                         dd('o');
+                        $startDate = Carbon::parse($getTransactionData->paidDate);
+                    }elseif($currentMonthPayDate < $endDate && $currentMonthPayDate >= $startDate){
+                        if($currentMonthPayDate == $startDate){
+                            $totalInterest = $monthlyInterest;
+                        }
+                        //  echo "hj";
+                        // dd('o');
+                        $totalInterest = $monthlyInterest;
+                        $startDate = $currentMonthPayDate;
+                    }
+                } else {
+                    //dd($lateFeeForSmallLoan);
+                    $loanDate = Carbon::parse($loanDate);
+                    $startDate2 = Carbon::parse($getTransactionData->paidDate);
+                    $currentMonthPayDate =  $startDate2->day($loanDate->day);
+                    $endDate = Carbon::parse($data->paidDate);
+                    //  dd($currentMonthPayDate,$startDate);
+
+                    if($currentMonthPayDate <= $startDate){
+
+                    }else{
+                        $startDate = $currentMonthPayDate;
+                    }
+
+
+                }
+
+
+
+
+
+
+
+
+
+
             //Total Interest calculation
             $totalInterest = $totalInterest + $monthlyInterest * 12 * $yearsGap;
             $totalInterest = $totalInterest + $monthlyInterest * $monthsGap;
             $totalInterest = $totalInterest + $transRestInterest;
 
-            $monthsDifference = $currentMonthPayDate->diffInMonths($endDate);
-            if($monthsDifference > 1){
+// dd($this->lateFeeForSmallLoan);
+            if(!$lateFeeForSmallLoan){
+
+
                 $this->SecondTransCalcInterest($totalInterest);
+
             }
 
             //on monthly loan pay date will not add monthly interest, after that date add monthly interest value
-            // if(($monthsGap <> 0 || $yearsGap <> 0) && $daysGap == 0){
+            if(($monthsGap <> 0 || $yearsGap <> 0) && $daysGap == 0){
 
-            // }else{
-            //     $totalInterest = $totalInterest + $monthlyInterest;
-            // }
+            }else{
+                $totalInterest = $totalInterest + $monthlyInterest;
+                //  dd($totalInterest);
+            }
 
 
             //Total late fees calculation
@@ -459,21 +528,27 @@ class admin_TransactionCtr extends Controller
         //    $loanDate = Carbon::parse($loanDate);
         //    $endDate = Carbon::parse($data->paidDate);
         //     $currentMonthPayDate =  $endDate->day($loanDate->day);
-
-// dd($currentMonthPayDate);
+        // $startDate = Carbon::parse($getTransactionData->paidDate);
+//   dd($currentMonthPayDate,$endDate);
             $monthsDifference = $currentMonthPayDate->diffInMonths($endDate);
-            // dd($monthsDifference);
+
+
             if($monthsDifference >= 1){
 
                 $totalLateFee = $monthlyLateFee * 12 * $yearsGap;
-                $totalLateFee = $totalLateFee + $monthlyLateFee * ($monthsGap - 1);
+                echo "$monthlyLateFee";
+                $totalLateFee = $totalLateFee + $monthlyLateFee * $monthsGap;
+                echo "$totalLateFee";
                 $totalLateFee = $totalLateFee + $dailyLateFee * $daysGap;
+                echo "$totalLateFee";
+
 
                 $totalLateFee = $totalLateFee + $transRestLateFee;
+                //  dd('ghg',$monthsDifference,$totalLateFee);
             }elseif($monthsDifference == 0){
 
-
-                $totalLateFee = $transRestLateFee + $this->lateFeeForSmallLoan;
+                $totalLateFee = $transRestLateFee + $this->lateFeeForSmallLoan + ($dailyLateFee * $daysGap);
+                // dd( $totalLateFee);
 // dd($transRestLateFee,$totalLateFee);
             }
 
@@ -984,5 +1059,19 @@ class admin_TransactionCtr extends Controller
 
 
     }
+
+    private function SecondTransStartDate($totalInterest){
+        // $loanData = Loan::where('loanID', $data->transLoanID)
+        // ->get()->first();
+        // $loanDate = $loanData['loanDate'];
+
+        // $this->requestData;
+        // $this->getTransactionData;
+
+
+        //I duplicated it//
+    }
+
+
 
 }
