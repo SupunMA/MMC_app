@@ -381,8 +381,36 @@ class admin_TransactionCtr extends Controller
 
             $startDate = Carbon::parse($getTransactionData->paidDate);
             $endDate = Carbon::parse($data->paidDate);
-            // Calculate the difference between loan date and transaction date
 
+            if ($startDate->year == $endDate->year && $startDate->month == $endDate->month) {
+                $loanDate = Carbon::parse($loanDate);
+                $currentMonthPayDate =  $endDate->day($loanDate->day);
+
+                if($currentMonthPayDate <= $endDate && $currentMonthPayDate <= $startDate){
+                    $startDate = Carbon::parse($getTransactionData->paidDate);
+                }elseif($currentMonthPayDate > $endDate && $currentMonthPayDate > $startDate){
+                    $loanDate = Carbon::parse($loanDate);
+                    $endDate = Carbon::parse($data->paidDate);
+                    $startDate =  $endDate->day($loanDate->day);
+                }elseif($currentMonthPayDate < $endDate && $currentMonthPayDate > $startDate){
+
+                }
+            } else {
+
+                $loanDate = Carbon::parse($loanDate);
+                $currentMonthPayDate =  $endDate->day($loanDate->day);
+
+                if($currentMonthPayDate <= $endDate){
+
+                }else{
+
+                }
+
+
+            }
+
+
+            // Calculate the difference between loan date and transaction date
             $yearsGap = $startDate->diffInYears($endDate);
             $monthsGap = $startDate->addYears($yearsGap)->diffInMonths($endDate);
             $daysGap = $startDate->addMonths($monthsGap)->diffInDays($endDate); //according to addingTransaction method add or minus value
