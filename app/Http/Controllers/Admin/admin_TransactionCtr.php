@@ -401,8 +401,8 @@ class admin_TransactionCtr extends Controller
                     if($currentMonthPayDate == $startDate){
                         $totalInterest = $monthlyInterest;
                     }
-                     echo "h5";
-                     dd('o');
+                    //  echo "h5";
+                    //  dd('o');
                     $startDate = Carbon::parse($getTransactionData->paidDate);
                 }elseif($currentMonthPayDate < $endDate && $currentMonthPayDate >= $startDate){
                     if($currentMonthPayDate == $startDate){
