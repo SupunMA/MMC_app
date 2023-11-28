@@ -4,7 +4,7 @@
         {{-- Title --}}
 
         @forelse ($transactionData as $data)
-            <h5> | Name :- {{$data->name}} | NIC :- {{$data->NIC}} <br>| Loan Date :- {{$data->loanDate}}| Loan ID :- {{$data->loanID}}</h5>
+            <h5> | Name :- {{$data->name}} | NIC :- {{$data->NIC}} | Loan Date :- {{$data->loanDate}}| Loan ID :- {{$data->loanID}}</h5>
 
             <div class="card card-secondary">
             <div class="card-header">
@@ -26,16 +26,17 @@
         <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Transaction ID</th>
+                    <th>ID</th>
 
-                    <th>Paid Date </th>
-                    <th>Paid Amount </th>
+                    <th>Date </th>
+                    <th>Paid </th>
+                    <th>All Paid </th>
                     <th>Paid Interest</th>
-                    <th>Paid Penalty Fee</th>
+                    <th>Paid Late Fee</th>
                     <th>Rest Interest</th>
-                    <th>Rest Penalty Fee</th>
-                    <th>Reduced Amount from Loan</th>
-                    <th>Extra Amount</th>
+                    <th>Rest Late Fee</th>
+                    <th>Reduced from Loan</th>
+                    <th>Extra</th>
                     <th>Details</th>
 
                     <th>Actions</th>
@@ -51,6 +52,7 @@
 
                     <td>{{$data->paidDate}}</td>
                     <td>{{$data->transPaidAmount}}</td>
+                    <td>{{$data->transAllPaid}}</td>
                     <td>{{$data->transPaidInterest}}</td>
                     <td>{{$data->transPaidPenaltyFee}}</td>
                     <td>{{$data->transRestInterest}}</td>
@@ -75,16 +77,17 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th>Transaction ID</th>
+                    <th>ID</th>
 
-                    <th>Paid Date </th>
-                    <th>Paid Amount </th>
+                    <th>Date </th>
+                    <th>Paid </th>
+                    <th>All Paid </th>
                     <th>Paid Interest</th>
-                    <th>Paid Penalty Fee</th>
+                    <th>Paid Late Fee</th>
                     <th>Rest Interest</th>
-                    <th>Rest Penalty Fee</th>
-                    <th>Reduced Amount from Loan</th>
-                    <th>Extra Amount</th>
+                    <th>Rest Late Fee</th>
+                    <th>Reduced from Loan</th>
+                    <th>Extra </th>
                     <th>Details</th>
 
                     <th>Actions</th>
