@@ -355,7 +355,7 @@ class admin_TransactionCtr extends Controller
             $this->lateFeeForSmallLoan = 0;
 
 
-
+// dd($lateFeeForSmallLoan);
 
             //Get loan data from db
             $loanData = Loan::where('loanID', $data->transLoanID)
@@ -564,7 +564,7 @@ class admin_TransactionCtr extends Controller
             $totalInterest = $totalInterest + $monthlyInterest * 12 * $yearsGap;
             $totalInterest = $totalInterest + $monthlyInterest * $monthsGap;
             $totalInterest = $totalInterest + $transRestInterest;
-
+            // dd($totalInterest);
 // dd($lateFeeForSmallLoan);
             if(!$lateFeeForSmallLoan){
 
@@ -604,10 +604,17 @@ class admin_TransactionCtr extends Controller
 
 
                 $totalLateFee = $totalLateFee + $transRestLateFee;
-                 dd('ghg',$monthsDifference,$totalLateFee);
+
             }elseif($monthsDifference == 0){
 
-                $totalLateFee = $transRestLateFee + $this->lateFeeForSmallLoan + ($dailyLateFee * $daysGap);
+                if($totalInterest > $monthlyInterest && $totalInterest < (2  * $monthlyInterest)){
+                    $totalLateFee = $transRestLateFee +  $this->lateFeeForSmallLoan;
+// dd('ghg',$monthsDifference,$totalLateFee);
+                }else{
+
+                    $totalLateFee = $transRestLateFee + $this->lateFeeForSmallLoan + ($dailyLateFee * $daysGap);
+                }
+
                 // dd( $totalLateFee);
 // dd($transRestLateFee,$totalLateFee,$this->lateFeeForSmallLoan);
             }
@@ -995,7 +1002,7 @@ class admin_TransactionCtr extends Controller
                     if($oldTransDate <= $payDateOldTransDate && $payDateOldTransDate < $newTransDate){
 
                         if($totalInterest > $monthlyInterest && $totalInterest < (2  * $monthlyInterest)){
-
+echo " 1gg";
                             $diffInDaysOldTransAndPayDateOldTransDates = $newTransDate->diffInDays($payDateNewTransDate);
 
                             $getSmallInterest = $totalInterest - $monthlyInterest;
@@ -1010,7 +1017,7 @@ class admin_TransactionCtr extends Controller
                         }
 
                     }elseif($oldTransDate < $newTransDate && $newTransDate <= $payDateOldTransDate){
-
+                        echo " 2gg";
                         if($totalInterest > $monthlyInterest && $totalInterest < (2  * $monthlyInterest)){
 
                             $diffInDaysOldTransAndNewTransDates = $oldTransDate->diffInDays($newTransDate);
@@ -1027,7 +1034,7 @@ class admin_TransactionCtr extends Controller
 
                     }elseif($payDateOldTransDate <= $oldTransDate && $oldTransDate < $newTransDate){
 
-
+                        echo " 3gg";
                         if($totalInterest > $monthlyInterest && $totalInterest < (2  * $monthlyInterest)){
 
                             $diffInDaysOldTransAndNewTransDates = $oldTransDate->diffInDays($newTransDate);
@@ -1048,7 +1055,7 @@ class admin_TransactionCtr extends Controller
 
 
                     }
-
+                    //  dd("jl");
                 }else{
                     if($oldTransDate < $payDateOldTransDate){
                         if($totalInterest > $monthlyInterest && $totalInterest < (2  * $monthlyInterest)){
