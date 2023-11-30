@@ -31,7 +31,9 @@
                         <td>{{$client->id}}</td>
                         <td>{{$client->name}}</td>
                         <td>{{$client->address}}</td>
-                        <td>{{$client->mobile}} <br> <a class="btn btn-success" href="tel:{{$client->mobile}}"><i class="fa fa-phone" aria-hidden="true"></i></a>
+                        <td>{{$client->mobile}} <br>
+                        <div class="row">
+                            <a class="btn btn-success" href="tel:{{$client->mobile}}"><i class="fa fa-phone" aria-hidden="true"></i></a>
 
                             {{-- Remove unwantede characters from mobile number to whatsapp --}}
                             @php
@@ -41,6 +43,7 @@
 
                             &nbsp;
                             <a class="btn btn-success" href="https://wa.me/{{ $onlyNumbers }}" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                        </div>
                         </td>
                         <td>{{$client->NIC}}</td>
                         <td>{{$client->fileName}}</td>
