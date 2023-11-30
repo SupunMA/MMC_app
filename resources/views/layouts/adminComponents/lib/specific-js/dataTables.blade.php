@@ -15,23 +15,38 @@
 
 
 <script>
-    $(function () {
-        $("#example1").DataTable({
-            "responsive": true,
-            "lengthChange": false,
-            "autoWidth": false,
-            "order": [[0, 'desc']],
-            "buttons": ["excel", "pdf", "print","copy"] //"csv","copy", "colvis
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        // $('#example2').DataTable({
-        //     "paging": true,
-        //     "lengthChange": false,
-        //     "searching": false,
-        //     "ordering": true,
-        //     "info": true,
-        //     "autoWidth": false,
-        //     "responsive": true,
-        // });
-    });
+$(function () {
+    $("#example1").DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "order": [[0, 'desc']],
+        "buttons": [
+            "excel",
+            {
+                extend: 'pdfHtml5',
+                title: 'supun',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4]
+                },  customize: function(doc) {
+      doc.defaultStyle.fontSize = 16; //<-- set fontsize to 16 instead of 10
+      doc.styles.tableHeader.fontSize = 20;
+      doc.defaultStyle.alignment = 'center';
+
+   }
+            },
+            "print",
+            "copy",
+            // 'colvis',
+            // 'csv'
+
+        ]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+});
+
 
 </script>
+{{-- Column selectors when export
+https://datatables.net/extensions/buttons/examples/html5/columns.html --}}
