@@ -28,8 +28,18 @@
                     <td>{{$data->loanID}}</td>
                     <td>{{$data->landID}} <br> {{$data->name}} <br> {{$data->NIC}}</td>
                     <td>{{$data->loanAmount}}</td>
-                    <td>{{$data->loanRate}}%</td>
-                    <td>{{$data->penaltyRate}}%</td>
+                    <td>{{$data->loanRate}}% <br>
+                        @php
+                            $monthlyInterest =$data->loanAmount*$data->loanRate/100
+                        @endphp
+                        {{$monthlyInterest}} - Monthly
+                    </td>
+                    <td>{{$data->penaltyRate}}% <br>
+                        @php
+                            $monthlyLateFee =$data->loanAmount*$data->penaltyRate/100
+                        @endphp
+                        {{$monthlyLateFee}} - Monthly
+                    </td>
                     <td>{{$data->loanDate}}</td>
 
                     <td>{{$data->description}}</td>
