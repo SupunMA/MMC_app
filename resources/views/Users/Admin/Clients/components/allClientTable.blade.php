@@ -31,7 +31,17 @@
                         <td>{{$client->id}}</td>
                         <td>{{$client->name}}</td>
                         <td>{{$client->address}}</td>
-                        <td>{{$client->mobile}} &nbsp;&nbsp; <a class="btn btn-success" href="tel:{{$client->mobile}}"><i class="fa fa-phone" aria-hidden="true"></i></a></td>
+                        <td>{{$client->mobile}} <br> <a class="btn btn-success" href="tel:{{$client->mobile}}"><i class="fa fa-phone" aria-hidden="true"></i></a>
+
+                            {{-- Remove unwantede characters from mobile number to whatsapp --}}
+                            @php
+                                $originalString = $client->mobile; // Replace this with your actual variable
+                                $onlyNumbers = preg_replace("/[^0-9]/", "", $originalString);
+                            @endphp
+
+                            &nbsp;
+                            <a class="btn btn-success" href="https://wa.me/{{ $onlyNumbers }}" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                        </td>
                         <td>{{$client->NIC}}</td>
                         <td>{{$client->fileName}}</td>
                         <td>{{$client->branchName}}</td>
