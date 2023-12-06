@@ -35,10 +35,9 @@
                                 <select class="form-control select2bs4" style="width: 100%;" name="transLoanID">
                                     {{-- <option selected="selected">Alabama</option> --}}
 
-                                    @foreach ($ClientsWithLoan as $data)
-                                    <option value="{{$data->loanID}}">{{$data->loanID}} - {{$data->NIC}} -
-                                        {{$data->name}}</option>
-                                    @endforeach
+                                    @foreach (collect($ClientsWithLoan)->sortByDesc('loanID') as $data)
+                                    <option value="{{ $data->loanID }}">{{ $data->loanID }} - {{ $data->NIC }} - {{ $data->name }}</option>
+                                @endforeach
 
 
                                 </select>
