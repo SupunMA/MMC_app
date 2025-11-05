@@ -61,7 +61,7 @@ Route::group(['prefix'=>'Admin','middleware'=>['checkAdmin','auth','lockBack']],
     Route::POST('addingLand', [admin_LandCtr::class, 'addingLand'])->name('admin.addingLand');
     Route::get('land/delete/{landID}', [admin_LandCtr::class, 'deleteLand'])->name('admin.deleteLand');
     Route::post('land/update', [admin_LandCtr::class, 'updateLand'])->name('admin.updateLand');
-    
+
     Route::get('AddLoan', [admin_LoanCtr::class, 'addLoan'])->name('admin.addLoan');
     Route::get('AllLoan', [admin_LoanCtr::class, 'allLoan'])->name('admin.allLoan');
     Route::POST('addingLoan', [admin_LoanCtr::class, 'addingLoan'])->name('admin.addingLoan');
@@ -83,22 +83,21 @@ Route::group(['prefix'=>'Admin','middleware'=>['checkAdmin','auth','lockBack']],
 
     Route::POST('AllTransaction/{loanID}', [admin_TransactionCtr::class, 'allTransactionOfLoan'])->name('admin.allTransactionOfLoan');
 
-    
-
-    
+    // Get loan details for transaction form
+    Route::get('getLoanDetails/{loanID}', [admin_TransactionCtr::class, 'getLoanDetails'])->name('admin.getLoanDetails');
 });
 
 //user
 Route::group(['prefix'=>'Account/Client','middleware'=>['checkUser','auth','lockBack']],function(){
     Route::get('/', [userController::class, 'checkUser'])->name('user.home');
-    
+
 });
 
 
 //Manager
 Route::group(['prefix'=>'Account/Manager','middleware'=>['checkManager','auth','lockBack']],function(){
     Route::get('/', [managerController::class, 'checkManager'])->name('manager.home');
-    
+
 });
 
 
@@ -106,7 +105,7 @@ Route::group(['prefix'=>'Account/Manager','middleware'=>['checkManager','auth','
 //Checker
 Route::group(['prefix'=>'Account/Checker','middleware'=>['checkChecker','auth','lockBack']],function(){
     Route::get('/', [checkerController::class, 'checkChecker'])->name('checker.home');
-    
+
 });
 
 

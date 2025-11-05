@@ -43,6 +43,52 @@
                             </div>
                             <!-- /.form-group -->
 
+                            <!-- Loan Details Card (collapsible & expanded info) -->
+                            <div class="card card-info" id="loanDetailsCard">
+                                <div class="card-header">
+                                    <h3 class="card-title">Loan Details</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse/Expand">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <p><strong>Current Principal:</strong> Rs. <span id="loanAmount">0</span></p>
+                                            <p><strong>Interest Rate:</strong> <span id="loanRate">0</span>%</p>
+                                            <p><strong>Penalty Rate:</strong> <span id="penaltyRate">0</span>%</p>
+                                            <p><strong>Loan Date:</strong> <span id="loanDate">-</span></p>
+                                            <p><strong>Land ID:</strong> <span id="loanLandID">-</span></p>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <p><strong>Last Payment Date:</strong> <span id="lastPaidDate">-</span></p>
+                                            <p><strong>Last Paid Amount:</strong> Rs. <span id="lastPaidAmount">0</span></p>
+                                            <p><strong>Total Paid (All):</strong> Rs. <span id="transAllPaid">0</span></p>
+                                            <p><strong>Remaining Interest:</strong> Rs. <span id="transRestInterest">0</span></p>
+                                            <p><strong>Remaining Penalty:</strong> Rs. <span id="transRestPenaltyFee">0</span></p>
+                                        </div>
+                                    </div>
+
+                                    <hr />
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">Description: <span id="loanDescription">-</span></small>
+                                        <button type="button" id="toggleBreakdownBtn" class="btn btn-sm btn-outline-secondary">Show breakdown</button>
+                                    </div>
+
+                                    <div id="loanBreakdown" style="display:none; margin-top:12px;">
+                                        <h6>Calculation Breakdown</h6>
+                                        <ul>
+                                            <li><strong>Calculated Interest (up to paid date):</strong> Rs. <span id="calculatedInterest">0</span></li>
+                                            <li><strong>Generated Penalty Fee:</strong> Rs. <span id="generatedPenalty">0</span></li>
+                                            <li><strong>Extra Money Held:</strong> Rs. <span id="transExtraMoney">0</span></li>
+                                            <li><strong>Reduced Amount (principal):</strong> Rs. <span id="transReducedAmount">0</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label>Paid Amount</label>
@@ -143,8 +189,85 @@
     $(document).ready(function () {
         $(".toastrDefaultSuccess").click();
         $(".toastrDefaultError").click();
-    });
 
+        // Handle loan selection change
+        $('select[name="transLoanID"]').on('change', function() {
+            var loanId = $(this).val();
+            if(loanId) {
+                $.ajax({
+                    url: '/Admin/getLoanDetails/' + loanId,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        // ensure card is visible and expanded when data loads
+                        $('#loanDetailsCard').removeClass('collapsed-card');
+                        $('#loanDetailsCard').show();
+
+                        function fmt(val){
+                            if (val === null || val === undefined) return '0';
+                            if (typeof val === 'number') return val.toLocaleString();
+                            var n = Number(val);
+                            return isFinite(n) ? n.toLocaleString() : val;
+                        }
+
+                        $('#loanAmount').text(fmt(data.loanAmount));
+                        $('#loanRate').text(data.loanRate ?? '0');
+                        $('#penaltyRate').text(data.penaltyRate ?? '0');
+                        $('#loanDate').text(data.loanDate ?? '-');
+                        $('#loanLandID').text(data.loanLandID ?? '-');
+                        $('#loanDescription').text(data.description ?? '-');
+
+                        // populate last transaction info if exists
+                        if(data.lastTransaction) {
+                            var lt = data.lastTransaction;
+                            $('#lastPaidDate').text(lt.paidDate ?? '-');
+                            $('#lastPaidAmount').text(fmt(lt.transPaidAmount));
+                            $('#transAllPaid').text(fmt(lt.transAllPaid));
+                            $('#transRestInterest').text(fmt(lt.transRestInterest));
+                            $('#transRestPenaltyFee').text(fmt(lt.transRestPenaltyFee));
+                            $('#transExtraMoney').text(fmt(lt.transExtraMoney));
+                            $('#transReducedAmount').text(fmt(lt.transReducedAmount));
+
+                            // best-effort populate breakdown values from last transaction
+                            $('#calculatedInterest').text(fmt(lt.transRestInterest));
+                            $('#generatedPenalty').text(fmt(lt.transRestPenaltyFee));
+                        } else {
+                            $('#lastPaidDate').text('-');
+                            $('#lastPaidAmount').text('0');
+                            $('#transAllPaid').text('0');
+                            $('#transRestInterest').text('0');
+                            $('#transRestPenaltyFee').text('0');
+                            $('#transExtraMoney').text('0');
+                            $('#transReducedAmount').text('0');
+                            $('#calculatedInterest').text('0');
+                            $('#generatedPenalty').text('0');
+                        }
+
+                        // ensure breakdown toggle works
+                        $('#loanDetailsCard').off('click', '#toggleBreakdownBtn').on('click', '#toggleBreakdownBtn', function(){
+                            var $b = $('#loanBreakdown');
+                            $b.toggle();
+                            $(this).text($b.is(':visible') ? 'Hide breakdown' : 'Show breakdown');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching loan details:', error);
+                        alert('Error loading loan details. Please try again.');
+                    }
+                });
+            } else {
+                // collapse the card when no loan selected
+                $('#loanDetailsCard').addClass('collapsed-card');
+                // keep it visible but collapsed (AdminLTE handles body visibility with the class)
+                $('#loanDetailsCard').show();
+            }
+        });
+
+        // Trigger change event if a loan is pre-selected
+        if($('select[name="transLoanID"]').val()) {
+            $('select[name="transLoanID"]').trigger('change');
+        }
+    });
 </script>
 
 @include('layouts.adminComponents.lib.specific-js.formInput')

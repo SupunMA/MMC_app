@@ -23,6 +23,34 @@ class admin_TransactionCtr extends Controller
        // $this->task = new branches;
     }
 
+    /**
+     * Get loan details for the transaction form
+     */
+    public function getLoanDetails($loanID)
+    {
+        $loanData = Loan::where('loanID', $loanID)->first();
+
+        // Get the last transaction for this loan
+        $lastTransaction = Transaction::where('transLoanID', $loanID)
+            ->orderBy('transID', 'desc')
+            ->first();
+
+        if (!$loanData) {
+            return response()->json(['error' => 'Loan not found'], 404);
+        }
+
+        return response()->json([
+            'loanID' => $loanData->loanID,
+            'loanAmount' => $loanData->loanAmount,
+            'loanRate' => $loanData->loanRate,
+            'penaltyRate' => $loanData->penaltyRate,
+            'loanDate' => $loanData->loanDate,
+            'loanLandID' => $loanData->loanLandID,
+            'description' => $loanData->description,
+            'lastTransaction' => $lastTransaction
+        ]);
+    }
+
 
 //Transactions
     public function addTransaction()
